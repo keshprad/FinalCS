@@ -3,7 +3,7 @@ package com.rad;
 public class Constants {
 
 	// TODO: Change title and frame size
-
+	//test
 	public static final String TITLE = "Game";
 
 	public static int TILE_SIZE = 60;
