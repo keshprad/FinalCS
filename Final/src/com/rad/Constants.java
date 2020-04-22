@@ -18,18 +18,19 @@ public class Constants {
 	public static final class ID {
 		public static final int EMPTY = 0;
 
-		/* Blocks */
+		/* Blocks 1-9*/
 		public static final int WALL = 1;
 		public static final int BUSH = 2;
 
-		/* Enemies */
+		/* Enemies 10-19*/
 		public static final int ZOMBIE = 10;
 		public static final int IMP_ZOMBIE = 11;
 
-		/* Heroes */
+		/* Players 20-29*/
 		public static final int BRAD = 20;
+		public static final int FULK = 21;
 
-		/* Items */
+		/* Items 30-39*/
 		public static final int CHIP = 30;
 		public static final int COOKIE = 31;
 		public static final int FLASH = 32;

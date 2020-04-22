@@ -69,23 +69,22 @@ public class GameWorld {
 		while (scan.hasNextInt()) {
 			int curr = scan.nextInt();
 			
-			switch (curr) {
-			    case 0:
-			        break;
-			    case 1:
-			        addEntity(new Block(0, countX, countY));
-			        break;
-			    case 2:
-			    	addEntity(new Player(0, countX, countY));
-			    	break;
-			    case 3:
-			    	addEntity(new Enemy(0, countX, countY));
-			    	break;
-			    case 4:
-			    	addEntity(new Item(0, countX, countY));
-		    	default:
-			    	break;
+			if (curr == 0) {
+				//do nothing
 			}
+			else if (curr/10 == 0) {
+				addEntity(new Block(curr, countX, countY));
+			}
+			else if (curr/10 == 1) {
+				addEntity(new Enemy(curr, countX, countY));
+			}
+			else if (curr/10 == 2) {
+				addEntity(new Player(curr, countX, countY));
+			}
+			else if (curr/10 == 3) {
+				addEntity(new Item(curr, countX, countY));
+			}
+			
 	    	if (countX >= Constants.WORLD_WIDTH_IN_TILES - 1) {
 	    		countX = 0;
 	    		countY++;
