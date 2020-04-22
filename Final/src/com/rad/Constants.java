@@ -29,7 +29,7 @@ public class Constants {
 		/* Players 20-29*/
 		public static final int BRAD = 20;
 		public static final int FULK = 21;
-
+		
 		/* Items 30-39*/
 		public static final int CHIP = 30;
 		public static final int COOKIE = 31;
