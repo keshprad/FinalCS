@@ -19,7 +19,7 @@ public class GameWorld {
 	private LinkedList<Entity> entities = new LinkedList<Entity>();
 
 	public GameWorld() {
-		loadMap(Assets.Map1);
+		loadMap(Assets.MAP0);
 	}
 	
 	public void tick() {
