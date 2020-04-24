@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import com.rad.input.KeyInput;
 import com.rad.world.GameWorld;
 
 public class Game extends Canvas implements Runnable {
@@ -12,20 +13,21 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean isRunning = false;
 
-	private GameWorld gameWorld;
-
+	private GameWorld gameWorld;	
+	
 	public Game() {
 		Window window = new Window(this);
 		window.init();
 		
 		this.gameWorld = new GameWorld();
+		this.addKeyListener(new KeyInput(gameWorld));
 
 		start();
 	}
 
 	// Game Loop
 	public void run() {
-		final double framesPerNanosecond = Constants.FRAMES_PER_SECOND / 1000000000;
+		final double framesPerNanosecond = Const.FRAMES_PER_SECOND / 1000000000;
 		long lastTime = System.nanoTime();
 		double delta = 0;
 		while (isRunning) {
@@ -63,7 +65,7 @@ public class Game extends Canvas implements Runnable {
 
 		// RENDERING GOES HERE
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+		g.fillRect(0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT);
 		
 		gameWorld.render(g);
 
@@ -71,6 +73,7 @@ public class Game extends Canvas implements Runnable {
 		g.dispose();
 	}
 
+	// Starts the game loop, along with the thread
 	private synchronized void start() {
 		if (isRunning) {
 			return;
@@ -81,6 +84,7 @@ public class Game extends Canvas implements Runnable {
 		isRunning = true;
 	}
 
+	// Stops the game loop, along with the thread
 	private synchronized void stop() {
 		if (!isRunning) {
 			return;

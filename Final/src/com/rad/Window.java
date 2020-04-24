@@ -1,5 +1,7 @@
 package com.rad;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 public class Window {
@@ -11,9 +13,12 @@ public class Window {
 	}
 	
 	public void init() {
-		JFrame frame = new JFrame(Constants.TITLE);
+		JFrame frame = new JFrame(Const.TITLE);
 		
-		frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+		frame.setPreferredSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
+		frame.setMinimumSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
+		frame.setMaximumSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
+
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit the game if closed
 		frame.setResizable(false);
