@@ -4,14 +4,27 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+/**
+ * GUI to create the window
+ *@author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
+ */
 public class Window {
-	
+	/**
+	 * instance of game
+	 */
 	private Game game;
-	
+
+	/**
+	 * passes a version of game into the window
+	 * @param game runs the game
+	 */
 	public Window(Game game) {
 		this.game = game;
 	}
-	
+
+	/**
+	 * creates the  window
+	 */
 	public void init() {
 		JFrame frame = new JFrame(Const.TITLE);
 		
