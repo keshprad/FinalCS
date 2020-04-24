@@ -45,7 +45,12 @@ public class GameWorld {
 	}
 
 	public void addEntity(Entity e) {
-		entities[(int)e.getY()][(int)e.getX()] = e;
+		entities[e.getY()][e.getX()] = e;
+	}
+	
+	public void addEntity(Entity e, int newX, int newY) {
+		entities[newY][newX] = e;
+		e.setPosition(newX, newY);
 	}
 
 	public void removeEntity(Entity e) {
@@ -61,8 +66,8 @@ public class GameWorld {
 //		if (e instanceof Empty) {
 //			int oldX = (int) entity.getX();
 //			int oldY = (int) entity.getY();
-//			entities[newY][newX] = entity;
-//			entities[oldY][oldX] = e;
+//			entities[newY][newX] = entity;  //replace with addEntity(entity, newX, newY);
+//			entities[oldY][oldX] = e;       //replace with addEntity(e, oldX, oldY);
 //			return true;
 //		}
 //		else if (e instanceof Item) {
