@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import com.rad.Const;
 import com.rad.world.GameWorld;
 
+/**
+ * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
+ */
 public abstract class Entity {
 
 	protected int id;

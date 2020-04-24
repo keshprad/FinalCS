@@ -8,13 +8,27 @@ import java.awt.image.BufferStrategy;
 import com.rad.input.KeyInput;
 import com.rad.world.GameWorld;
 
+/**
+ * This class handles the gui in running the window
+ * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
+ */
 public class Game extends Canvas implements Runnable {
-
+    /**
+     *  the threads that this runs when the class is run
+     */
 	private Thread thread;
+    /**
+     * checks if it is running
+     */
 	private boolean isRunning = false;
+    /**
+     * the class that contains the game world
+     */
+	private GameWorld gameWorld;
 
-	private GameWorld gameWorld;	
-	
+    /**
+     * loads up the window, and allows is to be able to  run
+     */
 	public Game() {
 		Window window = new Window(this);
 		window.init();
@@ -26,6 +40,10 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	// Game Loop
+
+    /**
+     * runs the java method, and renders it every some times per second
+     */
 	public void run() {
 		final double framesPerNanosecond = Const.FRAMES_PER_SECOND / 1000000000;
 		long lastTime = System.nanoTime();
@@ -44,14 +62,14 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
-	/*
+	/**
 	 * Updates the game. Called 60 times per second.
 	 */
 	private void tick() {
 		gameWorld.tick();
 	}
 
-	/*
+	/**
 	 * Renders the game. Called as often as possible.
 	 */
 	private void render() {
@@ -73,7 +91,10 @@ public class Game extends Canvas implements Runnable {
 		g.dispose();
 	}
 
-	// Starts the game loop, along with the thread
+    /**
+     *     Starts the game loop, along with the thread
+      */
+
 	private synchronized void start() {
 		if (isRunning) {
 			return;
@@ -84,7 +105,10 @@ public class Game extends Canvas implements Runnable {
 		isRunning = true;
 	}
 
-	// Stops the game loop, along with the thread
+    /**
+     * Stops the game loop, along with the thread
+      */
+
 	private synchronized void stop() {
 		if (!isRunning) {
 			return;
@@ -98,6 +122,10 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
+    /**
+     * runs a version of the game
+     * @param args arguments
+     */
 	public static void main(String[] args) {
 		new Game();
 	}
