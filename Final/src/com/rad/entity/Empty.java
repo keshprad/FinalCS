@@ -20,6 +20,11 @@ public class Empty extends Entity {
 	}
 
 	@Override
+	public void init() {
+
+	}
+
+	@Override
 	/**
 	 * Necessary for GUI, but not needed for this class
 	 */

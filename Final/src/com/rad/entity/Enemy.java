@@ -27,6 +27,11 @@ public class Enemy extends Entity {
 	}
 
 	@Override
+	public void init() {
+
+	}
+
+	@Override
 	/**
 	 * Necessary for GUI, but not needed for this class
 	 */
@@ -38,9 +43,11 @@ public class Enemy extends Entity {
 	/**
 	 * renders a graphic to represent an Enemy. Either a zombie...
 	 */
+	
 	public void render(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(x * Const.TILE_SIZE, y * Const.TILE_SIZE, Const.TILE_SIZE, Const.TILE_SIZE);
 	}
+
 
 }
