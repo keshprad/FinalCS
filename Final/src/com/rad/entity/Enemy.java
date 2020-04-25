@@ -27,6 +27,8 @@ public class Enemy extends Entity {
 	}
 
 	@Override
+	public void init()
+    {
 
 	}
 
@@ -47,5 +49,6 @@ public class Enemy extends Entity {
 		g.setColor(Color.RED);
 		g.fillRect(x * Const.TILE_SIZE, y * Const.TILE_SIZE, Const.TILE_SIZE, Const.TILE_SIZE);
 	}
+    
 
 }
