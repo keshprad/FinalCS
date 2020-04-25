@@ -145,7 +145,7 @@ public abstract class Entity {
 	 * NEW
 	 * series of moves that decrease shortestDistanceBtwn of this entity and the other entity
 	 */
-	public void stepsTOEntity(Entity e)
+	 public void stepsTOEntity(Entity e)
 	{
 
 	}
