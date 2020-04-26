@@ -2,6 +2,7 @@ package com.rad.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import com.rad.Const;
 import com.rad.effects.Effect;
@@ -24,7 +25,9 @@ public class Player extends Entity {
 	 * if it is an AI or not
 	 */
 	private boolean isAI;
-
+	
+	private Color color = Color.WHITE;
+	
 	
 	/**
 	 * Constructor for Player
@@ -36,6 +39,7 @@ public class Player extends Entity {
 	public Player(int id, int x, int y, boolean isAI) {
 		super(id, x, y);
 		this.isAI = isAI;
+		this.speed = 5;
 	}
 
 	/**
@@ -43,7 +47,7 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void init() {
-		switch (id) {
+		switch (getId()) {
 			case Const.ID.BRAD:
 				//
 				break;
@@ -60,7 +64,11 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void tick() {
+		x += velX;
+		y += velY;
 		
+		x = clamp(x, 0, Const.WORLD_WIDTH - Const.TILE_SIZE);
+		y = clamp(y, 0, Const.WORLD_HEIGHT - Const.TILE_SIZE);
 	}
 
 	/**
@@ -69,15 +77,32 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(x * Const.TILE_SIZE, y * Const.TILE_SIZE, Const.TILE_SIZE, Const.TILE_SIZE);
+		g.setColor(color);
+		g.fillRect(x, y, width, height);
+	}
+	
+	@Override
+	public void collidedWith(Entity e) {
+		if (e instanceof Block) {
+			invClamp(e.getX(), e.getX() + e.getWidth(), e.getY(), e.getY() + e.getHeight());
+			System.out.println("Shouldn't be passing...");
+		}
+		if (e instanceof Enemy) {
+			isDead = true;
+			System.out.println("THAT HURTS!");
+		}
+		if (e instanceof Item) {
+			Item i = (Item) e;
+			setEffect(i);
+			System.out.println("You got the effect " + i.getEffect());
+			System.out.println("YOUR CURRENT SCORE: " + score);
+		}
 	}
 
-	
-        /**
-         * Sets the effect to that of the given item.
-         * @param item the item to provide the effect
-         */
+    /**
+     * Sets the effect to that of the given item.
+     * @param item the item to provide the effect
+     */
 	public void setEffect(Item item) {
 		this.effect = item.getEffect();
 		switch (this.effect) {
@@ -93,8 +118,6 @@ public class Player extends Entity {
 				break;
 		}
 	}
-
-
 
 	
         /**

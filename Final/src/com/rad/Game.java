@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import com.rad.gui.Hud;
 import com.rad.input.KeyInput;
 import com.rad.world.GameWorld;
 
@@ -25,6 +26,8 @@ public class Game extends Canvas implements Runnable {
      * the class that contains the game world
      */
 	private GameWorld gameWorld;
+	
+	private Hud hud;
 
     /**
      * loads up the window, and allows is to be able to  run
@@ -35,6 +38,7 @@ public class Game extends Canvas implements Runnable {
 		
 		this.gameWorld = new GameWorld();
 		this.addKeyListener(new KeyInput(gameWorld));
+		hud = new Hud(gameWorld);
 
 		start();
 	}
@@ -45,6 +49,7 @@ public class Game extends Canvas implements Runnable {
      * runs the java method, and renders it every some times per second
      */
 	public void run() {
+		this.requestFocus();
 		final double framesPerNanosecond = Const.FRAMES_PER_SECOND / 1000000000;
 		long lastTime = System.nanoTime();
 		double delta = 0;
@@ -67,6 +72,7 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void tick() {
 		gameWorld.tick();
+		hud.tick();
 	}
 
 	/**
@@ -86,7 +92,8 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT);
 		
 		gameWorld.render(g);
-
+		hud.render(g);
+		
 		bufferStrategy.show();
 		g.dispose();
 	}

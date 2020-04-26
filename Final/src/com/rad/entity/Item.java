@@ -16,7 +16,7 @@ public class Item extends Entity {
 	 * the effects that each item can give
 	 */
 	private Effect effect = null;
-
+	
 	/**
 	 * constructs an empty item
 	 * @param id the type of item
@@ -25,6 +25,7 @@ public class Item extends Entity {
 	 */
 	public Item(int id, int x, int y) {
 		super(id, x, y);
+		effect = Effect.POINT_PLUS;
 	}
 
 	/**
@@ -32,9 +33,13 @@ public class Item extends Entity {
 	 */
 	@Override
 	public void init() {
-		switch (id) {
+		switch (getId()) {
 			case Const.ID.CHIP:
-				
+				effect = Effect.POINT_PLUS;
+				break;
+			default:
+				effect = Effect.POINT_PLUS;
+				break;
 		}
 	}
 
@@ -43,7 +48,7 @@ public class Item extends Entity {
 	 */
 	@Override
 	public void tick() {
-
+		
 	}
 
 	/**
@@ -52,9 +57,15 @@ public class Item extends Entity {
 	 */
 	@Override
 	public void render(Graphics g) {
-
 		g.setColor(Color.YELLOW);
-		g.fillRect(x * Const.TILE_SIZE, y * Const.TILE_SIZE, Const.TILE_SIZE, Const.TILE_SIZE);
+		g.fillRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
+	}
+	
+	@Override
+	public void collidedWith(Entity e) {
+		if (e instanceof Player) {
+			isDead = true;
+		}
 	}
 
 	/**
@@ -62,7 +73,7 @@ public class Item extends Entity {
 	 * @return the effect of an item
 	 */
 	public Effect getEffect() {
-		return effect;
+		return this.effect;
 	}
 
 }

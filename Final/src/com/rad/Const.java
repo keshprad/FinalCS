@@ -17,6 +17,9 @@ public class Const {
 	
 	public static final int FRAME_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES + MARGIN_X;
 	public static final int FRAME_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES + MARGIN_Y;
+	
+	public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
+	public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
 
 	public static final class ID {
 		public static final int EMPTY = 0;

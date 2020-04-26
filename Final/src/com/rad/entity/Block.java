@@ -42,7 +42,12 @@ public class Block extends Entity {
 	 */
 	public void render(Graphics g) {
 		g.setColor(Color.GREEN);
-		g.fillRect( x * Const.TILE_SIZE, y * Const.TILE_SIZE, Const.TILE_SIZE, Const.TILE_SIZE);
+		g.fillRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
+	}
+	
+	@Override
+	public void collidedWith(Entity e) {
+		// do nothing
 	}
 	
 }

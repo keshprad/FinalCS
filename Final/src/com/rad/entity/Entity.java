@@ -1,12 +1,12 @@
 package com.rad.entity;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.rad.Const;
-import com.rad.world.GameWorld;
 
 /**
- * Is the base class for objects created in teh map
+ * Is the base class for objects created in the map
  *
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
@@ -14,7 +14,7 @@ public abstract class Entity {
 	/**
 	 * ID that is specific to each identity
 	 */
-	protected int id;
+	private int id;
 	/**
 	 * the X coordinate of the object
 	 */
@@ -26,18 +26,27 @@ public abstract class Entity {
 	/**
 	 *  the speed of the entity
 	 */
-	protected float speed;
+	protected int speed = 0;
+	
+	protected int velX = 0;
+	protected int velY = 0;
 
+	protected int width = Const.TILE_SIZE;
+	protected int height = Const.TILE_SIZE;
+	
+	protected boolean isDead;
+	
 	/**
 	 *  constructs a certain enemy and identity
-	 * @param id the id that identifies the entitiy
+	 * @param id the id that identifies the entity
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
 	public Entity(int id, int x, int y) {
 		this.id = id;
-		this.x = x;
-		this.y = y;
+		this.x = x * Const.TILE_SIZE;
+		this.y = y * Const.TILE_SIZE;
+		this.isDead = false;
 		init();
 	}
 
@@ -50,6 +59,12 @@ public abstract class Entity {
 	 * determines what updates
 	 */
 	public abstract void tick();
+	
+	/**
+	 * 
+	 * @param e
+	 */
+	public abstract void collidedWith(Entity e);
 
 	/**
 	 * renders the object
@@ -57,9 +72,34 @@ public abstract class Entity {
 	 */
 	public abstract void render(Graphics g);
 
+	protected int clamp(int i, int min, int max) {
+		if (i < min) return min;
+		if (i > max) return max;
+		return i;
+	}
+	
+	protected void invClamp(int left, int right, int top, int bottom) {
+		if (this.x > left - this.width && this.x < left) {
+			this.x = left - this.width;
+		}
+		else if (this.x < right && this.x > left) {
+			this.x = right;
+		}	
+		else if (this.y > top - this.height && this.y < top) {
+			this.y = top - this.height;
+		}
+		else if (this.y < bottom && this.y > top) {
+			this.y = bottom;
+		}
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
+	}
+	
 	/**
 	 * gets the id
-	 * @return indentification of the object
+	 * @return id of the object
 	 */
 	public int getId() {
 		return id;
@@ -88,16 +128,12 @@ public abstract class Entity {
 	public int getY() {
 		return y;
 	}
-
-	/**
-	 * sets the postion of the object
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 */
-	public void setPosition(int x, int y) {
-		if (x < 0 || x >= Const.WORLD_WIDTH_IN_TILES) return;
-		if (y < 0 || y >= Const.WORLD_HEIGHT_IN_TILES) return;
+	
+	public void setX(int x) {
 		this.x = x;
+	}
+	
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -105,7 +141,7 @@ public abstract class Entity {
 	 * returns the speed of the entity
 	 * @return the speed of entity
 	 */
-	public float getSpeed() {
+	public int getSpeed() {
 		return speed;
 	}
 
@@ -113,41 +149,52 @@ public abstract class Entity {
 	 * sets the speed of the entity
 	 * @param speed the speed of the entity
 	 */
-	public void setSpeed(float speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
-	/**
-	 * retunrs the four adjacent objects to entity
-	 * @return an array of adjacent elements
-	 */
-	public Entity[] getAdjacent() {
-		Entity[] adjacents = new Entity[4];
-//		adjacents[0] = GameWorld.entities[y][x + 1];
-//		adjacents[1] = GameWorld.entities[y - 1][x];
-//		adjacents[2] = GameWorld.entities[y][x - 1];
-//		adjacents[3] = GameWorld.entities[y + 1][x];
-		return adjacents;
+	public int getVelX() {
+		return velX;
 	}
 
-	/**
-	 * NEW
-	 * needed for AI for enemy and player
-	 * returns the shortest distance between two objects
-	 * @param e the object compared to another objectct
-	 * @return the distance between two objects
-	 */
-	public double shortestDistanceBtwn(Entity e)
-	{
-		return 0; //FIX
+	public void setVelX(int velX) {
+		this.velX = velX;
 	}
-	/**
-	 * NEW
-	 * series of moves that decrease shortestDistanceBtwn of this entity and the other entity
-	 */
-	 public void stepsTOEntity(Entity e)
-	{
 
+	public int getVelY() {
+		return velY;
+	}
+
+	public void setVelY(int velY) {
+		this.velY = velY;
+	}
+	
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
+	
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+	
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 	
 }

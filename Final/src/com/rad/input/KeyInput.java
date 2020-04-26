@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.rad.Const;
+import com.rad.entity.Entity;
 import com.rad.entity.Player;
 import com.rad.world.GameWorld;
 
@@ -24,21 +25,20 @@ public class KeyInput implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
-		for (int y = 0; y < Const.WORLD_HEIGHT_IN_TILES; y++) {
-			for (int x = 0; x < Const.WORLD_WIDTH_IN_TILES; x++) {
-				if (gameWorld.getEntities()[y][x] instanceof Player) {
-					System.out.println("IS PLAYER");
-					Player player = (Player) gameWorld.getEntities()[y][x];
-					if (!player.isAI()) {
-						if (key == KeyEvent.VK_W)
-							player.setPosition(player.getX(), player.getY() - 1);
-						else if (key == KeyEvent.VK_S)
-							player.setPosition(player.getX(), player.getY() + 1);
-						else if (key == KeyEvent.VK_D)
-							player.setPosition(player.getX() + 1, player.getY());
-						else if (key == KeyEvent.VK_A)
-							player.setPosition(player.getX() - 1, player.getY());
-					}
+		if (key==KeyEvent.VK_ESCAPE) System.exit(1);
+		
+		for (Entity entity : gameWorld.getEntities()) {
+			if (entity instanceof Player) {
+				Player player = (Player) entity;
+				if (!player.isAI()) {
+					if (key == KeyEvent.VK_W)
+						player.setVelY(-player.getSpeed());
+					else if (key == KeyEvent.VK_S)
+						player.setVelY(player.getSpeed());
+					else if (key == KeyEvent.VK_D)
+						player.setVelX(player.getSpeed());
+					else if (key == KeyEvent.VK_A)
+						player.setVelX(-player.getSpeed());
 				}
 			}
 		}
@@ -46,7 +46,23 @@ public class KeyInput implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// do nothing
+		int key = e.getKeyCode();
+
+		for (Entity entity : gameWorld.getEntities()) {
+			if (entity instanceof Player) {
+				Player player = (Player) entity;
+				if (!player.isAI()) {
+					if (key == KeyEvent.VK_W)
+						player.setVelY(0);
+					else if (key == KeyEvent.VK_S)
+						player.setVelY(0);
+					else if (key == KeyEvent.VK_D)
+						player.setVelX(0);
+					else if (key == KeyEvent.VK_A)
+						player.setVelX(0);
+				}
+			}
+		}
 	}
 
 }

@@ -3,11 +3,11 @@ package com.rad.world;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import com.rad.Const;
 import com.rad.entity.Block;
-import com.rad.entity.Empty;
 import com.rad.entity.Enemy;
 import com.rad.entity.Entity;
 import com.rad.entity.Item;
@@ -22,16 +22,14 @@ public class GameWorld {
 	// Holds all Entities in the map. A LinkedList was used over an ArrayList for
 	// constant time removal of objects, and the lack of need for accessing a single
 	// specific Entity
-	//private LinkedList<Entity> entities = new LinkedList<Entity>();
+	private LinkedList<Entity> entities = new LinkedList<Entity>();	
+	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+	
 	/**
 	 * the number of players in a game
 	 */
 	private int numPlayers = 1; // Changeable later
-	/**
-	 * Where the map  of all possible entities is held, and creates a map at a certain size
-	 */
-	private Entity[][] entities = new Entity[Const.WORLD_WIDTH_IN_TILES][Const.WORLD_HEIGHT_IN_TILES];
-
+	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
@@ -43,11 +41,17 @@ public class GameWorld {
 	 * iterates through the map, reloading it every second
 	 */
 	public void tick() {
-		for (int y = 0; y < entities.length; y++) {
-			for (int x = 0; x < entities[0].length; x++) {
-				if (entities[y][x] != null) entities[y][x].tick();
-			}
+		for (Entity e : entities) {
+			e.tick();
+			handleCollision(e);
+			
+			if (e.isDead()) deadEntities.add(e);
 		}
+		
+		for (Entity e : deadEntities) {
+			removeEntity(e);
+		}
+		deadEntities.clear();
 	}
 
 	/**
@@ -55,9 +59,22 @@ public class GameWorld {
 	 * @param g input required to draw
 	 */
 	public void render(Graphics g) {
-		for (int y = 0; y < entities.length; y++) {
-			for (int x = 0; x < entities[0].length; x++) {
-				if (entities[y][x] != null) entities[y][x].render(g);
+		for (Entity e : entities) {
+			e.render(g);
+		}
+	}
+	
+	public void handleCollision(Entity entity) {
+		if (entity instanceof Block) {
+			return;
+		}
+		for (Entity e : entities) {
+			if (e == entity) {
+				continue;
+			}
+			if (entity.getBounds().intersects(e.getBounds())) {
+//				System.out.println(entity.toString() + " Colliding with " + e.toString());
+				entity.collidedWith(e);
 			}
 		}
 	}
@@ -68,18 +85,7 @@ public class GameWorld {
 	 * @param e
 	 */
 	public void addEntity(Entity e) {
-		entities[e.getY()][e.getX()] = e;
-	}
-
-	/**
-	 * Used to change an Entity to a new location
-	 * @param e entity to add
-	 * @param newX new x coordinate of location to add
-	 * @param newY new y coordinate of location to add
-	 */
-	public void addEntity(Entity e, int newX, int newY) {
-		entities[newY][newX] = e;
-		e.setPosition(newX, newY);
+		entities.add(e);
 	}
 
 	/**
@@ -87,14 +93,14 @@ public class GameWorld {
 	 * @param e removes this entity in the mape
 	 */
 	public void removeEntity(Entity e) {
-		entities[(int)e.getY()][(int)e.getX()] = null;
+		entities.remove(e);
 	}
 
 	/**
 	 * returns the entity map
 	 * @return the entire map of entities
 	 */
-	public Entity[][] getEntities() {
+	public LinkedList<Entity> getEntities() {
 		return entities;
 	}
 	
@@ -123,8 +129,12 @@ public class GameWorld {
 	 * Prints the map in a grid format for debugging
 	 */
 	public void printMap() {
-		int[][] tilemap = new int[Const.WORLD_WIDTH_IN_TILES][Const.WORLD_HEIGHT_IN_TILES];
+		Entity[][] tilemap = new Entity[Const.WORLD_WIDTH_IN_TILES][Const.WORLD_HEIGHT_IN_TILES];
 
+		for (Entity e : entities) {
+			tilemap[e.getY() / Const.TILE_SIZE][e.getX() / Const.TILE_SIZE] = e;
+		}
+		
 		for (int i = 0; i < Const.WORLD_WIDTH_IN_TILES; i++) {
 			for (int j = 0; j < Const.WORLD_HEIGHT_IN_TILES; j++) {
 				System.out.print("[Entity: " + tilemap[i][j] + "] ");
@@ -152,7 +162,7 @@ public class GameWorld {
 			int curr = scan.nextInt();
 
 			if (curr == 0) {
-				addEntity(new Empty(countX, countY));
+				//addEntity(new Empty(countX, countY));
 			} else if (curr / 10 == 0) {
 				addEntity(new Block(curr, countX, countY));
 			} else if (curr / 10 == 1) {
