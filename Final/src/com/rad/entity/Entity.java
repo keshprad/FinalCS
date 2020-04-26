@@ -79,16 +79,16 @@ public abstract class Entity {
 	}
 	
 	protected void invClamp(int left, int right, int top, int bottom) {
-		if (this.x > left - this.width && this.x < left) {
+		if (this.x > left - this.width && this.x < left - this.width + 6) {
 			this.x = left - this.width;
 		}
-		else if (this.x < right && this.x > left) {
+		else if (this.x < right && this.x > left + this.width - 6) {
 			this.x = right;
 		}	
-		else if (this.y > top - this.height && this.y < top) {
+		else if (this.y > top - this.height && this.y < top - this.height + 6) {
 			this.y = top - this.height;
 		}
-		else if (this.y < bottom && this.y > top) {
+		else if (this.y < bottom && this.y > top + this.height - 6) {
 			this.y = bottom;
 		}
 	}
