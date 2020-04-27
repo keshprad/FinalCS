@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 
 import com.rad.Const;
 import com.rad.effects.Effect;
+import com.rad.world.GameWorld;
 
 /**
 
@@ -63,7 +64,7 @@ public class Player extends Entity {
 	 * what runs during a call of player
 	 */
 	@Override
-	public void tick() {
+	public void tick(GameWorld gameWorld) {
 		x += velX;
 		y += velY;
 		

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import com.rad.Const;
 import com.rad.effects.Effect;
+import com.rad.world.GameWorld;
 
 /**
  * items that the player can consume
@@ -47,7 +48,7 @@ public class Item extends Entity {
 	 * What runs during call of item
 	 */
 	@Override
-	public void tick() {
+	public void tick(GameWorld gameWorld) {
 		
 	}
 

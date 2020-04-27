@@ -42,7 +42,7 @@ public class GameWorld {
 	 */
 	public void tick() {
 		for (Entity e : entities) {
-			e.tick();
+			e.tick(this);
 			handleCollision(e);
 			
 			if (e.isDead()) deadEntities.add(e);

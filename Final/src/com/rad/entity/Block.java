@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.rad.Const;
+import com.rad.world.GameWorld;
 
 /**
  * 
@@ -32,7 +33,7 @@ public class Block extends Entity {
 	}
 
 	@Override
-	public void tick() {
+	public void tick(GameWorld gameWorld) {
 		
 	}
 
