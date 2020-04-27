@@ -9,6 +9,7 @@ import com.rad.world.GameWorld;
 
 /**
  * items that the player can consume
+ * 
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Item extends Entity {
@@ -17,15 +18,16 @@ public class Item extends Entity {
 	 * the effects that each item can give
 	 */
 	private Effect effect = null;
-	
+
 	/**
 	 * constructs an empty item
+	 * 
 	 * @param id the type of item
-	 * @param x the X coordinate of item
-	 * @param y the Y coordinate of item
+	 * @param x  the X coordinate of item
+	 * @param y  the Y coordinate of item
 	 */
-	public Item(int id, int x, int y) {
-		super(id, x, y);
+	public Item(GameWorld gameWorld, int id, int x, int y) {
+		super(gameWorld, id, x, y);
 		effect = Effect.POINT_PLUS;
 	}
 
@@ -35,12 +37,14 @@ public class Item extends Entity {
 	@Override
 	public void init() {
 		switch (getId()) {
-			case Const.ID.CHIP:
-				effect = Effect.POINT_PLUS;
-				break;
-			default:
-				effect = Effect.POINT_PLUS;
-				break;
+		case Const.ID.CHIP:
+			color = Color.YELLOW;
+			effect = Effect.POINT_PLUS;
+			break;
+		default:
+			color = Color.YELLOW;
+			effect = Effect.POINT_PLUS;
+			break;
 		}
 	}
 
@@ -48,22 +52,23 @@ public class Item extends Entity {
 	 * What runs during call of item
 	 */
 	@Override
-	public void tick(GameWorld gameWorld) {
-		
+	public void tick() {
+		super.tick();
 	}
 
 	/**
 	 * what is drawn with an item
+	 * 
 	 * @param g tool used to draw object in the window
 	 */
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
+		super.render(g);
 	}
-	
+
 	@Override
-	public void collidedWith(Entity e) {
+	public void handleCollision(Entity e) {
+
 		if (e instanceof Player) {
 			isDead = true;
 		}
@@ -71,6 +76,7 @@ public class Item extends Entity {
 
 	/**
 	 * returns the effects of an item
+	 * 
 	 * @return the effect of an item
 	 */
 	public Effect getEffect() {

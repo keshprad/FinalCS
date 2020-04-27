@@ -2,7 +2,6 @@ package com.rad.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import com.rad.Const;
 import com.rad.effects.Effect;
@@ -27,9 +26,6 @@ public class Player extends Entity {
 	 */
 	private boolean isAI;
 	
-	private Color color = Color.WHITE;
-	
-	
 	/**
 	 * Constructor for Player
 	 * @param id Tells us the type of player
@@ -37,8 +33,8 @@ public class Player extends Entity {
 	 * @param y initial y-position of the player
 
 	 */
-	public Player(int id, int x, int y, boolean isAI) {
-		super(id, x, y);
+	public Player(GameWorld gameWorld, int id, int x, int y, boolean isAI) {
+		super(gameWorld, id, x, y);
 		this.isAI = isAI;
 		this.speed = 5;
 	}
@@ -50,10 +46,10 @@ public class Player extends Entity {
 	public void init() {
 		switch (getId()) {
 			case Const.ID.BRAD:
-				//
+				color = Color.WHITE;
 				break;
 			case Const.ID.FULK:
-				//
+				color = Color.LIGHT_GRAY;
 				break;
 			default:
 				break;
@@ -64,12 +60,30 @@ public class Player extends Entity {
 	 * what runs during a call of player
 	 */
 	@Override
-	public void tick(GameWorld gameWorld) {
+	public void tick() {
 		x += velX;
 		y += velY;
 		
-		x = clamp(x, 0, Const.WORLD_WIDTH - Const.TILE_SIZE);
-		y = clamp(y, 0, Const.WORLD_HEIGHT - Const.TILE_SIZE);
+		if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) { 
+			velX = 0; 
+		} else if (gameWorld.getKeyInput().isLeft()) {
+			velX = -speed;
+		} else if (gameWorld.getKeyInput().isRight()) {
+			velX = speed;
+		}
+		
+		if (!gameWorld.getKeyInput().isUp() && !gameWorld.getKeyInput().isDown()) { 
+			velY = 0; 
+		} else if (gameWorld.getKeyInput().isUp()) {
+			velY = -speed;
+		} else if (gameWorld.getKeyInput().isDown()) {
+			velY = speed;
+		}
+		
+		super.tick();
+		
+		x = clamp(x, 0, Const.WORLD_WIDTH - width);
+		y = clamp(y, 0, Const.WORLD_HEIGHT - height);
 	}
 
 	/**
@@ -78,14 +92,15 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void render(Graphics g) {
-		g.setColor(color);
-		g.fillRect(x, y, width, height);
+		super.render(g);
 	}
 	
 	@Override
-	public void collidedWith(Entity e) {
+	public void handleCollision(Entity e) {
+		
 		if (e instanceof Block) {
-			invClamp(e.getX(), e.getX() + e.getWidth(), e.getY(), e.getY() + e.getHeight());
+			velX = 0;
+			velY = 0;
 			System.out.println("Shouldn't be passing...");
 		}
 		if (e instanceof Enemy) {
@@ -97,7 +112,8 @@ public class Player extends Entity {
 			setEffect(i);
 			System.out.println("You got the effect " + i.getEffect());
 			System.out.println("YOUR CURRENT SCORE: " + score);
-		}
+		}	
+		
 	}
 
     /**

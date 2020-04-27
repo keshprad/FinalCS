@@ -1,5 +1,6 @@
 package com.rad.entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -12,6 +13,12 @@ import com.rad.world.GameWorld;
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public abstract class Entity {
+	
+	/**
+	 * The game world the entity is in
+	 */
+	protected GameWorld gameWorld;
+	
     /**
      * ID that is specific to each identity
      */
@@ -37,6 +44,8 @@ public abstract class Entity {
 
     protected boolean isDead;
 
+    protected Color color;
+    
     /**
      * constructs a certain enemy and identity
      *
@@ -44,8 +53,9 @@ public abstract class Entity {
      * @param x  the x coordinate
      * @param y  the y coordinate
      */
-    public Entity(int id, int x, int y) {
-        this.id = id;
+    public Entity(GameWorld gameWorld, int id, int x, int y) {
+        this.gameWorld = gameWorld;
+    	this.id = id;
         this.x = x * Const.TILE_SIZE;
         this.y = y * Const.TILE_SIZE;
         this.isDead = false;
@@ -55,24 +65,38 @@ public abstract class Entity {
     /**
      * the method that identifies the type of entity
      */
-    abstract public void init();
+    public abstract void init();
 
     /**
      * determines what updates
      */
-    public abstract void tick(GameWorld gameWorld);
+    public void tick() {
+    	for (Entity e : gameWorld.getEntities()) {
+			if (this.getBounds().intersects(e.getBounds())) {
+				handleCollision(e);
+			}
+		}
+    	
+    }
 
-    /**
-     * @param e
-     */
-    public abstract void collidedWith(Entity e);
 
     /**
      * renders the object
      *
      * @param g tool used to draw object in the window
      */
-    public abstract void render(Graphics g);
+    public void render(Graphics g) {
+    	g.setColor(color);
+		g.fillRect(x, y, width, height);
+    }
+    
+    /**
+     * @param e
+     */
+    public void handleCollision(Entity e) {
+   
+    }
+
 
     protected int clamp(int i, int min, int max) {
         if (i < min) return min;
@@ -80,20 +104,20 @@ public abstract class Entity {
         return i;
     }
 
-    protected void invClamp(int left, int right, int top, int bottom) {
-        if (this.x > left - this.width && this.x < left - this.width + 6) {
-            this.x = left - this.width;
-        } else if (this.x < right && this.x > left + this.width - 6) {
-            this.x = right;
-        } else if (this.y > top - this.height && this.y < top - this.height + 6) {
-            this.y = top - this.height;
-        } else if (this.y < bottom && this.y > top + this.height - 6) {
-            this.y = bottom;
-        }
-    }
+//    protected void invClamp(int left, int right, int top, int bottom) {
+//        if (this.x > left - this.width && this.x < left - this.width + velX) {
+//            this.x = left - this.width;
+//        } else if (this.x < right && this.x > left + this.width - velX) {
+//            this.x = right;
+//        } else if (this.y > top - this.height && this.y < top - this.height + velY) {
+//            this.y = top - this.height;
+//        } else if (this.y < bottom && this.y > top + this.height - velY) {
+//            this.y = bottom;
+//        }
+//    }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
+        return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
     }
 
     public boolean overlaps(Rectangle r) {

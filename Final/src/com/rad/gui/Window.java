@@ -1,8 +1,11 @@
-package com.rad;
+package com.rad.gui;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+
+import com.rad.Const;
+import com.rad.Game;
 
 /**
  * GUI to create the window

@@ -12,6 +12,7 @@ import com.rad.entity.Enemy;
 import com.rad.entity.Entity;
 import com.rad.entity.Item;
 import com.rad.entity.Player;
+import com.rad.input.KeyInput;
 
 /**
  * This class holds the map where the map loads up, and where the window resets every secons
@@ -26,6 +27,11 @@ public class GameWorld {
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
 	
 	/**
+	 * used to handle user key input
+	 */
+	private KeyInput keyInput;
+	
+	/**
 	 * the number of players in a game
 	 */
 	private int numPlayers = 1; // Changeable later
@@ -35,6 +41,7 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		loadMap(Const.PATHS.MAP2);
+		keyInput = new KeyInput();
 	}
 
 	/**
@@ -42,8 +49,7 @@ public class GameWorld {
 	 */
 	public void tick() {
 		for (Entity e : entities) {
-			e.tick(this);
-			handleCollision(e);
+			e.tick();
 			
 			if (e.isDead()) deadEntities.add(e);
 		}
@@ -61,21 +67,6 @@ public class GameWorld {
 	public void render(Graphics g) {
 		for (Entity e : entities) {
 			e.render(g);
-		}
-	}
-	
-	public void handleCollision(Entity entity) {
-		if (entity instanceof Block) {
-			return;
-		}
-		for (Entity e : entities) {
-			if (e == entity) {
-				continue;
-			}
-			if (entity.getBounds().intersects(e.getBounds())) {
-//				System.out.println(entity.toString() + " Colliding with " + e.toString());
-				entity.collidedWith(e);
-			}
 		}
 	}
 
@@ -103,26 +94,6 @@ public class GameWorld {
 	public LinkedList<Entity> getEntities() {
 		return entities;
 	}
-	
-//	public boolean attemptMoveEntity(Entity entity, int newX, int newY) {
-//		Entity e = entities[newY][newY];
-//		if (e instanceof Empty) {
-//			int oldX = (int) entity.getX();
-//			int oldY = (int) entity.getY();
-//			entities[newY][newX] = entity;  //replace with addEntity(entity, newX, newY);
-//			entities[oldY][oldX] = e;       //replace with addEntity(e, oldX, oldY);
-//			return true;
-//		}
-//		else if (e instanceof Item) {
-//			int oldX = (int) entity.getX();
-//			int oldY = (int) entity.getY();
-//			entities[newY][newX] = entity;
-//			addEntity(entity);
-//			addEntity(new Empty(oldX, oldY));
-//			return true;
-//		}
-//		return true;
-//	}
 
 
 	/**
@@ -164,14 +135,14 @@ public class GameWorld {
 			if (curr == 0) {
 				//addEntity(new Empty(countX, countY));
 			} else if (curr / 10 == 0) {
-				addEntity(new Block(curr, countX, countY));
+				addEntity(new Block(this, curr, countX, countY));
 			} else if (curr / 10 == 1) {
-				addEntity(new Enemy(curr, countX, countY));
+				addEntity(new Enemy(this, curr, countX, countY));
 			} else if (curr / 10 == 2) {
-				addEntity(new Player(curr, countX, countY, numPlayers <= 0));
+				addEntity(new Player(this, curr, countX, countY, numPlayers <= 0));
 				numPlayers--;
 			} else if (curr / 10 == 3) {
-				addEntity(new Item(curr, countX, countY));
+				addEntity(new Item(this, curr, countX, countY));
 			}
 
 			if (countX >= Const.WORLD_WIDTH_IN_TILES - 1) {
@@ -182,6 +153,14 @@ public class GameWorld {
 			}
 
 		}
+	}
+	
+	/**
+	 * Returns the key input
+	 * @return the key input
+	 */
+	public KeyInput getKeyInput() {
+		return keyInput;
 	}
 
 }

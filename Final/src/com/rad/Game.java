@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import com.rad.gui.Hud;
+import com.rad.gui.Window;
 import com.rad.input.KeyInput;
 import com.rad.world.GameWorld;
 
@@ -37,7 +38,7 @@ public class Game extends Canvas implements Runnable {
 		window.init();
 		
 		this.gameWorld = new GameWorld();
-		this.addKeyListener(new KeyInput(gameWorld));
+		this.addKeyListener(gameWorld.getKeyInput());
 		hud = new Hud(gameWorld);
 
 		start();

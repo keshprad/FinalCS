@@ -23,18 +23,18 @@ public class Block extends Entity {
 	 * @param x initial x-position of the block
 	 * @param y initial y-position of the block
 	 */
-	public Block(int id, int x, int y) {
-		super(id, x, y);
+	public Block(GameWorld gameWorld, int id, int x, int y) {
+		super(gameWorld, id, x, y);
 	}
 
 	@Override
 	public void init() {
-
+		color = Color.GREEN;
 	}
 
 	@Override
-	public void tick(GameWorld gameWorld) {
-		
+	public void tick() {
+		super.tick();
 	}
 
 	@Override
@@ -42,13 +42,7 @@ public class Block extends Entity {
 	 * renders a graphic to represent a Block. Either a wall, bush...
 	 */
 	public void render(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE);
-	}
-	
-	@Override
-	public void collidedWith(Entity e) {
-		// do nothing
+		super.render(g);
 	}
 	
 }

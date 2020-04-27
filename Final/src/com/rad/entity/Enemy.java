@@ -20,9 +20,7 @@ import static com.rad.Const.TILE_SIZE;
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Enemy extends Entity {
-
-    private GameWorld gameWorld;
-
+	
     /**
      * Constructor for Enemy class
      *
@@ -30,22 +28,21 @@ public class Enemy extends Entity {
      * @param x  initial x-position of the block
      * @param y  initial y-position of the block
      */
-    public Enemy(int id, int x, int y) {
-        super(id, x, y);
+    public Enemy(GameWorld gameWorld, int id, int x, int y) {
+        super(gameWorld, id, x, y);
     }
 
     @Override
     public void init() {
-
+    	color = Color.RED;
     }
 
     @Override
     /**
      * Necessary for GUI, but not needed for this class
      */
-    public void tick(GameWorld gameWorld) {
+    public void tick() {
 
-        this.gameWorld = gameWorld;
         for (Entity e : gameWorld.getEntities()) {
             if (e instanceof Player) {
                 // TODO find closest Player
@@ -54,6 +51,8 @@ public class Enemy extends Entity {
                 }
             }
         }
+        
+        super.tick();
     }
 
     @Override
@@ -61,16 +60,10 @@ public class Enemy extends Entity {
      * renders a graphic to represent an Enemy. Either a zombie...
      */
     public void render(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+        super.render(g);
     }
 
-    @Override
-    public void collidedWith(Entity e) {
-
-    }
-
-    public double distanceBTWNENTITY(Entity e) {
+    public double distanceBetweenEntity(Entity e) {
         return Math.sqrt((this.x - e.getX()) * (this.x - e.getX()) + (this.getY() - e.getY()) * (this.getY() - e.getY()));
     }
 
@@ -86,8 +79,8 @@ public class Enemy extends Entity {
         Player p = null;
         for (Entity player : entities) {
             if (player instanceof Player) {
-                if (distanceBTWNENTITY(player) < dist) {
-                    dist = distanceBTWNENTITY(player);
+                if (distanceBetweenEntity(player) < dist) {
+                    dist = distanceBetweenEntity(player);
                     p = (Player) player;
                     this.chaseEnemy(p);
                 }
