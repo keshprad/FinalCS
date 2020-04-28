@@ -3,7 +3,10 @@ package com.rad.entity;
 import java.awt.*;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 import com.rad.Const;
 import com.rad.world.GameWorld;
@@ -20,8 +23,8 @@ import static com.rad.Const.TILE_SIZE;
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Enemy extends Entity {
-	
-    /**
+
+	/**
      * Constructor for Enemy class
      *
      * @param id Tells us the type of Enemy
@@ -72,30 +75,8 @@ public class Enemy extends Entity {
             this.x = x;
             this.y = y;
         }
+    
     }
-
-    public void enemyAI(GameWorld gw, LinkedList<Entity> entities) {
-        double dist = 0;
-        Player p = null;
-        for (Entity player : entities) {
-            if (player instanceof Player) {
-                if (distanceBetweenEntity(player) < dist) {
-                    dist = distanceBetweenEntity(player);
-                    p = (Player) player;
-                    this.chaseEnemy(p);
-                }
-            }
-        }
-        assert p != null;
-        this.chaseEnemy(p);
-
-
-    }
-
-    private Location getLocation() {
-        return new Location(getX(), getY(), 0);
-    }
-
 
     public void move(Location l) {
         this.x = l.getX();
@@ -103,7 +84,7 @@ public class Enemy extends Entity {
     }
 
     public void chaseEnemy(Player player) {
-        TreeSetQueue<Location> pq = new TreeSetQueue<Location>((o1, o2) -> Double.compare(o1.priority, o2.priority));
+        PriorityQueue<Location> pq = new PriorityQueue<Location>((o1, o2) -> Double.compare(o1.priority, o2.priority));
         // creates a priority queue of possible points that the person can go to
 
         HashMap<Location, Double> map = new HashMap<>();

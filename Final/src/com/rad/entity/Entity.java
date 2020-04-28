@@ -3,6 +3,7 @@ package com.rad.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.LinkedList;
 
 import com.rad.Const;
 import com.rad.world.GameWorld;
@@ -104,18 +105,6 @@ public abstract class Entity {
         return i;
     }
 
-//    protected void invClamp(int left, int right, int top, int bottom) {
-//        if (this.x > left - this.width && this.x < left - this.width + velX) {
-//            this.x = left - this.width;
-//        } else if (this.x < right && this.x > left + this.width - velX) {
-//            this.x = right;
-//        } else if (this.y > top - this.height && this.y < top - this.height + velY) {
-//            this.y = top - this.height;
-//        } else if (this.y < bottom && this.y > top + this.height - velY) {
-//            this.y = bottom;
-//        }
-//    }
-
     public Rectangle getBounds() {
         return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
     }
@@ -128,6 +117,35 @@ public abstract class Entity {
         return this.overlaps(e.getBounds());
     }
 
+    /*protected void invClamp(int left, int right, int top, int bottom) {
+	if (this.x > left - this.width && this.x < left - this.width + (speed + 1)) {
+		this.x = left - this.width;
+	}
+	else if (this.x < right && this.x > left + this.width - (speed + 1)) {
+		this.x = right;
+	}	
+	else if (this.y > top - this.height && this.y < top - this.height + (speed + 1)) {
+		this.y = top - this.height;
+	}
+	else if (this.y < bottom && this.y > top + this.height - (speed + 1)) {
+		this.y = bottom;
+	}*/
+
+	/**
+	 * gets distance between a point and an entity
+	 * @param i x-position
+	 * @param j y-position
+	 * @param e Entity to compare with
+	 * @return finds shortest distance between a point defined by (i,j) and the given entity
+	 */
+	public float distBetween(int i, int j, Entity e) {
+		int distX = e.x - i;
+		int distY = e.y - j;
+		float dist = (float)Math.sqrt((distX * distX) + (distY * distY));
+		return dist;
+	}
+    
+    
     /**
      * gets the id
      *
@@ -233,5 +251,4 @@ public abstract class Entity {
     public void setHeight(int height) {
         this.height = height;
     }
-
 }

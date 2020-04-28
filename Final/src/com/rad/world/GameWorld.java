@@ -23,7 +23,7 @@ public class GameWorld {
 	// Holds all Entities in the map. A LinkedList was used over an ArrayList for
 	// constant time removal of objects, and the lack of need for accessing a single
 	// specific Entity
-	private LinkedList<Entity> entities = new LinkedList<Entity>();	
+	public LinkedList<Entity> entities = new LinkedList<Entity>();	
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
 	
 	/**
@@ -34,7 +34,7 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 1; // Changeable later
+	private int numPlayers = 0; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
@@ -50,10 +50,10 @@ public class GameWorld {
 	public void tick() {
 		for (Entity e : entities) {
 			e.tick();
-			
-			if (e.isDead()) deadEntities.add(e);
+			if (e.isDead()) {
+				deadEntities.add(e);
+			}
 		}
-		
 		for (Entity e : deadEntities) {
 			removeEntity(e);
 		}

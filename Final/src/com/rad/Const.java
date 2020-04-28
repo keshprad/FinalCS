@@ -1,7 +1,6 @@
 package com.rad;
 
 public class Const {
-
     // TODO: Change title and frame size
     //test
     public static final String TITLE = "Game";
@@ -11,8 +10,8 @@ public class Const {
 
 
     public static final int TILE_SIZE = 60;
-    public static final int WORLD_WIDTH_IN_TILES = 15;
-    public static final int WORLD_HEIGHT_IN_TILES = 15;
+    public static final int WORLD_WIDTH_IN_TILES = 12;
+    public static final int WORLD_HEIGHT_IN_TILES = 12;
 
     public static final double FRAMES_PER_SECOND = 60.0;
 
@@ -58,6 +57,4 @@ public class Const {
         public static final String MAP5 = "res/map5";
 
     }
-
-
 }

@@ -15,6 +15,11 @@ public class Location implements Comparable {
     private int x;
     private int y;
 
+    public Location(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
     public Location(int x, int y, double dist) {
         this.x = x;
         this.y = y;
