@@ -66,23 +66,28 @@ public class Enemy extends Entity {
         super.render(g);
     }
 
+    /**
+     * dist btwn entities
+     * @param e
+     * @return
+     */
     public double distanceBetweenEntity(Entity e) {
         return Math.sqrt((this.x - e.getX()) * (this.x - e.getX()) + (this.getY() - e.getY()) * (this.getY() - e.getY()));
     }
-
-    public void moveEntity(int x, int y) {
-        if ((Const.WORLD_WIDTH_IN_TILES > x && x > 0) && (Const.WORLD_HEIGHT_IN_TILES > y && y > 0)) {
-            this.x = x;
-            this.y = y;
-        }
     
-    }
-
+    /**
+     * move
+     * @param l
+     */
     public void move(Location l) {
         this.x = l.getX();
         this.y = l.getY();
     }
 
+    /**
+     * A* search to find player
+     * @param player
+     */
     public void chaseEnemy(Player player) {
         PriorityQueue<Location> pq = new PriorityQueue<Location>((o1, o2) -> Double.compare(o1.priority, o2.priority));
         // creates a priority queue of possible points that the person can go to
