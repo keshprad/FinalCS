@@ -23,7 +23,7 @@ public abstract class Entity {
     /**
      * ID that is specific to each identity
      */
-    private int id;
+    protected int id;
     /**
      * the X coordinate of the object
      */
@@ -95,7 +95,7 @@ public abstract class Entity {
      * @param e
      */
     public void handleCollision(Entity e) {
-   
+    	//doNothing
     }
 
 
@@ -107,14 +107,6 @@ public abstract class Entity {
 
     public Rectangle getBounds() {
         return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
-    }
-
-    public boolean overlaps(Rectangle r) {
-        return x < r.x + r.width && x + width > r.x && y < r.y + r.height && y + height > r.y;
-    }
-
-    public boolean doesCollide(Entity e) {
-        return this.overlaps(e.getBounds());
     }
 
     /*protected void invClamp(int left, int right, int top, int bottom) {
@@ -131,124 +123,11 @@ public abstract class Entity {
 		this.y = bottom;
 	}*/
 
-	/**
-	 * gets distance between a point and an entity
-	 * @param i x-position
-	 * @param j y-position
-	 * @param e Entity to compare with
-	 * @return finds shortest distance between a point defined by (i,j) and the given entity
-	 */
-	public float distBetween(int i, int j, Entity e) {
-		int distX = e.x - i;
-		int distY = e.y - j;
-		float dist = (float)Math.sqrt((distX * distX) + (distY * distY));
-		return dist;
-	}
-    
-    
-    /**
-     * gets the id
-     *
-     * @return id of the object
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * changes the id
-     *
-     * @param id the id of the certain object
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * returns X
-     *
-     * @return the x coordinate
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * returns y coordinate
-     *
-     * @return the y coordinate
-     */
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /**
-     * returns the speed of the entity
-     *
-     * @return the speed of entity
-     */
-    public int getSpeed() {
-        return speed;
-    }
-
-    /**
-     * sets the speed of the entity
-     *
-     * @param speed the speed of the entity
-     */
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getVelX() {
-        return velX;
-    }
-
-    public void setVelX(int velX) {
-        this.velX = velX;
-    }
-
-    public int getVelY() {
-        return velY;
-    }
-
-    public void setVelY(int velY) {
-        this.velY = velY;
-    }
-
     public String toString() {
         return this.getClass().getSimpleName();
     }
-
-    public void setDead(boolean isDead) {
-        this.isDead = isDead;
-    }
-
+    
     public boolean isDead() {
         return isDead;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }

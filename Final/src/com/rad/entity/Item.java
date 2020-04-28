@@ -36,7 +36,7 @@ public class Item extends Entity {
 	 */
 	@Override
 	public void init() {
-		switch (getId()) {
+		switch (id) {
 		case Const.ID.CHIP:
 			color = Color.YELLOW;
 			effect = Effect.POINT_PLUS;

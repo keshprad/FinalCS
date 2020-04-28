@@ -23,7 +23,11 @@ public class GameWorld {
 	// Holds all Entities in the map. A LinkedList was used over an ArrayList for
 	// constant time removal of objects, and the lack of need for accessing a single
 	// specific Entity
-	public LinkedList<Entity> entities = new LinkedList<Entity>();	
+	private LinkedList<Entity> entities = new LinkedList<Entity>();
+	private LinkedList<Player> players = new LinkedList<Player>();
+	private LinkedList<Enemy> enemies = new LinkedList<Enemy>();
+	private LinkedList<Item> items = new LinkedList<Item>();
+	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
 	
 	/**
@@ -59,7 +63,7 @@ public class GameWorld {
 		}
 		deadEntities.clear();
 	}
-
+	
 	/**
 	 * Draws the classes in the window
 	 * @param g input required to draw
@@ -77,6 +81,18 @@ public class GameWorld {
 	 */
 	public void addEntity(Entity e) {
 		entities.add(e);
+		if (e instanceof Player) {
+			players.add((Player)e);
+		}
+		else if (e instanceof Enemy) {
+			enemies.add((Enemy)e);
+		}
+		else if (e instanceof Block) {
+			blocks.add((Block)e);
+		}
+		else if (e instanceof Item) {
+			items.add((Item)e);
+		}
 	}
 
 	/**
@@ -85,32 +101,17 @@ public class GameWorld {
 	 */
 	public void removeEntity(Entity e) {
 		entities.remove(e);
-	}
-
-	/**
-	 * returns the entity map
-	 * @return the entire map of entities
-	 */
-	public LinkedList<Entity> getEntities() {
-		return entities;
-	}
-
-
-	/**
-	 * Prints the map in a grid format for debugging
-	 */
-	public void printMap() {
-		Entity[][] tilemap = new Entity[Const.WORLD_WIDTH_IN_TILES][Const.WORLD_HEIGHT_IN_TILES];
-
-		for (Entity e : entities) {
-			tilemap[e.getY() / Const.TILE_SIZE][e.getX() / Const.TILE_SIZE] = e;
+		if (e instanceof Player) {
+			players.remove((Player)e);
 		}
-		
-		for (int i = 0; i < Const.WORLD_WIDTH_IN_TILES; i++) {
-			for (int j = 0; j < Const.WORLD_HEIGHT_IN_TILES; j++) {
-				System.out.print("[Entity: " + tilemap[i][j] + "] ");
-			}
-			System.out.print("\n\n");
+		else if (e instanceof Enemy) {
+			enemies.remove((Enemy)e);
+		}
+		else if (e instanceof Block) {
+			blocks.remove((Block)e);
+		}
+		else if (e instanceof Item) {
+			items.remove((Item)e);
 		}
 	}
 
@@ -162,5 +163,44 @@ public class GameWorld {
 	public KeyInput getKeyInput() {
 		return keyInput;
 	}
-
+	
+	/**
+	 * returns the entity map
+	 * @return the entire map of entities
+	 */
+	public LinkedList<Entity> getEntities() {
+		return entities;
+	}
+	
+	/**
+	 * returns the player
+	 * @return list of players in map
+	 */
+	public LinkedList<Player> getPlayers() {
+		return players;
+	}
+	
+	/**
+	 * returns the enemies
+	 * @return list of enemies in map
+	 */
+	public LinkedList<Enemy> getEnemies() {
+		return enemies;
+	}
+	
+	/**
+	 * returns the blocks
+	 * @return list of blocks in map
+	 */
+	public LinkedList<Block> getBlocks() {
+		return blocks;
+	}
+	
+	/**
+	 * returns the items
+	 * @return list of items in map
+	 */
+	public LinkedList<Item> getItems() {
+		return items;
+	}
 }

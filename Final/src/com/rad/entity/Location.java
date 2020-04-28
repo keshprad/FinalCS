@@ -7,9 +7,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class Location implements Comparable {
-    //
     public Location movePoint = null;
-    private double distanceSoFar;
     double dist;
     double priority;
     private int x;
@@ -44,14 +42,10 @@ public class Location implements Comparable {
         this.dist = dist;
     }
 
-    public double getDistanceSoFar(Enemy e, Location et) {
-        return Math.sqrt((e.getX() - et.getX()) * (e.getX() - et.getX()) + (e.getY() - et.getY()) * (e.getY() - et.getY()));
-        //return e.distanceBTWNENTITY(et);
-    }
-
-    public static double getDist(Location e, Location et) {
-        return Math.sqrt((e.getX() - et.getX()) * (e.getX() - et.getX()) + (e.getY() - et.getY()) * (e.getY() - et.getY()));
-        //return e.distanceBTWNENTITY(et);
+    public double distBetween(Location l) {
+    	double dx = this.getX() - l.getX();
+    	double dy = this.getY() - l.getY();
+    	return Math.sqrt((dx * dx) + (dy * dy));
     }
 
     public int getX() {
@@ -62,12 +56,8 @@ public class Location implements Comparable {
         return y;
     }
 
-    public Location turnIntoLocation(Enemy enemy) {
-        return new Location(enemy.getX(), enemy.getY(), 0, movePoint);
-    }
-
     public boolean inGrid(double xl, double yl) {
-        return 0 <= xl && xl < Const.FRAME_WIDTH && 0 <= yl && yl < Const.WORLD_HEIGHT;
+        return 0 <= xl && xl < Const.WORLD_WIDTH && 0 <= yl && yl < Const.WORLD_HEIGHT;
     }
 
     public boolean inGrid(Location loc) {
@@ -96,17 +86,16 @@ public class Location implements Comparable {
                 possibleLocations[i] = null;
             }
         }
-        for (Entity e : gameWorld.getEntities()) {
-            if ((e instanceof Block)) {
-                for (int i = 0; i < possibleLocations.length; i++) {
-                    if (possibleLocations[i] != null && e.overlaps(this.toRect(possibleLocations[i]))) {
-                        possibleLocations[i] = null;
-                    }
-                }
-            }
-        }
-        return possibleLocations;
-    }
+        
+		for (Block b : gameWorld.getBlocks()) {
+			for (int i = 0; i < possibleLocations.length; i++) {
+				if (possibleLocations[i] != null && b.getBounds().intersects(this.toRect(possibleLocations[i]))) {
+					possibleLocations[i] = null;
+				}
+			}
+		}
+		return possibleLocations;
+	}
 
 
     @Override
@@ -127,15 +116,5 @@ public class Location implements Comparable {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "dist=" + dist +
-                ", priority=" + priority +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
     }
 }

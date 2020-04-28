@@ -48,7 +48,7 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void init() {
-		switch (getId()) {
+		switch (id) {
 			case Const.ID.BRAD:
 				color = Color.WHITE;
 				break;
@@ -120,7 +120,7 @@ public class Player extends Entity {
 			System.out.println("THAT HURTS!");
 		}
 		if (e instanceof Item) {
-			Item i = (Item) e;
+			Item i = (Item)e;
 			setEffect(i);
 			System.out.println("You got the effect " + i.getEffect());
 			System.out.println("YOUR CURRENT SCORE: " + score);
@@ -231,7 +231,7 @@ public class Player extends Entity {
 	public float findAvgDist(Location l, LinkedList<Enemy> closestEnemies) {
 		float totalD = 0;
 		for (Enemy e : closestEnemies) {
-			totalD += distBetween(l.getX(), l.getY(), e);
+			totalD += (float)(l.distBetween(new Location(e.x, e.y)));
 		}
 		totalD = totalD / closestEnemies.size();
 		return totalD;
@@ -245,11 +245,10 @@ public class Player extends Entity {
 	public LinkedList<Enemy> findProximityEnemies(Location l, LinkedList<Entity> entities) {
 		LinkedList<Enemy> closeEnemies = new LinkedList<Enemy>();
 		float radius = (float)(Const.WORLD_WIDTH / 2.5);
-		for (Entity e : entities) {
-			if (e instanceof Enemy){
-				if (distBetween(l.getX(), l.getY(), e) <= radius) {
-					closeEnemies.add((Enemy)e);
-				}
+		
+		for (Enemy e: gameWorld.getEnemies()) {
+			if (l.distBetween(new Location(e.x, e.y)) <= radius) {
+				closeEnemies.add((Enemy)e);
 			}
 		}
 		return closeEnemies;
@@ -265,27 +264,25 @@ public class Player extends Entity {
 		// Creating a list of blocks and checks bounds if the blocks are adjacent
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		boolean[] adjBlocks = new boolean[4];
-		for (Entity b : entities) {
-			if (b instanceof Block) {
-				if (b.x > x - b.width && b.x < x + width) {
-					if (b.y == y - b.height) {
-						//block above
-						adjBlocks[0] = true;
-					}
-					else if (b.y == y + height) {
-						//block below
-						adjBlocks[2] = true;
-					}
+		for (Block b : gameWorld.getBlocks()) {
+			if (b.x > x - b.width && b.x < x + width) {
+				if (b.y == y - b.height) {
+					//block above
+					adjBlocks[0] = true;
 				}
-				else if (b.y > y - b.height && b.y < y + height) {
-					if (b.x == x + width) {
-						//block on the right
-						adjBlocks[1] = true;
-					}
-					else if (b.x == x - b.width) {
-						//block on the left
-						adjBlocks[3] = true;
-					}
+				else if (b.y == y + height) {
+					//block below
+					adjBlocks[2] = true;
+				}
+			}
+			else if (b.y > y - b.height && b.y < y + height) {
+				if (b.x == x + width) {
+					//block on the right
+					adjBlocks[1] = true;
+				}
+				else if (b.x == x - b.width) {
+					//block on the left
+					adjBlocks[3] = true;
 				}
 			}
 		}
