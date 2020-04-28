@@ -66,7 +66,7 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		if (this.isAI) {
-			moveAI();
+			escapeEnemies();
 			
 			x += velX;
 			y += velY;
@@ -75,23 +75,8 @@ public class Player extends Entity {
 			x += velX;
 			y += velY;
 			
-			if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) { 
-				velX = 0; 
-			} else if (gameWorld.getKeyInput().isLeft()) {
-				velX = -speed;
-			} else if (gameWorld.getKeyInput().isRight()) {
-				velX = speed;
-			}
-			
-			if (!gameWorld.getKeyInput().isUp() && !gameWorld.getKeyInput().isDown()) { 
-				velY = 0; 
-			} else if (gameWorld.getKeyInput().isUp()) {
-				velY = -speed;
-			} else if (gameWorld.getKeyInput().isDown()) {
-				velY = speed;
-			}
+			useKeyInput();
 		}
-		
 		super.tick();
 		
 		x = clamp(x, 0, Const.WORLD_WIDTH - width);
@@ -128,7 +113,25 @@ public class Player extends Entity {
 		
 	}
 
-    /**
+    public void useKeyInput() {
+    	if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) { 
+			velX = 0; 
+		} else if (gameWorld.getKeyInput().isLeft()) {
+			velX = -speed;
+		} else if (gameWorld.getKeyInput().isRight()) {
+			velX = speed;
+		}
+		
+		if (!gameWorld.getKeyInput().isUp() && !gameWorld.getKeyInput().isDown()) { 
+			velY = 0; 
+		} else if (gameWorld.getKeyInput().isUp()) {
+			velY = -speed;
+		} else if (gameWorld.getKeyInput().isDown()) {
+			velY = speed;
+		}
+    }
+	
+	/**
      * Sets the effect to that of the given item.
      * @param item the item to provide the effect
      */
@@ -156,7 +159,7 @@ public class Player extends Entity {
 	 * 
 	 * @param entities a list of all alive entities;
 	 */
-	public void moveAI() {
+	public void escapeEnemies() {
 		// If no enemies in proximity, this function should exit and do nothing
 		LinkedList<Enemy> closestEnemies = findProximityEnemies(new Location(x, y), gameWorld.getEntities());
 		if (closestEnemies.size() == 0) {
@@ -256,7 +259,7 @@ public class Player extends Entity {
 	
 	
 	/**
-	 * Finds a list of telling if there are adjacent blocks above, below, on the left, on the right.
+	 * Finds a list of telling if there are adjacent blocks(or game bounds) above, below, on the left, on the right.
 	 * @param entities
 	 * @return a list of booleans
 	 */
@@ -264,6 +267,22 @@ public class Player extends Entity {
 		// Creating a list of blocks and checks bounds if the blocks are adjacent
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		boolean[] adjBlocks = new boolean[4];
+		
+		if (y == 0) {
+			//game bounds above
+			adjBlocks[0] = true;
+		}
+		if (x == Const.WORLD_WIDTH - width) {
+			//game bounds on right
+			adjBlocks[1] = true;
+		}
+		if (y == Const.WORLD_HEIGHT - width) {
+			adjBlocks[2] = true; 
+		}
+		if (x == 0) {
+			adjBlocks[3] = true;
+		}
+		
 		for (Block b : gameWorld.getBlocks()) {
 			if (b.x > x - b.width && b.x < x + width) {
 				if (b.y == y - b.height) {
@@ -275,7 +294,7 @@ public class Player extends Entity {
 					adjBlocks[2] = true;
 				}
 			}
-			else if (b.y > y - b.height && b.y < y + height) {
+			if (b.y > y - b.height && b.y < y + height) {
 				if (b.x == x + width) {
 					//block on the right
 					adjBlocks[1] = true;

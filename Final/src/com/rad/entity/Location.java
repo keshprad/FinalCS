@@ -41,7 +41,7 @@ public class Location implements Comparable {
         this.movePoint = movePoint;
         this.dist = dist;
     }
-
+    
     public double distBetween(Location l) {
     	double dx = this.getX() - l.getX();
     	double dy = this.getY() - l.getY();

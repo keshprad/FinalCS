@@ -61,7 +61,7 @@ public class Enemy extends Entity {
             if (e instanceof Player) {
                 // TODO find closest Player
                 if (Math.random() < Const.ENEMEY_AI_PROB_OF_MOVE_PER_TICK) {
-                    this.chasePlayer((Player) e);
+                    this.chasePlayers((Player) e);
                 }
             }
         }
@@ -91,7 +91,7 @@ public class Enemy extends Entity {
      * A* search to find player
      * @param player
      */
-    public void chasePlayer(Player player) {
+    public void chasePlayers(Player player) {
     	//Space it out more
     	//Add comments describing the whole process
     	//Implementing speed(the field)
