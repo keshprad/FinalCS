@@ -1,10 +1,14 @@
 package com.rad.world;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import com.rad.Const;
 import com.rad.entity.Block;
@@ -31,6 +35,11 @@ public class GameWorld {
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
 	
 	/**
+	 * the spritesheet to use for all sprites in the game
+	 */
+	private BufferedImage spritesheet;
+	
+	/**
 	 * used to handle user key input
 	 */
 	private KeyInput keyInput;
@@ -45,6 +54,7 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		loadMap(Const.PATHS.MAP2);
+		loadSpritesheet(Const.PATHS.SPRITESHEET);
 		keyInput = new KeyInput();
 	}
 
@@ -116,9 +126,19 @@ public class GameWorld {
 	}
 
 	/**
+	 * Loads the sprite sheet
+	 */
+	private void loadSpritesheet(String path) {
+		try {
+			spritesheet = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Loads a map from the given path (path meaning the numbers printed in folder res)
 	 */
-
 	private void loadMap(String path) {
 		Scanner scan = null;
 
@@ -202,5 +222,13 @@ public class GameWorld {
 	 */
 	public LinkedList<Item> getItems() {
 		return items;
+	}
+	
+	/**
+	 * returns the sprite sheet
+	 * @return the sprite sheet
+	 */
+	public BufferedImage getSpritesheet() {
+		return spritesheet;
 	}
 }

@@ -3,7 +3,10 @@ package com.rad.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.LinkedList;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 import com.rad.Const;
 import com.rad.world.GameWorld;
@@ -87,8 +90,7 @@ public abstract class Entity {
      * @param g tool used to draw object in the window
      */
     public void render(Graphics g) {
-    	g.setColor(color);
-		g.fillRect(x, y, width, height);
+    	g.drawImage(gameWorld.getSpritesheet(), x, y, x + width, y + width, 1, 1, 1 + 12, 1 + 12, null);
     }
     
     /**

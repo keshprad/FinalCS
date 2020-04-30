@@ -1,6 +1,5 @@
 package com.rad.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.rad.world.GameWorld;

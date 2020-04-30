@@ -55,6 +55,8 @@ public class Const {
         public static final String MAP3 = "res/map3";
         public static final String MAP4 = "res/map4";
         public static final String MAP5 = "res/map5";
+        
+        public static final String SPRITESHEET = "res/spritesheet.png";
 
     }
 }
