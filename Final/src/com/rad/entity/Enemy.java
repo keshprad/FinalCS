@@ -55,20 +55,31 @@ public class Enemy extends Entity {
     /**
      * Necessary for GUI, but not needed for this class
      */
-    public void tick() {
+    public void tick()
+    {
 
-        for (Entity e : gameWorld.getEntities()) {
+       Player p=null;
+        double d=Double.MIN_VALUE;
+
+        for (Entity e : gameWorld.getEntities())
+        {
             if (e instanceof Player) {
                 // TODO find closest Player
-                if (Math.random() < Const.ENEMEY_AI_PROB_OF_MOVE_PER_TICK) {
-                    this.chasePlayers((Player) e);
+                Location playerLocation=new Location(e.x,e.y);
+                if (this.getLocation().distBetween(playerLocation)>d)
+               {
+                   p=(Player)e;
                 }
-            }
+
+                }
         }
-        //x += velX;
-        //y += velY;
+        if ( p!=null&& Math.random() < Const.ENEMEY_AI_PROB_OF_MOVE_PER_TICK) {this.chasePlayers( p);}
         super.tick();
     }
+
+    
+
+
 
     @Override
     /**

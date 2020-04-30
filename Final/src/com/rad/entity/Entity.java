@@ -98,7 +98,10 @@ public abstract class Entity {
     	//doNothing
     }
 
-
+    public Location getLocation()
+    {
+        return new Location(this.x, this.y);
+    }
     protected int clamp(int i, int min, int max) {
         if (i < min) return min;
         if (i > max) return max;
