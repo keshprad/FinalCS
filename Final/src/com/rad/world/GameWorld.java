@@ -29,7 +29,11 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
-	
+	public enum StateOfGame
+		{
+			Menu, PLAYINGGAME, endGame;
+		}
+	public StateOfGame gameState=StateOfGame.Menu;
 	/**
 	 * used to handle user key input
 	 */
