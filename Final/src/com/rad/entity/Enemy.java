@@ -77,7 +77,7 @@ public class Enemy extends Entity {
         super.tick();
     }
 
-    
+
 
 
 

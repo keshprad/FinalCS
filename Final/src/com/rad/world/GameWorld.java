@@ -33,7 +33,11 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
-	
+	public enum StateOfGame
+		{
+			Menu, PLAYINGGAME, endGame;
+		}
+	public StateOfGame gameState=StateOfGame.Menu;
 	/**
 	 * the spritesheet to use for all sprites in the game
 	 */
