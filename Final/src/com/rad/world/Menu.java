@@ -15,7 +15,7 @@ public class Menu extends MouseAdapter {
         int mouseYLocation=e.getY();
         if(mouseIsOverLocation((xCoordinateForBox,yCoordinateForBox, widthOfBox, heightOfBox))
         {
-            GameWorld.gameState= PLAYINGGAME;
+            //GameWorld.gameState= PLAYINGGAME;
         }
     }
     public int xCoordinateForBox=0;
