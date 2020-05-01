@@ -1,4 +1,4 @@
 # FinalCS
 This is a combination of Pacman and Mario
 
-Worked on by @keshprad, @bsdps7, @aksh11335 
+Worked on by @keshprad, @onesouth42, @aksh11335 
