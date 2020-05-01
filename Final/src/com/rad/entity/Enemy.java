@@ -40,11 +40,11 @@ public class Enemy extends Entity {
     	switch (id) {
 		case Const.ID.ZOMBIE:
 			color = Color.RED;
-			speed = 4;
+			speed = 3;
 			break;
 		case Const.ID.IMP_ZOMBIE:
 			color = Color.ORANGE;
-			speed = 5;
+			speed = 4;
 			break;
 		default:
 			break;
@@ -56,8 +56,7 @@ public class Enemy extends Entity {
      * Necessary for GUI, but not needed for this class
      */
     public void tick()
-    {
-
+    {	
        Player p=null;
         double d=Double.MIN_VALUE;
 
@@ -157,7 +156,6 @@ public class Enemy extends Entity {
 
                 }
             }
-
         }
     }
 
