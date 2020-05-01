@@ -17,6 +17,7 @@ import com.rad.entity.Entity;
 import com.rad.entity.Item;
 import com.rad.entity.Player;
 import com.rad.input.KeyInput;
+import com.rad.input.MouseInput;
 
 /**
  * This class holds the map where the map loads up, and where the window resets every secons
@@ -33,6 +34,8 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+	private Menu menu=new Menu();
+	private MouseInput mouseInput=new MouseInput();
 	public enum StateOfGame {
 		Menu, PLAYINGGAME, endGame;
 	}

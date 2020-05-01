@@ -1,5 +1,7 @@
 package com.rad.input;
 
+import com.rad.world.Menu;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
