@@ -68,35 +68,6 @@ public class Location implements Comparable {
         return new Rectangle(loc.getX(), loc.getY(), Const.TILE_SIZE, Const.TILE_SIZE);
     }
 
-    public Location[] possibleMoveLocations(GameWorld gameWorld, Location enemyLocation, Enemy enemy) {
-        int xl = enemyLocation.getX();
-        int yl = enemyLocation.getY();
-        if (!inGrid(xl, yl)) {
-            return new Location[]{};
-        }
-
-        Location[] possibleLocations = new Location[4];
-        possibleLocations[0] = new Location(xl + Const.TILE_SIZE/Const.ENEMEY_AI_SLOW_DOWN_RATE, yl, 0, movePoint);
-        possibleLocations[1] = new Location(xl - Const.TILE_SIZE/Const.ENEMEY_AI_SLOW_DOWN_RATE, yl, 0, movePoint);
-        possibleLocations[2] = new Location(xl, yl + Const.TILE_SIZE/Const.ENEMEY_AI_SLOW_DOWN_RATE, 0, movePoint);
-        possibleLocations[3] = new Location(xl, yl - Const.TILE_SIZE/Const.ENEMEY_AI_SLOW_DOWN_RATE, 0, movePoint);
-
-        for (int i = 0; i < possibleLocations.length; i++) {
-            if (!this.inGrid(possibleLocations[i])) {
-                possibleLocations[i] = null;
-            }
-        }
-        
-		for (Block b : gameWorld.getBlocks()) {
-			for (int i = 0; i < possibleLocations.length; i++) {
-				if (possibleLocations[i] != null && b.getBounds().intersects(this.toRect(possibleLocations[i]))) {
-					possibleLocations[i] = null;
-				}
-			}
-		}
-		return possibleLocations;
-	}
-
 
     @Override
     public int compareTo(Object o) {

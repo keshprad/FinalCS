@@ -115,8 +115,7 @@ public class Player extends Entity {
 
     public void useKeyInput() {
     	if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) { 
-			velX = 0; 
-			velY = 0;
+			velX = 0;
 		} else if (gameWorld.getKeyInput().isLeft()) {
 			velX = -speed;
 			velY = 0;
@@ -127,7 +126,6 @@ public class Player extends Entity {
 		
 		if (!gameWorld.getKeyInput().isUp() && !gameWorld.getKeyInput().isDown()) { 
 			velY = 0;
-			velX = 0;
 		} else if (gameWorld.getKeyInput().isUp()) {
 			velY = -speed;
 			velX = 0;
@@ -312,6 +310,13 @@ public class Player extends Entity {
 			}
 		}
 		return adjBlocks;
+	}
+	
+	/**
+	 * 
+	 */
+	public void chaseItems() {
+		
 	}
 	
     /**

@@ -2,13 +2,20 @@ package com.rad;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import com.rad.gui.Hud;
 import com.rad.gui.Window;
 import com.rad.input.KeyInput;
+import com.rad.input.MouseInput;
 import com.rad.world.GameWorld;
+import com.rad.world.Menu;
 
 /**
  * This class handles the gui in running the window
@@ -29,8 +36,17 @@ public class Game extends Canvas implements Runnable {
 	private GameWorld gameWorld;
 	
 	private Hud hud;
-
-    /**
+	
+	private MouseInput mouseInput=new MouseInput();
+	
+	private Menu menu;
+	
+	public static enum StateOfGame {
+		MENU, PLAYINGGAME, ENDGAME;
+	}
+	
+	private StateOfGame gameState=StateOfGame.MENU;
+	/**
      * loads up the window, and allows is to be able to  run
      */
 	public Game() {
@@ -40,13 +56,13 @@ public class Game extends Canvas implements Runnable {
 		this.gameWorld = new GameWorld();
 		this.addKeyListener(gameWorld.getKeyInput());
 		hud = new Hud(gameWorld);
+		menu = new Menu(this);
 
 		start();
 	}
 
 	// Game Loop
-
-    /**
+	/**
      * runs the java method, and renders it every some times per second
      */
 	public void run() {
@@ -72,8 +88,13 @@ public class Game extends Canvas implements Runnable {
 	 * Updates the game. Called 60 times per second.
 	 */
 	private void tick() {
-		gameWorld.tick();
-		hud.tick();
+		if (gameState == StateOfGame.PLAYINGGAME) {
+			gameWorld.tick();
+			hud.tick();
+		}
+		else {
+			menu.tick();
+		}
 	}
 
 	/**
@@ -92,8 +113,13 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT);
 		
-		gameWorld.render(g);
-		hud.render(g);
+		if (gameState == StateOfGame.PLAYINGGAME) {
+			gameWorld.render(g);
+			hud.render(g);
+		}
+		else {
+			menu.render(g);
+		}
 		
 		bufferStrategy.show();
 		g.dispose();
@@ -130,6 +156,19 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
+	public Font loadFont(String filePath, int size) {
+		Font f = null;
+		try {
+			InputStream in = new FileInputStream(filePath);
+			f = Font.createFont(Font.TRUETYPE_FONT, in);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return f.deriveFont(size);
+	}
+	
     /**
      * runs a version of the game
      * @param args arguments
@@ -138,4 +177,11 @@ public class Game extends Canvas implements Runnable {
 		new Game();
 	}
 
+    public StateOfGame getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(StateOfGame gameState) {
+		this.gameState = gameState;
+	}
 }

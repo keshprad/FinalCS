@@ -11,7 +11,6 @@ import java.util.PriorityQueue;
 import com.rad.Const;
 import com.rad.world.GameWorld;
 
-import static com.rad.Const.ENEMEY_AI_SLOW_DOWN_RATE;
 import static com.rad.Const.TILE_SIZE;
 
 /**
@@ -57,7 +56,7 @@ public class Enemy extends Entity {
      */
     public void tick()
     {	
-       Player p=null;
+    	Player p=null;
         double d=Double.MIN_VALUE;
 
         for (Entity e : gameWorld.getEntities())
@@ -72,7 +71,9 @@ public class Enemy extends Entity {
 
                 }
         }
-        if ( p!=null&& Math.random() < Const.ENEMEY_AI_PROB_OF_MOVE_PER_TICK) {this.chasePlayers( p);}
+        if (p != null) {
+        	this.chasePlayers(p);
+        }
         super.tick();
     }
 
@@ -102,8 +103,6 @@ public class Enemy extends Entity {
      * @param player
      */
     public void chasePlayers(Player player) {
-    public void chasePlayers(Player player)
-    {
     	//Space it out more
     	//Add comments describing the whole process
     	//Implementing speed(the field)
@@ -131,7 +130,7 @@ public class Enemy extends Entity {
                 break;
             }
             //checks every possible move position in the tile in the gameworld with this enemy
-            for (Location possiblePostion : pt.possibleMoveLocations(gameWorld, pt, this))
+            for (Location possiblePostion : possibleMoveLocations(gameWorld, pt, this))
             {
                 if (possiblePostion != null) {
                     Location movePoint = pt.movePoint;// if the location
@@ -153,13 +152,46 @@ public class Enemy extends Entity {
                         map.put(possiblePostion, priority);
                         pq.remove(neighbor);
                         pq.add(neighbor);
-
                     }
-
                 }
             }
-        }
+        } 
     }
+    
+    /**
+     * gets possible locations for enemy
+     * @param gameWorld
+     * @param enemyLocation
+     * @param enemy
+     * @return
+     */
+    public Location[] possibleMoveLocations(GameWorld gameWorld, Location enemyLocation, Enemy enemy) {
+        int xl = enemyLocation.getX();
+        int yl = enemyLocation.getY();
+        if (!enemyLocation.inGrid(xl, yl)) {
+            return new Location[]{};
+        }
 
+        Location[] possibleLocations = new Location[4];
+        possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.movePoint);
+        possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.movePoint);
+        possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.movePoint);
+        possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.movePoint);
 
+        for (int i = 0; i < possibleLocations.length; i++) {
+            if (!enemyLocation.inGrid(possibleLocations[i])) {
+                possibleLocations[i] = null;
+            }
+        }
+        
+		for (Block b : gameWorld.getBlocks()) {
+			for (int i = 0; i < possibleLocations.length; i++) {
+				if (possibleLocations[i] != null && b.getBounds().intersects(enemyLocation.toRect(possibleLocations[i]))) {
+					possibleLocations[i] = null;
+				}
+			}
+		}
+		return possibleLocations;
+	}
+    
 }

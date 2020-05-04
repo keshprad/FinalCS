@@ -3,10 +3,10 @@ package com.rad;
 public class Const {
     // TODO: Change title and frame size
     //test
-    public static final String TITLE = "Game";
+    public static final String TITLE = "RAD Game";
 
-    public static final int ENEMEY_AI_SLOW_DOWN_RATE = 5;
-    public static final double ENEMEY_AI_PROB_OF_MOVE_PER_TICK = 0.5;
+    //public static final int ENEMEY_AI_SLOW_DOWN_RATE = 5;
+    //public static final double ENEMEY_AI_PROB_OF_MOVE_PER_TICK = 0.5;
 
 
     public static final int TILE_SIZE = 60;
@@ -20,7 +20,10 @@ public class Const {
 
     public static final int FRAME_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES + MARGIN_X;
     public static final int FRAME_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES + MARGIN_Y;
-
+    
+    public static final int HUD_WIDTH = 0;
+    public static final int HUD_HEIGHT = 0;
+    
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
 
@@ -55,6 +58,9 @@ public class Const {
         public static final String MAP3 = "res/map3";
         public static final String MAP4 = "res/map4";
         public static final String MAP5 = "res/map5";
+        
+        public static final String RADLEY_ITALIC = "res/Fonts/Radley-Italic.ttf";
+        public static final String RADLEY_REGULAR = "res/Fonts/Radley-Regular.ttf";
         
         public static final String SPRITESHEET = "res/spritesheet.png";
 

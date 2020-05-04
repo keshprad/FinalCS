@@ -34,13 +34,7 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
-	private Menu menu=new Menu();
-	private MouseInput mouseInput=new MouseInput();
-	public enum StateOfGame {
-		Menu, PLAYINGGAME, endGame;
-	}
 	
-	public StateOfGame gameState=StateOfGame.Menu;
 	/**
 	 * the spritesheet to use for all sprites in the game
 	 */
@@ -54,7 +48,7 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 0; // Changeable later
+	private int numPlayers = 1; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
