@@ -30,6 +30,10 @@ public class Player extends Entity {
 	 */
 	private boolean isAI;
 	
+	private boolean[] adjBlocks = {false, false, false, false};
+	
+	private int cornerTimeout = 0;
+	
 	/**
 	 * Constructor for Player
 	 * @param id Tells us the type of player
@@ -66,7 +70,12 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		if (this.isAI) {
+			isInCorner();
 			escapeEnemies();
+			
+			if (cornerTimeout > 0) {
+				cornerTimeout--;
+			}
 			
 			x += velX;
 			y += velY;
@@ -173,7 +182,12 @@ public class Player extends Entity {
 		}
 		
 		// Find if blocks are above, below, on the right, or on the left of this player
-		boolean[] adjBlocks = hasAdjBlocks(gameWorld.getEntities());
+		if (this.cornerTimeout == 0) {
+			this.adjBlocks = hasAdjBlocks();
+		}
+		for (boolean each: adjBlocks) {
+			System.out.println(each);
+		}
 		
 		
 		// The index in possibleMoves notes the direction
@@ -267,7 +281,7 @@ public class Player extends Entity {
 	 * @param entities
 	 * @return a list of booleans
 	 */
-	public boolean[] hasAdjBlocks(LinkedList<Entity> entities) {
+	public boolean[] hasAdjBlocks() {
 		// Creating a list of blocks and checks bounds if the blocks are adjacent
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		boolean[] adjBlocks = new boolean[4];
@@ -310,6 +324,23 @@ public class Player extends Entity {
 			}
 		}
 		return adjBlocks;
+	}
+	
+	
+	public void isInCorner() {
+		boolean[] adjBlocks = hasAdjBlocks();
+		for(int i = 0; i < adjBlocks.length; i++) {
+			if (i == adjBlocks.length - 1) {
+				if (adjBlocks[i] && adjBlocks[0]) {
+					this.cornerTimeout = 10;
+					return;
+				}
+			}
+			else if (adjBlocks[i] && adjBlocks[i+1]) {
+				this.cornerTimeout = 10;
+				return;
+			}
+		}
 	}
 	
 	/**

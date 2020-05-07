@@ -45,7 +45,7 @@ public class Game extends Canvas implements Runnable {
 		MENU, PLAYINGGAME, ENDGAME;
 	}
 	
-	private StateOfGame gameState=StateOfGame.MENU;
+	private StateOfGame gameState = StateOfGame.PLAYINGGAME;
 	/**
      * loads up the window, and allows is to be able to  run
      */
