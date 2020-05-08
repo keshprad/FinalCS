@@ -30,10 +30,6 @@ public class Player extends Entity {
 	 */
 	private boolean isAI;
 	
-	private boolean[] adjBlocks = {false, false, false, false};
-	
-	private int cornerTimeout = 0;
-	
 	/**
 	 * Constructor for Player
 	 * @param id Tells us the type of player
@@ -70,12 +66,7 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		if (this.isAI) {
-			isInCorner();
 			escapeEnemies();
-			
-			if (cornerTimeout > 0) {
-				cornerTimeout--;
-			}
 			
 			x += velX;
 			y += velY;
@@ -182,14 +173,7 @@ public class Player extends Entity {
 		}
 		
 		// Find if blocks are above, below, on the right, or on the left of this player
-		if (this.cornerTimeout == 0) {
-			this.adjBlocks = hasAdjBlocks();
-		}
-		for (boolean each: adjBlocks) {
-			System.out.println(each);
-		}
-		System.out.println(this.cornerTimeout);
-		System.out.println();
+		boolean[] adjBlocks = hasAdjBlocks();
 		
 		
 		// The index in possibleMoves notes the direction
@@ -327,31 +311,6 @@ public class Player extends Entity {
 		}
 		return adjBlocks;
 	}
-	
-	
-	public void isInCorner() {
-		boolean[] adjBlocks = hasAdjBlocks();
-		for(int i = 0; i < adjBlocks.length; i++) {
-			if (i == adjBlocks.length - 1) {
-				if (adjBlocks[i] && adjBlocks[0]) {
-					this.cornerTimeout = 10;
-					return;
-				}
-			}
-			else if (adjBlocks[i] && adjBlocks[i+1]) {
-				this.cornerTimeout = 10;
-				return;
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	public void chaseItems() {
-		
-	}
-	
     /**
      * Adds the given amount to the player's score
      * @param amount the amount of score to add
