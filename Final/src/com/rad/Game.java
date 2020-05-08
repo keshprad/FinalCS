@@ -36,16 +36,15 @@ public class Game extends Canvas implements Runnable {
 	private GameWorld gameWorld;
 	
 	private Hud hud;
-	
-	private MouseInput mouseInput=new MouseInput();
-	
+		
 	private Menu menu;
 	
-	public static enum StateOfGame {
-		MENU, PLAYINGGAME, ENDGAME;
+	public static enum GameState {
+		MENU, PLAYING, GAMEOVER;
 	}
 	
-	private StateOfGame gameState = StateOfGame.PLAYINGGAME;
+	
+	private GameState gameState = GameState.MENU;
 	/**
      * loads up the window, and allows is to be able to  run
      */
@@ -88,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 	 * Updates the game. Called 60 times per second.
 	 */
 	private void tick() {
-		if (gameState == StateOfGame.PLAYINGGAME) {
+		if (gameState == GameState.PLAYING) {
 			gameWorld.tick();
 			hud.tick();
 		}
@@ -113,7 +112,7 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT);
 		
-		if (gameState == StateOfGame.PLAYINGGAME) {
+		if (gameState == GameState.PLAYING) {
 			gameWorld.render(g);
 			hud.render(g);
 		}
@@ -177,11 +176,11 @@ public class Game extends Canvas implements Runnable {
 		new Game();
 	}
 
-    public StateOfGame getGameState() {
+    public GameState getGameState() {
 		return gameState;
 	}
 
-	public void setGameState(StateOfGame gameState) {
+	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
 }

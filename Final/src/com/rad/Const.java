@@ -1,22 +1,20 @@
 package com.rad;
 
+import java.awt.Color;
+
 public class Const {
     // TODO: Change title and frame size
     //test
     public static final String TITLE = "RAD Game";
 
-    //public static final int ENEMEY_AI_SLOW_DOWN_RATE = 5;
-    //public static final double ENEMEY_AI_PROB_OF_MOVE_PER_TICK = 0.5;
-
-
-    public static final int TILE_SIZE = 60;
+    public static final int TILE_SIZE = 64;
     public static final int WORLD_WIDTH_IN_TILES = 12;
     public static final int WORLD_HEIGHT_IN_TILES = 12;
 
     public static final double FRAMES_PER_SECOND = 60.0;
 
     public static final int MARGIN_X = 0;
-    public static final int MARGIN_Y = 22;
+    public static final int MARGIN_Y = 0;
 
     public static final int FRAME_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES + MARGIN_X;
     public static final int FRAME_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES + MARGIN_Y;
@@ -26,7 +24,7 @@ public class Const {
     
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
-
+    
     public static final class ID {
         public static final int EMPTY = 0;
 
@@ -35,8 +33,12 @@ public class Const {
         public static final int BUSH = 2;
 
         /* Enemies 10-19*/
-        public static final int ZOMBIE = 10;
-        public static final int IMP_ZOMBIE = 11;
+        public static final int GHOUL = 10;
+        public static final int GOLEM = 11;
+        public static final int GNAT = 12;
+        public static final int GUPPY = 13;
+        public static final int BOT = 14;
+        public static final int MECH = 15;
 
         /* Players 20-29*/
         public static final int BRAD = 20;

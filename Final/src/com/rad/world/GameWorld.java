@@ -17,7 +17,6 @@ import com.rad.entity.Entity;
 import com.rad.entity.Item;
 import com.rad.entity.Player;
 import com.rad.input.KeyInput;
-import com.rad.input.MouseInput;
 
 /**
  * This class holds the map where the map loads up, and where the window resets every secons
@@ -48,7 +47,7 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 0; // Changeable later
+	private int numPlayers = 1; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
@@ -80,6 +79,9 @@ public class GameWorld {
 	 * @param g input required to draw
 	 */
 	public void render(Graphics g) {
+		// Drawing the background
+    	g.drawImage(getSpritesheet(), 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, null);
+
 		for (Entity e : entities) {
 			e.render(g);
 		}

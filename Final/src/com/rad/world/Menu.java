@@ -25,7 +25,7 @@ public class Menu extends MouseAdapter {
         int mouseYLocation=e.getY();
         if(mouseIsOverLocation(mouseXLocation, mouseYLocation, xTitle, yTitle, widthOfBox, heightOfBox))
         {
-            game.setGameState(Game.StateOfGame.PLAYINGGAME);
+            game.setGameState(Game.GameState.PLAYING);
         }
     }
     
@@ -38,10 +38,10 @@ public class Menu extends MouseAdapter {
 
     }
     public void tick(){
-    	if (this.game.getGameState() == Game.StateOfGame.MENU) {
+    	if (this.game.getGameState() == Game.GameState.MENU) {
     		//run
     	}
-    	else if(this.game.getGameState() == Game.StateOfGame.ENDGAME) {
+    	else if(this.game.getGameState() == Game.GameState.GAMEOVER) {
     		//stop
     	}
     }

@@ -37,13 +37,23 @@ public class Enemy extends Entity {
     @Override
     public void init() {
     	switch (id) {
-		case Const.ID.ZOMBIE:
-			color = Color.RED;
-			speed = 3;
-			break;
-		case Const.ID.IMP_ZOMBIE:
-			color = Color.ORANGE;
+		case Const.ID.GHOUL:
 			speed = 4;
+			break;
+		case Const.ID.GOLEM:
+			speed = 2;
+			break;
+		case Const.ID.GNAT:
+			speed = 8;
+			break;
+		case Const.ID.GUPPY:
+			speed = 4;
+			break;
+		case Const.ID.BOT:
+			speed = 2;
+			break;
+		case Const.ID.MECH:
+			speed = 2;
 			break;
 		default:
 			break;
@@ -166,7 +176,7 @@ public class Enemy extends Entity {
      * @return
      */
     public Location[] possibleMoveLocations(GameWorld gameWorld, Location enemyLocation, Enemy enemy) {
-        int xl = enemyLocation.getX();
+    	int xl = enemyLocation.getX();
         int yl = enemyLocation.getY();
         if (!enemyLocation.inGrid(xl, yl)) {
             return new Location[]{};

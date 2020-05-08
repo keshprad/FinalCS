@@ -44,7 +44,7 @@ public class Player extends Entity {
 	public Player(GameWorld gameWorld, int id, int x, int y, boolean isAI) {
 		super(gameWorld, id, x, y);
 		this.isAI = isAI;
-		this.speed = 5;
+		this.speed = 4;
 	}
 
 	/**
@@ -82,9 +82,9 @@ public class Player extends Entity {
 		}
 		else {
 			x += velX;
-			y += velY;
-			
+			y += velY;	
 			useKeyInput();
+
 		}
 		super.tick();
 		
