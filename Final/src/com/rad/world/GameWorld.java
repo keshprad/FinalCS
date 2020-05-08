@@ -41,6 +41,7 @@ public class GameWorld {
 	}
 	
 	public StateOfGame gameState=StateOfGame.Menu;
+	
 	/**
 	 * the spritesheet to use for all sprites in the game
 	 */
@@ -54,7 +55,7 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 0; // Changeable later
+	private int numPlayers = 1; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window

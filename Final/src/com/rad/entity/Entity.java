@@ -90,7 +90,7 @@ public abstract class Entity {
      * @param g tool used to draw object in the window
      */
     public void render(Graphics g) {
-    	g.drawImage(gameWorld.getSpritesheet(), x, y, x + width, y + width, 1, 1, 1 + 12, 1 + 12, null);
+    	g.drawImage(gameWorld.getSpritesheet(), x, y, x + width, y + width, id % 10 * Const.TILE_SIZE, id / 10 * Const.TILE_SIZE, id % 10 * Const.TILE_SIZE + Const.TILE_SIZE, id / 10 * Const.TILE_SIZE + Const.TILE_SIZE, null);
     }
     
     /**

@@ -102,7 +102,6 @@ public class Enemy extends Entity {
      * @param player
      */
     public void chasePlayers(Player player) {
-    public void chasePlayers(Player player)
     {
     	//Space it out more
     	//Add comments describing the whole process
@@ -162,4 +161,5 @@ public class Enemy extends Entity {
     }
 
 
-}
+    }
+    }
