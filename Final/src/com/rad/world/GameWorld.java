@@ -17,7 +17,6 @@ import com.rad.entity.Entity;
 import com.rad.entity.Item;
 import com.rad.entity.Player;
 import com.rad.input.KeyInput;
-import com.rad.input.MouseInput;
 
 /**
  * This class holds the map where the map loads up, and where the window resets every secons
@@ -34,13 +33,6 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
-	private Menu menu=new Menu();
-	private MouseInput mouseInput=new MouseInput();
-	public enum StateOfGame {
-		Menu, PLAYINGGAME, endGame;
-	}
-	
-	public StateOfGame gameState=StateOfGame.Menu;
 	
 	/**
 	 * the spritesheet to use for all sprites in the game
@@ -87,6 +79,9 @@ public class GameWorld {
 	 * @param g input required to draw
 	 */
 	public void render(Graphics g) {
+		// Drawing the background
+    	g.drawImage(getSpritesheet(), 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, null);
+
 		for (Entity e : entities) {
 			e.render(g);
 		}
