@@ -188,6 +188,8 @@ public class Player extends Entity {
 		for (boolean each: adjBlocks) {
 			System.out.println(each);
 		}
+		System.out.println(this.cornerTimeout);
+		System.out.println();
 		
 		
 		// The index in possibleMoves notes the direction
