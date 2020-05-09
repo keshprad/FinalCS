@@ -38,10 +38,10 @@ public class Enemy extends Entity {
     public void init() {
     	switch (id) {
 		case Const.ID.GHOUL:
-			speed = 4;
+			speed = 6;
 			break;
 		case Const.ID.GOLEM:
-			speed = 2;
+			speed = 4;
 			break;
 		case Const.ID.GNAT:
 			speed = 8;
@@ -50,10 +50,10 @@ public class Enemy extends Entity {
 			speed = 4;
 			break;
 		case Const.ID.BOT:
-			speed = 2;
+			speed = 4;
 			break;
 		case Const.ID.MECH:
-			speed = 2;
+			speed = 4;
 			break;
 		default:
 			break;
@@ -86,9 +86,6 @@ public class Enemy extends Entity {
         }
         super.tick();
     }
-
-
-
 
 
     @Override

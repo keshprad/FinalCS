@@ -1,7 +1,5 @@
 package com.rad;
 
-import java.awt.Color;
-
 public class Const {
     // TODO: Change title and frame size
     //test
@@ -11,7 +9,7 @@ public class Const {
     public static final int WORLD_WIDTH_IN_TILES = 12;
     public static final int WORLD_HEIGHT_IN_TILES = 12;
 
-    public static final double FRAMES_PER_SECOND = 60.0;
+    public static final double FRAMES_PER_SECOND = 30.0;
 
     public static final int MARGIN_X = 0;
     public static final int MARGIN_Y = 0;
