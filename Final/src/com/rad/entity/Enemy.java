@@ -180,10 +180,19 @@ public class Enemy extends Entity {
         }
 
         Location[] possibleLocations = new Location[4];
+        if (this.id==Const.ID.GNAT)
+        {
         possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.movePoint);
         possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.movePoint);
         possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.movePoint);
         possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.movePoint);
+        }
+        else {
+            possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.movePoint);
+                possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.movePoint);
+                possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.movePoint);
+                possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.movePoint);
+        }
 
         for (int i = 0; i < possibleLocations.length; i++) {
             if (!enemyLocation.inGrid(possibleLocations[i])) {

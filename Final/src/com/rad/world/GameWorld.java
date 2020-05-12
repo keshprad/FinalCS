@@ -1,6 +1,7 @@
 package com.rad.world;
 
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +44,7 @@ public class GameWorld {
 	 * used to handle user key input
 	 */
 	private KeyInput keyInput;
+	private MouseListener mouseListener;
 	
 	/**
 	 * the number of players in a game
@@ -56,6 +58,7 @@ public class GameWorld {
 		loadMap(Const.PATHS.MAP2);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
 		keyInput = new KeyInput();
+		mouseListener=new Menu();
 	}
 
 	/**
@@ -186,7 +189,7 @@ public class GameWorld {
 	public KeyInput getKeyInput() {
 		return keyInput;
 	}
-	
+	public MouseListener getMouseListener(){return mouseListener;}
 	/**
 	 * returns the entity map
 	 * @return the entire map of entities
