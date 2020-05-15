@@ -1,4 +1,4 @@
-/Fonts/
+ /Fonts/
 /com/
 /map0
 /map1
@@ -10,3 +10,6 @@
 /menu_background.png
 /spritesheet-color.png
 /spritesheet.png
+/menu_background.png
+/menu_exit_button.png
+/menu_start_button.png
