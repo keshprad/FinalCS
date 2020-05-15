@@ -74,14 +74,12 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		if (this.isAI) {
-			isInCorner();
-
 			if (cornerTimeout > 0) {
-				// Run A*
+				// Run CornerHandle Algorithm
 				cornerTimeout--;
-			} else {
-				escapeEnemies();
 			}
+			
+			escapeEnemies();
 
 			x += velX;
 			y += velY;
@@ -109,10 +107,15 @@ public class Player extends Entity {
 
 	@Override
 	public void handleCollision(Entity e) {
-
 		if (e instanceof Block) {
-			velX = 0;
-			velY = 0;
+			if (this.isAI) {
+				velX *= -1;
+				velY *= -1;
+			}
+			else {
+				velX = 0;
+				velY = 0;
+			}
 //			System.out.println("Shouldn't be passing...");
 		}
 		if (e instanceof Enemy) {
@@ -189,9 +192,12 @@ public class Player extends Entity {
 		}
 
 		// Find if blocks are above, below, on the right, or on the left of this player
-//		boolean[] adjBlocks = hasAdjBlocks();
-		this.adjBlocks = hasAdjBlocks();
-
+		if (this.cornerTimeout == 0) {
+			this.adjBlocks = hasAdjBlocks();
+		}
+		isInCorner();
+		
+		
 		// The index in possibleMoves notes the direction
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		// Finds possible moves. To simplify I only consider up, right, down, and left
@@ -308,7 +314,8 @@ public class Player extends Entity {
 				if (b.y == y - b.height) {
 					// block above
 					adjBlocks[0] = true;
-				} else if (b.y == y + height) {
+				}
+				if (b.y == y + height) {
 					// block below
 					adjBlocks[2] = true;
 				}
@@ -317,7 +324,8 @@ public class Player extends Entity {
 				if (b.x == x + width) {
 					// block on the right
 					adjBlocks[1] = true;
-				} else if (b.x == x - b.width) {
+				}
+				if (b.x == x - b.width) {
 					// block on the left
 					adjBlocks[3] = true;
 				}
@@ -331,16 +339,20 @@ public class Player extends Entity {
 		for (int i = 0; i < adjBlocks.length; i++) {
 			if (i == adjBlocks.length - 1) {
 				if (adjBlocks[i] && adjBlocks[0]) {
-					this.cornerTimeout = 10;
+					this.cornerTimeout = 30;
 					return;
 				}
 			} else if (adjBlocks[i] && adjBlocks[i + 1]) {
-				this.cornerTimeout = 10;
+				this.cornerTimeout = 30;
 				return;
 			}
 		}
 	}
 
+	
+	public void handleCorner() {
+		
+	}
 	/**
 	 * Adds the given amount to the player's score
 	 * 

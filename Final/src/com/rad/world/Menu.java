@@ -1,21 +1,20 @@
 package com.rad.world;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import com.rad.Const;
 import com.rad.Game;
+import com.rad.input.MouseInput;
 
 public class Menu extends MouseAdapter {
     private Game game;
-    public int xTitle=0;
-    public int yTitle=0;
-    public int heightOfBox=20;
-    public int widthOfBox=100;
-    
+    public int xTitle=250;
+    public int yTitle=150;
+    public int heightOfBox=50;
+    public int widthOfBox=250;
+
+    public Menu(){}
     public Menu(Game g) {
 		this.game = g;
 	}
@@ -38,23 +37,24 @@ public class Menu extends MouseAdapter {
 
     }
     public void tick(){
-    	if (this.game.getGameState() == Game.GameState.MENU) {
+    	if (this.game.getGameState() == Game.GameState.PLAYING)
+    	{   
     		//run
+           // mousePressed(new MouseInput());
     	}
-    	else if(this.game.getGameState() == Game.GameState.GAMEOVER) {
-    		//stop
-    	}
+
     }
     
-    public void render(Graphics g){
+    public void render(Graphics g)
+    {
         g.setColor(Color.GRAY);
         g.fillRect(xTitle, yTitle, widthOfBox, heightOfBox);
         Graphics2D g2d = (Graphics2D)g;
         g2d.setColor(Color.white);
         
-        g2d.setFont(game.loadFont(Const.PATHS.RADLEY_ITALIC, 100));
-        g2d.drawString(Const.TITLE, xTitle + 400, yTitle + 400);
-      
+        g2d.setFont(game.loadFont(Const.PATHS.RADLEY_ITALIC, 200));
+        g2d.drawString(Const.TITLE, xTitle , yTitle );
+
 
     }
 }

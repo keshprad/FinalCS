@@ -12,8 +12,7 @@ import java.io.InputStream;
 
 import com.rad.gui.Hud;
 import com.rad.gui.Window;
-import com.rad.input.KeyInput;
-import com.rad.input.MouseInput;
+import com.rad.world.GameOver;
 import com.rad.world.GameWorld;
 import com.rad.world.Menu;
 
@@ -38,6 +37,7 @@ public class Game extends Canvas implements Runnable {
 	private Hud hud;
 		
 	private Menu menu;
+	private GameOver gameOver;
 	
 	public static enum GameState {
 		MENU, PLAYING, GAMEOVER;
@@ -56,8 +56,11 @@ public class Game extends Canvas implements Runnable {
 		this.addKeyListener(gameWorld.getKeyInput());
 		hud = new Hud(gameWorld);
 		menu = new Menu(this);
-
+		this.addMouseListener(gameWorld.getMouseListener());
+		gameOver= new GameOver(this);
 		start();
+
+
 	}
 
 	// Game Loop
@@ -91,9 +94,14 @@ public class Game extends Canvas implements Runnable {
 			gameWorld.tick();
 			hud.tick();
 		}
-		else {
+		else if (gameState== GameState.MENU) {
 			menu.tick();
 		}
+		else if(gameState==GameState.GAMEOVER)
+		{
+			gameOver.tick();
+		}
+
 	}
 
 	/**

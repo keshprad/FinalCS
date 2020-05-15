@@ -14,7 +14,8 @@ public class KeyInput implements KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e)
+	{
 		// do nothing
 	}
 
@@ -34,6 +35,7 @@ public class KeyInput implements KeyListener {
 		else if (key == KeyEvent.VK_S) {
 			down = true;
 		}
+
 	}
 
 	@Override
