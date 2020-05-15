@@ -9,6 +9,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import com.rad.Const;
+import com.rad.Location;
 import com.rad.world.GameWorld;
 
 /**
@@ -113,20 +114,6 @@ public abstract class Entity {
     public Rectangle getBounds() {
         return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
     }
-
-    /*protected void invClamp(int left, int right, int top, int bottom) {
-	if (this.x > left - this.width && this.x < left - this.width + (speed + 1)) {
-		this.x = left - this.width;
-	}
-	else if (this.x < right && this.x > left + this.width - (speed + 1)) {
-		this.x = right;
-	}	
-	else if (this.y > top - this.height && this.y < top - this.height + (speed + 1)) {
-		this.y = top - this.height;
-	}
-	else if (this.y < bottom && this.y > top + this.height - (speed + 1)) {
-		this.y = bottom;
-	}*/
 
     public String toString() {
         return this.getClass().getSimpleName();

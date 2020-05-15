@@ -1,15 +1,14 @@
-package com.rad.entity;
+package com.rad;
 
-import com.rad.Const;
 import com.rad.world.GameWorld;
 
 import java.awt.*;
 import java.util.Objects;
 
 public class Location implements Comparable {
-    public Location movePoint = null;
-    double dist;
-    double priority;
+    private Location movePoint = null;
+    private double dist;
+    private double priority;
     private int x;
     private int y;
 
@@ -29,7 +28,7 @@ public class Location implements Comparable {
         this.x = x;
         this.y = y;
         //startingPoint=this;
-        this.movePoint = movePoint;
+        this.setMovePoint(movePoint);
         this.dist = dist;
     }
 
@@ -38,7 +37,7 @@ public class Location implements Comparable {
         this.y = y;
         this.priority = priority;
         //startingPoint=this;
-        this.movePoint = movePoint;
+        this.setMovePoint(movePoint);
         this.dist = dist;
     }
     
@@ -72,7 +71,7 @@ public class Location implements Comparable {
     @Override
     public int compareTo(Object o) {
         Location other = (Location) o;
-        return Double.compare(this.priority, other.priority);
+        return Double.compare(this.getPriority(), other.getPriority());
     }
 
     @Override
@@ -88,4 +87,20 @@ public class Location implements Comparable {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+	public double getPriority() {
+		return priority;
+	}
+
+	public Location getMovePoint() {
+		return movePoint;
+	}
+
+	public void setMovePoint(Location movePoint) {
+		this.movePoint = movePoint;
+	}
+
+	public double getDist() {
+		return dist;
+	}
 }

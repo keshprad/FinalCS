@@ -12,6 +12,8 @@ import java.io.InputStream;
 
 import com.rad.gui.Hud;
 import com.rad.gui.Window;
+import com.rad.input.KeyInput;
+import com.rad.input.MouseInput;
 import com.rad.world.GameOver;
 import com.rad.world.GameWorld;
 import com.rad.world.Menu;
@@ -21,43 +23,56 @@ import com.rad.world.Menu;
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Game extends Canvas implements Runnable {
-    /**
+    
+	/**
      *  the threads that this runs when the class is run
      */
 	private Thread thread;
-    /**
+    
+	/**
      * checks if it is running
      */
 	private boolean isRunning = false;
-    /**
+    
+	/**
      * the class that contains the game world
      */
 	private GameWorld gameWorld;
+	
+	private MouseInput mouse;
+	private KeyInput keys;
 	
 	private Hud hud;
 		
 	private Menu menu;
 	private GameOver gameOver;
 	
+	private Window window;
+	
 	public static enum GameState {
 		MENU, PLAYING, GAMEOVER;
 	}
 	
 	
-	private GameState gameState = GameState.PLAYING;
+	private GameState gameState = GameState.MENU;
 	/**
      * loads up the window, and allows is to be able to  run
      */
 	public Game() {
-		Window window = new Window(this);
+		window = new Window(this);
 		window.init();
 		
-		this.gameWorld = new GameWorld();
-		this.addKeyListener(gameWorld.getKeyInput());
+		this.gameWorld = new GameWorld(this);
+		
 		hud = new Hud(gameWorld);
 		menu = new Menu(this);
-		this.addMouseListener(gameWorld.getMouseListener());
 		gameOver= new GameOver(this);
+		
+		mouse = new MouseInput(this);
+		this.addMouseListener(mouse);
+		keys = new KeyInput(this);
+		this.addKeyListener(keys);
+		
 		start();
 
 
@@ -150,16 +165,19 @@ public class Game extends Canvas implements Runnable {
      * Stops the game loop, along with the thread
       */
 
-	private synchronized void stop() {
+	public synchronized void stop() {
 		if (!isRunning) {
-			return;
+			System.out.println("HI!");
+			window.closeWindow();
 		}
 
+		window.closeWindow();
 		try {
 			thread.join();
 			isRunning = false;
+			System.exit(0);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			e.printStackTrace();			
 		}
 	}
 
@@ -175,6 +193,22 @@ public class Game extends Canvas implements Runnable {
 		}
 		return f.deriveFont(size);
 	}
+
+	public MouseInput getMouseInput() {
+		return this.mouse;
+	}
+
+	public KeyInput getKeyInput() {
+		return this.keys;
+	}
+	
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
 	
     /**
      * runs a version of the game
@@ -182,13 +216,5 @@ public class Game extends Canvas implements Runnable {
      */
 	public static void main(String[] args) {
 		new Game();
-	}
-
-    public GameState getGameState() {
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState) {
-		this.gameState = gameState;
 	}
 }

@@ -12,12 +12,14 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import com.rad.Const;
+import com.rad.Game;
 import com.rad.entity.Block;
 import com.rad.entity.Enemy;
 import com.rad.entity.Entity;
 import com.rad.entity.Item;
 import com.rad.entity.Player;
 import com.rad.input.KeyInput;
+import com.rad.input.MouseInput;
 
 /**
  * This class holds the map where the map loads up, and where the window resets every secons
@@ -34,17 +36,12 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+	private Game game;
 	
 	/**
 	 * the spritesheet to use for all sprites in the game
 	 */
 	private BufferedImage spritesheet;
-	
-	/**
-	 * used to handle user key input
-	 */
-	private KeyInput keyInput;
-	private MouseListener mouseListener;
 	
 	/**
 	 * the number of players in a game
@@ -54,11 +51,10 @@ public class GameWorld {
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
-	public GameWorld() {
+	public GameWorld(Game g) {
 		loadMap(Const.PATHS.MAP2);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
-		keyInput = new KeyInput();
-		mouseListener=new Menu();
+		this.game = g;
 	}
 
 	/**
@@ -187,9 +183,12 @@ public class GameWorld {
 	 * @return the key input
 	 */
 	public KeyInput getKeyInput() {
-		return keyInput;
+		return this.game.getKeyInput();
 	}
-	public MouseListener getMouseListener(){return mouseListener;}
+
+	public MouseInput getMouseInput() {
+		return this.game.getMouseInput();
+	}
 	/**
 	 * returns the entity map
 	 * @return the entire map of entities

@@ -18,6 +18,7 @@ public class Window {
 	 * instance of game
 	 */
 	private Game game;
+	private JFrame frame;
 
 	/**
 	 * passes a version of game into the window
@@ -25,27 +26,28 @@ public class Window {
 	 */
 	public Window(Game game) {
 		this.game = game;
+		frame = new JFrame(Const.TITLE);
 	}
 
 	/**
 	 * creates the  window
 	 */
 	public void init() {
-		JFrame frame = new JFrame(Const.TITLE);
-		
 		frame.setPreferredSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
 		frame.setMinimumSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
 		frame.setMaximumSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));
-		frame.addMouseListener(new Menu());
-		//frame.setUndecorated(true); // remove title bar
+		frame.setUndecorated(true); // remove title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit the game if closed
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null); // Opens in the center of the screen
-
 		frame.add(game);
-		frame.addMouseListener(new Menu());
 		
 		frame.setVisible(true);
+	}
+	
+	public void closeWindow() {
+		frame.setVisible(false);
+		frame.dispose();
 	}
 	
 }

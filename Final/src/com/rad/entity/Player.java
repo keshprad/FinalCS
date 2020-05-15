@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import com.rad.Const;
+import com.rad.Location;
 import com.rad.effects.Effect;
 import com.rad.world.GameWorld;
 

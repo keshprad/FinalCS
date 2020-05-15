@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 import com.rad.Const;
+import com.rad.Location;
 import com.rad.world.GameWorld;
 
 import static com.rad.Const.TILE_SIZE;
@@ -114,7 +115,7 @@ public class Enemy extends Entity {
     	//Add comments describing the whole process
     	//Implementing speed(the field)
     	
-        PriorityQueue<Location> pq = new PriorityQueue<Location>((o1, o2) -> Double.compare(o1.priority, o2.priority));
+        PriorityQueue<Location> pq = new PriorityQueue<Location>((o1, o2) -> Double.compare(o1.getPriority(), o2.getPriority()));
         // creates a priority queue of possible nodes that the enemy can go to
         //(o1, o2) -> Double.compare(o1.priority, o2.priority) basically tells the PriorityQ to compare through the compare method
         //the higher up the node is on the priorityQ the more favorable the location is for the enemy
@@ -130,9 +131,9 @@ public class Enemy extends Entity {
             Rectangle rectangle = new Rectangle(pt.getX(), pt.getY(), TILE_SIZE, TILE_SIZE);
             if (rectangle.intersects(player.getBounds())) //if the enemy caught the player
             {
-                if (pt.movePoint != null)
+                if (pt.getMovePoint() != null)
                 {
-                    move(pt.movePoint);
+                    move(pt.getMovePoint());
                 }
                 break;
             }
@@ -140,11 +141,11 @@ public class Enemy extends Entity {
             for (Location possiblePostion : possibleMoveLocations(gameWorld, pt, this))
             {
                 if (possiblePostion != null) {
-                    Location movePoint = pt.movePoint;// if the location
+                    Location movePoint = pt.getMovePoint();// if the location
                     if (movePoint == null) {
                         movePoint = possiblePostion;
                     }
-                    double dist = pt.dist + pt.distBetween(possiblePostion);
+                    double dist = pt.getDist() + pt.distBetween(possiblePostion);
                     double priority = possiblePostion.distBetween(playerLocation) + dist; //hueristic to determine the priority of the A* algorithim which is
                     //basically travel distance  so far + distance to Location
                     Location neighbor = new Location(possiblePostion.getX(), possiblePostion.getY(), dist, movePoint, priority); //highest priority should be the nieghbor to the enemy
@@ -182,16 +183,16 @@ public class Enemy extends Entity {
         Location[] possibleLocations = new Location[4];
         if (this.id==Const.ID.GNAT)
         {
-        possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.movePoint);
-        possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.movePoint);
-        possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.movePoint);
-        possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.movePoint);
+        possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.getMovePoint());
+        possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.getMovePoint());
+        possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.getMovePoint());
+        possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.getMovePoint());
         }
         else {
-            possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.movePoint);
-                possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.movePoint);
-                possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.movePoint);
-                possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.movePoint);
+			possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.getMovePoint());
+			possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.getMovePoint());
+			possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.getMovePoint());
+			possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.getMovePoint());
         }
 
         for (int i = 0; i < possibleLocations.length; i++) {

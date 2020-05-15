@@ -1,5 +1,7 @@
 package com.rad;
 
+import java.awt.Rectangle;
+
 public class Const {
     // TODO: Change title and frame size
     //test
@@ -22,6 +24,16 @@ public class Const {
     
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
+    
+    
+    
+    public static final class BUTTONS {
+	    //MenuStartButton
+    	public static final Rectangle MENU_START = new Rectangle(260, 460, 240, 100);
+	    
+	    //MenuEndButton
+	    public static final Rectangle MENU_EXIT = new Rectangle(290, 590, 180, 100);
+    }
     
     public static final class ID {
         public static final int EMPTY = 0;
@@ -63,6 +75,8 @@ public class Const {
         public static final String RADLEY_REGULAR = "res/Fonts/Radley-Regular.ttf";
         
         public static final String SPRITESHEET = "res/spritesheet.png";
+        
+        public static final String MENU_BACKGROUND = "res/menu_background.png";
 
     }
 }

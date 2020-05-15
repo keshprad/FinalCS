@@ -3,14 +3,19 @@ package com.rad.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.rad.Game;
+
 public class KeyInput implements KeyListener {
 	
 	private boolean up = false;
 	private boolean down = false;
 	private boolean left = false;
 	private boolean right = false;
+	
+	private Game game;
 
-	public KeyInput() {
+	public KeyInput(Game g) {
+		this.game = g;
 	}
 
 	@Override
