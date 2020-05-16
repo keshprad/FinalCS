@@ -26,8 +26,6 @@ public class Menu {
     	if (game.getMouseInput().isMenuExitButtonClicked()) {
     		game.stop();
     	}
-
-
     }
     
     public void render(Graphics g)
