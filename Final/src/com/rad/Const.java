@@ -27,13 +27,15 @@ public class Const {
     
     
     
-    public static final class BUTTONS {
-	    //MenuStartButton
-    	public static final Rectangle MENU_START = new Rectangle(260, 460, 240, 100);
+    public static final class MENU {
+	    //Menu Start
+    	public static final Rectangle START_BTN = new Rectangle(270, 470, 240, 100);
 	    
-	    //MenuEndButton
-	    public static final Rectangle MENU_EXIT = new Rectangle(290, 590, 180, 100);
+	    //Menu End
+	    public static final Rectangle EXIT_BTN = new Rectangle(300, 590, 180, 100);
     }
+    
+    
     
     public static final class ID {
         public static final int EMPTY = 0;
@@ -77,6 +79,8 @@ public class Const {
         public static final String SPRITESHEET = "res/spritesheet.png";
         
         public static final String MENU_BACKGROUND = "res/menu_background.png";
-
+        public static final String MENU_START_BTN_TXT = "res/menu_start_button.png";
+        public static final String MENU_EXIT_BTN_TXT = "res/menu_exit_button.png";
+        
     }
 }

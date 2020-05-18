@@ -20,8 +20,8 @@ public class MouseInput implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {        
         if (game.getGameState() == Game.GameState.MENU) {
-	        MenuStartButtonClicked = Const.BUTTONS.MENU_START.contains(e.getX(), e.getY());
-	        MenuExitButtonClicked = Const.BUTTONS.MENU_EXIT.contains(e.getX(), e.getY());
+	        MenuStartButtonClicked = Const.MENU.START_BTN.contains(e.getX(), e.getY());
+	        MenuExitButtonClicked = Const.MENU.EXIT_BTN.contains(e.getX(), e.getY());
         }
         else if (game.getGameState() == Game.GameState.PLAYING) {
         	//do nothing for now
