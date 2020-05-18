@@ -52,6 +52,8 @@ public class GameWorld {
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
 	public GameWorld(Game g) {
+		//int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
+		//loadMap(Const.PATHS.MAPS[mapNumber]);
 		loadMap(Const.PATHS.MAP1);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
 		this.game = g;
