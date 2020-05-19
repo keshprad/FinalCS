@@ -9,7 +9,10 @@ import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 
+import com.rad.entity.Entity;
+import com.rad.entity.Player;
 import com.rad.gui.Hud;
 import com.rad.gui.Window;
 import com.rad.input.KeyInput;
@@ -33,7 +36,9 @@ public class Game extends Canvas implements Runnable {
      * checks if it is running
      */
 	private boolean isRunning = false;
-    
+
+
+
 	/**
      * the class that contains the game world
      */
@@ -48,7 +53,8 @@ public class Game extends Canvas implements Runnable {
 	private GameOver gameOver;
 	
 	private Window window;
-	
+
+
 	public static enum GameState {
 		MENU, PLAYING, GAMEOVER;
 	}
@@ -66,7 +72,7 @@ public class Game extends Canvas implements Runnable {
 		
 		hud = new Hud(gameWorld);
 		menu = new Menu(this);
-		gameOver= new GameOver(this);
+		gameOver= new GameOver(gameWorld, this);
 		
 		mouse = new MouseInput(this);
 		this.addMouseListener(mouse);
@@ -116,6 +122,7 @@ public class Game extends Canvas implements Runnable {
 		{
 			gameOver.tick();
 		}
+
 
 	}
 
@@ -193,6 +200,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		return f.deriveFont(size);
 	}
+	public GameWorld getGameWorld() {
+		return gameWorld;
+	}
+
 
 	public MouseInput getMouseInput() {
 		return this.mouse;

@@ -28,6 +28,7 @@ public class MouseInput implements MouseListener {
         }
         else if (game.getGameState() == Game.GameState.GAMEOVER) {
         	//do nothing for now
+
         }
     }
 	

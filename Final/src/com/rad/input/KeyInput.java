@@ -6,77 +6,69 @@ import java.awt.event.KeyListener;
 import com.rad.Game;
 
 public class KeyInput implements KeyListener {
-	
-	private boolean up = false;
-	private boolean down = false;
-	private boolean left = false;
-	private boolean right = false;
-	
-	private Game game;
 
-	public KeyInput(Game g) {
-		this.game = g;
-	}
+    private boolean up = false;
+    private boolean down = false;
+    private boolean left = false;
+    private boolean right = false;
 
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
-		// do nothing
-	}
+    private Game game;
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_A) {
-			left = true;
-		}
-		else if (key == KeyEvent.VK_D) {
-			right = true;
-		}
-		else if (key == KeyEvent.VK_W) {
-			up = true;
-		}
-		else if (key == KeyEvent.VK_S) {
-			down = true;
-		}
+    public KeyInput(Game g) {
+        this.game = g;
+    }
 
-	}
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // do nothing
+    }
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_A) {
-			left = false;
-		}
-		else if (key == KeyEvent.VK_D) {
-			right = false;
-		}
-		else if (key == KeyEvent.VK_W) {
-			up = false;
-		}
-		else if (key == KeyEvent.VK_S) {
-			down = false;
-		}
-	}
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
 
-	public boolean isUp() {
-		return up;
-	}
+        if (key == KeyEvent.VK_A) {
+            left = true;
+        } else if (key == KeyEvent.VK_D) {
+            right = true;
+        } else if (key == KeyEvent.VK_W) {
+            up = true;
+        } else if (key == KeyEvent.VK_S) {
+            down = true;
+        }
 
-	public boolean isDown() {
-		return down;
-	}
+    }
 
-	public boolean isLeft() {
-		return left;
-	}
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
 
-	public boolean isRight() {
-		return right;
-	}
+        if (key == KeyEvent.VK_A) {
+            left = false;
+        } else if (key == KeyEvent.VK_D) {
+            right = false;
+        } else if (key == KeyEvent.VK_W) {
+            up = false;
+        } else if (key == KeyEvent.VK_S) {
+            down = false;
+        }
+    }
 
-	
-	
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+
 }

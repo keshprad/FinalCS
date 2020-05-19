@@ -33,6 +33,10 @@ public class Player extends Entity {
 
 	private int cornerTimeout = 0;
 
+
+
+	private int gold=0;//fix later
+
 	/**
 	 * Constructor for Player
 	 * 
@@ -74,6 +78,7 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void tick() {
+		score++;
 		if (this.isAI) {
 			if (cornerTimeout > 0) {
 				// Run CornerHandle Algorithm
@@ -163,11 +168,11 @@ public class Player extends Entity {
 		this.effect = item.getEffect();
 		switch (this.effect) {
 		case POINT_PLUS:
-			score += 1;
+			gold += 1;
 			this.effect = null;
 			break;
 		case POINT_PLUS_BIG:
-			score += 10;
+			gold += 10;
 			this.effect = null;
 			break;
 		default:
@@ -290,7 +295,8 @@ public class Player extends Entity {
 	 * @param entities
 	 * @return a list of booleans
 	 */
-	public boolean[] hasAdjBlocks() {
+	public boolean[] hasAdjBlocks()
+	{
 		// Creating a list of blocks and checks bounds if the blocks are adjacent
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		boolean[] adjBlocks = new boolean[4];
@@ -349,11 +355,11 @@ public class Player extends Entity {
 			}
 		}
 	}
-
-	
-	public void handleCorner() {
-		
+	public int getGold()
+	{
+		return gold;
 	}
+
 	/**
 	 * Adds the given amount to the player's score
 	 * 

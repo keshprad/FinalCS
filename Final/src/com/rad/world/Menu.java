@@ -31,6 +31,7 @@ public class Menu {
     public void render(Graphics g)
     {
     	BufferedImage img = null;
+    	
 		try {
 			img = ImageIO.read(new File(Const.PATHS.MENU_BACKGROUND));
 		} catch (IOException e) {

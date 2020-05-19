@@ -36,7 +36,13 @@ public class GameWorld {
 	private LinkedList<Item> items = new LinkedList<Item>();
 	private LinkedList<Block> blocks = new LinkedList<Block>();
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+
+
+	private LinkedList<Player> allPlayers= new LinkedList<>();
+
+
 	private Game game;
+
 	
 	/**
 	 * the spritesheet to use for all sprites in the game
@@ -55,23 +61,42 @@ public class GameWorld {
 		loadMap(Const.PATHS.MAP2);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
 		this.game = g;
+		boolean gameIsOver=true;
+		for(Entity e: deadEntities)
+		{
+			if(e instanceof Player)
+			{
+				gameIsOver=false;
+			}
+		}
+		if (!gameIsOver)
+		{
+			game.setGameState(Game.GameState.GAMEOVER);
+		}
 	}
 
 	/**
 	 * iterates through the map, reloading it every second
 	 */
 	public void tick() {
+		//FIX
 		for (Entity e : entities) {
 			e.tick();
 			if (e.isDead()) {
 				deadEntities.add(e);
 			}
 		}
-		for (Entity e : deadEntities) {
+		for (Entity e : deadEntities)
+		{
+
 			removeEntity(e);
 		}
 		deadEntities.clear();
 	}
+	public LinkedList<Player> getAllPlayers() {
+		return allPlayers;
+	}
+
 	
 	/**
 	 * Draws the classes in the window
@@ -95,6 +120,7 @@ public class GameWorld {
 		entities.add(e);
 		if (e instanceof Player) {
 			players.add((Player)e);
+			allPlayers.add((Player) e);
 		}
 		else if (e instanceof Enemy) {
 			enemies.add((Enemy)e);
@@ -164,6 +190,7 @@ public class GameWorld {
 			} else if (curr / 10 == 2) {
 				addEntity(new Player(this, curr, countX, countY, numPlayers <= 0));
 				numPlayers--;
+
 			} else if (curr / 10 == 3) {
 				addEntity(new Item(this, curr, countX, countY));
 			}
@@ -177,6 +204,7 @@ public class GameWorld {
 
 		}
 	}
+
 	
 	/**
 	 * Returns the key input
