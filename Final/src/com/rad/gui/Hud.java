@@ -2,14 +2,17 @@ package com.rad.gui;
 
 import java.awt.Graphics;
 
+import com.rad.Game;
 import com.rad.world.GameWorld;
 
 public class Hud {
 	
+	private Game game;
 	private GameWorld gameWorld;
 	
-	public Hud(GameWorld gameWorld) {
-		this.gameWorld = gameWorld;
+	public Hud(Game g) {
+		this.game = g;
+		this.gameWorld = g.getGameWorld();
 	}
 	
 	public void tick() {

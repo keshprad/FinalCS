@@ -58,23 +58,13 @@ public class GameWorld {
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
 	public GameWorld(Game g) {
+		
+		this.game = g;
+		
 		//int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
 		//loadMap(Const.PATHS.MAPS[mapNumber]);
-		loadMap(Const.PATHS.MAP1);
+		loadMap(Const.PATHS.MAPS[0]);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
-		this.game = g;
-		boolean gameIsOver=true;
-		for(Entity e: deadEntities)
-		{
-			if(e instanceof Player)
-			{
-				gameIsOver=false;
-			}
-		}
-		if (!gameIsOver)
-		{
-			game.setGameState(Game.GameState.GAMEOVER);
-		}
 	}
 
 	/**

@@ -124,8 +124,19 @@ public class Player extends Entity {
 			}
 //			System.out.println("Shouldn't be passing...");
 		}
+		if (e instanceof Player && e != this) {
+			if (this.isAI) {
+				velX *= -1;
+				velY *= -1;
+			}
+			else {
+				velX = 0;
+				velY = 0;
+			}
+		}
 		if (e instanceof Enemy) {
 			isDead = true;
+			// IF NOT AI GAMEOVER
 			System.out.println("THAT HURTS!");
 		}
 		if (e instanceof Item) {

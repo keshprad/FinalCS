@@ -65,14 +65,9 @@ public class Const {
     }
 
     public static class PATHS {
-
-    	public static final String MAP1 = "res/Maps/map1";
-        public static final String MAP2 = "res/Maps/map2";
-        public static final String MAP3 = "res/Maps/map3";
-        public static final String MAP4 = "res/Maps/map4";
-        public static final String MAP5 = "res/Maps/map5";
         
         public static final String[] MAPS = {
+        		"res/Maps/map0",
         		"res/Maps/map1",
         		"res/Maps/map2",
         		"res/Maps/map3",

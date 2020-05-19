@@ -37,8 +37,6 @@ public class Game extends Canvas implements Runnable {
      */
 	private boolean isRunning = false;
 
-
-
 	/**
      * the class that contains the game world
      */
@@ -54,13 +52,12 @@ public class Game extends Canvas implements Runnable {
 	
 	private Window window;
 
-
 	public static enum GameState {
-		MENU, PLAYING, GAMEOVER;
+		MENU, PLAYING, SPECTATING, GAMEOVER;
 	}
 	
-	
 	private GameState gameState = GameState.MENU;
+	
 	/**
      * loads up the window, and allows is to be able to  run
      */
@@ -70,9 +67,9 @@ public class Game extends Canvas implements Runnable {
 		
 		this.gameWorld = new GameWorld(this);
 		
-		hud = new Hud(gameWorld);
+		hud = new Hud(this);
 		menu = new Menu(this);
-		gameOver= new GameOver(gameWorld, this);
+		gameOver= new GameOver(this);
 		
 		mouse = new MouseInput(this);
 		this.addMouseListener(mouse);
@@ -80,8 +77,6 @@ public class Game extends Canvas implements Runnable {
 		this.addKeyListener(keys);
 		
 		start();
-
-
 	}
 
 	// Game Loop
@@ -112,6 +107,10 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void tick() {
 		if (gameState == GameState.PLAYING) {
+			gameWorld.tick();
+			hud.tick();
+		}
+		else if (gameState == GameState.SPECTATING) {
 			gameWorld.tick();
 			hud.tick();
 		}
