@@ -27,13 +27,15 @@ public class Const {
     
     
     
-    public static final class BUTTONS {
-	    //MenuStartButton
-    	public static final Rectangle MENU_START = new Rectangle(260, 460, 240, 100);
+    public static final class MENU {
+	    //Menu Start
+    	public static final Rectangle START_BTN = new Rectangle(270, 470, 240, 100);
 	    
-	    //MenuEndButton
-	    public static final Rectangle MENU_EXIT = new Rectangle(290, 590, 180, 100);
+	    //Menu End
+	    public static final Rectangle EXIT_BTN = new Rectangle(300, 590, 180, 100);
     }
+    
+    
     
     public static final class ID {
         public static final int EMPTY = 0;
@@ -62,21 +64,31 @@ public class Const {
 
     }
 
-    public class PATHS {
+    public static class PATHS {
 
-        public static final String MAP0 = "res/map0";
-        public static final String MAP1 = "res/map1";
-        public static final String MAP2 = "res/map2";
-        public static final String MAP3 = "res/map3";
-        public static final String MAP4 = "res/map4";
-        public static final String MAP5 = "res/map5";
+    	public static final String MAP1 = "res/Maps/map1";
+        public static final String MAP2 = "res/Maps/map2";
+        public static final String MAP3 = "res/Maps/map3";
+        public static final String MAP4 = "res/Maps/map4";
+        public static final String MAP5 = "res/Maps/map5";
+        
+        public static final String[] MAPS = {
+        		"res/Maps/map1",
+        		"res/Maps/map2",
+        		"res/Maps/map3",
+        		"res/Maps/map4",
+        		"res/Maps/map5"		
+        };
         
         public static final String RADLEY_ITALIC = "res/Fonts/Radley-Italic.ttf";
         public static final String RADLEY_REGULAR = "res/Fonts/Radley-Regular.ttf";
         
-        public static final String SPRITESHEET = "res/spritesheet.png";
+        public static final String SPRITESHEET = "res/Sprites/spritesheet.png";
         
-        public static final String MENU_BACKGROUND = "res/menu_background.png";
-
+        
+        public static final String MENU_BACKGROUND = "res/Menu/menu_background.png";
+        public static final String MENU_START_BTN_TXT = "res/Menu/menu_start_button.png";
+        public static final String MENU_EXIT_BTN_TXT = "res/Menu/menu_exit_button.png";
+        
     }
 }

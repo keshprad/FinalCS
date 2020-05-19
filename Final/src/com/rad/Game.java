@@ -173,19 +173,9 @@ public class Game extends Canvas implements Runnable {
       */
 
 	public synchronized void stop() {
-		if (!isRunning) {
-			System.out.println("HI!");
-			window.closeWindow();
-		}
-
 		window.closeWindow();
-		try {
-			thread.join();
-			isRunning = false;
-			System.exit(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();			
-		}
+		isRunning = false;
+		System.exit(0);
 	}
 
 	public Font loadFont(String filePath, int size) {

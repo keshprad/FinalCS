@@ -30,15 +30,22 @@ public class Menu {
     
     public void render(Graphics g)
     {
-    	BufferedImage img = null;
-    	
+
+    	BufferedImage imgBG = null;
+    	BufferedImage imgStart = null;
+    	BufferedImage imgExit = null;
 		try {
-			img = ImageIO.read(new File(Const.PATHS.MENU_BACKGROUND));
+			imgBG = ImageIO.read(new File(Const.PATHS.MENU_BACKGROUND));
+			imgStart = ImageIO.read(new File(Const.PATHS.MENU_START_BTN_TXT));
+			imgExit = ImageIO.read(new File (Const.PATHS.MENU_EXIT_BTN_TXT));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	g.drawImage(img, 0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT, 0, 0, img.getWidth(), img.getHeight(), null);
-
+    	g.drawImage(imgBG, 0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT, 0, 0, imgBG.getWidth(), imgBG.getHeight(), null);
+    	g.drawImage(imgStart, Const.MENU.START_BTN.x, Const.MENU.START_BTN.y, Const.MENU.START_BTN.x + imgStart.getWidth(), Const.MENU.START_BTN.y + imgStart.getHeight(), 0, 0, imgStart.getWidth(), imgStart.getHeight(), null);
+    	g.drawImage(imgExit, Const.MENU.EXIT_BTN.x, Const.MENU.EXIT_BTN.y, Const.MENU.EXIT_BTN.x + imgExit.getWidth(), Const.MENU.EXIT_BTN.y + imgExit.getHeight(), 0, 0, imgExit.getWidth(), imgExit.getHeight(), null);
+    	
     }
 }

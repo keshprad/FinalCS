@@ -132,7 +132,7 @@ public class Player extends Entity {
 			Item i = (Item) e;
 			setEffect(i);
 //			System.out.println("You got the effect " + i.getEffect());
-//			System.out.println("YOUR CURRENT SCORE: " + score);
+			System.out.println("YOUR CURRENT SCORE: " + score);
 		}
 
 	}

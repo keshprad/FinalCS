@@ -52,13 +52,15 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 0; // Changeable later
+	private int numPlayers = 1; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
 	public GameWorld(Game g) {
-		loadMap(Const.PATHS.MAP2);
+		//int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
+		//loadMap(Const.PATHS.MAPS[mapNumber]);
+		loadMap(Const.PATHS.MAP1);
 		loadSpritesheet(Const.PATHS.SPRITESHEET);
 		this.game = g;
 		boolean gameIsOver=true;

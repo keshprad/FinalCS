@@ -83,7 +83,6 @@ public class Location implements Comparable {
                 y == location.y;
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(x, y);
     }
