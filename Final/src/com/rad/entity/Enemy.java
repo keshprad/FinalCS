@@ -17,9 +17,12 @@ import static com.rad.Const.TILE_SIZE;
 /**
  * This class defines an Enemy. This includes zombies and other enemies.
  * <p>
- * id = 10 -> ZOMBIE
- * id = 11 -> IMP_ZOMBIE
- *
+ * id = 10 -> GHOUL
+ * id = 11 -> GOLEM
+ * id = 12 -> GNAT
+ * id = 13 -> GUPPY
+ * id = 14 -> BOT
+ * id = 15 -> MECH
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Enemy extends Entity {
@@ -36,6 +39,9 @@ public class Enemy extends Entity {
     }
     
     @Override
+    /**
+     * checks the id for which type of enemy it is, each enemy has its own speed (determined by a design choice)
+     */
     public void init() {
     	switch (id) {
 		case Const.ID.GHOUL:

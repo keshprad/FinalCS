@@ -12,14 +12,29 @@ import com.rad.Const;
 import com.rad.Game;
 import com.rad.input.MouseInput;
 
+/**
+ * @author RAD
+ * @version 1.0
+ * is the menu state of the
+ */
 public class Menu {
+	/**
+	 * is the version of the game we are in
+	 */
     private Game game;
 
+	/**
+	 * is the constructor of the menu
+	 * @param g the game that is being played
+	 */
     public Menu(Game g) {
 		this.game = g;
 	}
-    
-    public void tick(){
+
+	/**
+	 * is the tick method to of the menu
+	 */
+	public void tick(){
     	if (game.getMouseInput().isMenuStartButtonClicked()) {
     		game.setGameState(Game.GameState.PLAYING);
     	}
@@ -27,8 +42,12 @@ public class Menu {
     		game.stop();
     	}
     }
-    
-    public void render(Graphics g)
+
+	/**
+	 * renders the menu
+	 * @param g is the graphics card
+	 */
+	public void render(Graphics g)
     {
 
     	BufferedImage imgBG = null;

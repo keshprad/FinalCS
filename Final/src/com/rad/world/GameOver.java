@@ -4,19 +4,36 @@ import com.rad.Game;
 
 import java.awt.*;
 
+/**
+ * @author RAD
+ * @version 1.0
+ * is the game over state
+ */
 public class GameOver
 {
+    /**
+     * is the gameworld of this game, holding all the entities
+     *
+     */
     private GameWorld gameWorld;
-     private Game game;
+    /**
+     * is the game we are currently in
+     */
+    private Game game;
 
-
+    /**
+     * is the constructor of the game over state
+     * @param g1 the game user is playing
+     */
     public GameOver( Game g1)
     {
         game=g1;
         gameWorld=g1.getGameWorld();
     }
 
-
+    /**
+     * is the tick method for the game over state
+     */
     public void tick() {
 
             //run
@@ -33,7 +50,10 @@ public class GameOver
 
     }
 
-
+    /**
+     * renders the graphics game
+     * @param g is the graphics of the game
+     */
     public void render(Graphics g) {
         render(g);
         //draw the gimp file and buttons
