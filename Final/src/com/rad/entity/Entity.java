@@ -40,15 +40,29 @@ public abstract class Entity {
      * the speed of the entity
      */
     protected int speed = 0;
-
+    /**
+     * velocity of the entity
+     */
     protected int velX = 0;
+    /**
+     * velocity of y value in entitiy
+     */
     protected int velY = 0;
-
+    /**
+     * width of the entity
+     */
     protected int width = Const.TILE_SIZE;
+    /**
+     * height of the entity
+     */
     protected int height = Const.TILE_SIZE;
-
+    /**
+     * checks if the entity is dead
+     */
     protected boolean isDead;
-
+    /**
+     * Color of the enemy
+     */
     protected Color color;
     
     /**
@@ -95,31 +109,57 @@ public abstract class Entity {
     }
     
     /**
-     * @param e
+     * @param e is the entity you collide with
+     * handles the collisions for to an entity
      */
     public void handleCollision(Entity e) {
     	//doNothing
     }
 
+    /**
+     * gets the location of this entity
+     * @return
+     */
     public Location getLocation()
     {
         return new Location(this.x, this.y);
     }
+
+    /**
+     * clamps the min and max values to preset values, used in player bounds
+     * @param i value to be clamped
+     * @param min min possible value
+     * @param max max possible value
+     * @return clamped value
+     */
     protected int clamp(int i, int min, int max) {
         if (i < min) return min;
         if (i > max) return max;
         return i;
     }
 
+
+    /**
+     * checks if the entity is dead
+     * @return if the entity is dead
+     */
+    public boolean isDead() {
+        return isDead;
+    }
+    /**
+     * gets the bounds of the rectangle
+     * @return a new rectangle
+     */
     public Rectangle getBounds() {
         return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
     }
 
+    /**
+     * returns a simple name of the entity
+     * @return the entity's name
+     */
     public String toString() {
         return this.getClass().getSimpleName();
     }
-    
-    public boolean isDead() {
-        return isDead;
-    }
+
 }

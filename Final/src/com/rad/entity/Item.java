@@ -66,6 +66,10 @@ public class Item extends Entity {
 		super.render(g);
 	}
 
+	/**
+	 * handles collisions in terms of the death of a player
+	 * @param e is the entity you collide with
+	 */
 	@Override
 	public void handleCollision(Entity e) {
 

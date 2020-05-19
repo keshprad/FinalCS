@@ -17,6 +17,9 @@ public class Window {
 	 * instance of game
 	 */
 	private Game game;
+	/**
+	 * is the Jframe frame of our game
+	 */
 	private JFrame frame;
 
 	/**
@@ -43,7 +46,10 @@ public class Window {
 		
 		frame.setVisible(true);
 	}
-	
+
+	/**
+	 * closes this window
+	 */
 	public void closeWindow() {
 		frame.setVisible(false);
 		frame.dispose();

@@ -41,21 +41,41 @@ public class Game extends Canvas implements Runnable {
      * the class that contains the game world
      */
 	private GameWorld gameWorld;
-	
+	/**
+	 * is the mouse input to be put in
+	 */
 	private MouseInput mouse;
+	/**
+	 * is the key input to be put in
+	 */
 	private KeyInput keys;
-	
+	/**
+	 * hud for the player
+	 */
 	private Hud hud;
-		
+	/**
+	 * is the menu for the game
+	 */
 	private Menu menu;
+	/**
+	 * is the game ovr state
+	 */
 	private GameOver gameOver;
-	
+	/**
+	 * is the window for the game
+	 */
 	private Window window;
 
+	/**
+	 * is the game state for the games
+	 */
 	public static enum GameState {
 		MENU, PLAYING, SPECTATING, GAMEOVER;
 	}
-	
+
+	/**
+	 * is the starting game state/ testing game state
+	 */
 	private GameState gameState = GameState.MENU;
 	
 	/**
@@ -177,6 +197,12 @@ public class Game extends Canvas implements Runnable {
 		System.exit(0);
 	}
 
+	/**
+	 * is the font to be loaded in
+	 * @param filePath is the file path to load the font
+	 * @param size is the size of the font
+	 * @return the font
+	 */
 	public Font loadFont(String filePath, int size) {
 		Font f = null;
 		try {
@@ -189,23 +215,43 @@ public class Game extends Canvas implements Runnable {
 		}
 		return f.deriveFont(size);
 	}
+
+	/**
+	 * getter for gameworld
+	 * @return the game world
+	 */
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
 
-
+	/**
+	 * is the getter for mouse input
+	 * @return the mouse input
+	 */
 	public MouseInput getMouseInput() {
 		return this.mouse;
 	}
 
+	/**
+	 * is the mouse input
+	 * @return is the keys for the input
+	 */
 	public KeyInput getKeyInput() {
 		return this.keys;
 	}
-	
+
+	/**
+	 * the getter for the game state
+	 * @return the game state
+	 */
 	public GameState getGameState() {
 		return gameState;
 	}
 
+	/**
+	 * setter for the game state
+	 * @param gameState returns the value for the game state
+	 */
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}

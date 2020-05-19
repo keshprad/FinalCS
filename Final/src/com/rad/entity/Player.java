@@ -20,22 +20,30 @@ public class Player extends Entity {
 	 * the score of each player
 	 */
 	private int score;
+
 	/**
 	 * the effect that the player has
 	 */
 	private Effect effect = null;
+
 	/**
 	 * if it is an AI or not
 	 */
 	private boolean isAI;
 
+	/**
+	 * is an array of adjecent blocks
+	 */
 	private boolean[] adjBlocks = { false, false, false, false };
 
+	/**
+	 * is a time out used to see if the player AI is in a corner
+	 */
 	private int cornerTimeout = 0;
-
-
-
-	private int gold = 0;//fix later
+	/**
+	 * another system used to keep track of items
+	 */
+	private int gold=0;//fix later
 
 	/**
 	 * Constructor for Player
@@ -51,6 +59,10 @@ public class Player extends Entity {
 		this.speed = 8;
 	}
 
+	/**
+	 * returns a rectangle
+	 * @return a new rectangle
+	 */
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle(x + velX + 4, y + velY + 4, Const.TILE_SIZE - 8, Const.TILE_SIZE - 8);
@@ -110,7 +122,11 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		super.render(g);
 	}
-	
+
+	/**
+	 * handles a collision with an enemy
+	 * @param e is the entity you collide with
+	 */
 	@Override
 	public void handleCollision(Entity e) {
 		if (e instanceof Block) {
@@ -144,6 +160,9 @@ public class Player extends Entity {
 
 	}
 
+	/**
+	 * the keyinputs for a player/user
+	 */
 	public void useKeyInput() {
 		if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) {
 			velX = 0;
@@ -192,8 +211,6 @@ public class Player extends Entity {
 	 * farthest away from enemies that are close to it. If there are no close
 	 * enemies, the player will not move. This method is meant to be used for
 	 * players controlled by a computer.
-	 * 
-	 * @param entities a list of all alive entities;
 	 */
 	public void escapeEnemies() {
 		// If no enemies in proximity, this function should exit and do nothing
@@ -261,16 +278,15 @@ public class Player extends Entity {
 	 * Helps the moveAI method by finding the average distance between a point and 2
 	 * closest Enemies
 	 * 
-	 * @param i        x-position
-	 * @param j        y-position
-	 * @param entities list of entities
+	 * @param location       location
+	 * @param closestEnemies  closest enemy to this player
 	 * @return average of 2 distances between a point (i,j) and its 2 closest
 	 *         enemies
 	 */
-	public float findAvgDist(Location l, LinkedList<Enemy> closestEnemies) {
+	public float findAvgDist(Location location, LinkedList<Enemy> closestEnemies) {
 		float totalD = 0;
 		for (Enemy e : closestEnemies) {
-			totalD += (float) (l.distBetween(new Location(e.x, e.y)));
+			totalD += (float) (location.distBetween(new Location(e.x, e.y)));
 		}
 		totalD = totalD / closestEnemies.size();
 		return totalD;
@@ -283,13 +299,13 @@ public class Player extends Entity {
 	 * @param entities a list of entities
 	 * @return the closest entity of the given type
 	 */
-	public LinkedList<Enemy> findProximityEnemies(Location l, LinkedList<Entity> entities) {
+	public LinkedList<Enemy> findProximityEnemies(Location location, LinkedList<Entity> entities) {
 		LinkedList<Enemy> closeEnemies = new LinkedList<Enemy>();
 		float radius = (float) (Const.WORLD_WIDTH / 2);
 
-		for (Enemy e : gameWorld.getEnemies()) {
-			if (l.distBetween(new Location(e.x, e.y)) <= radius) {
-				closeEnemies.add((Enemy) e);
+		for (Enemy enemy : gameWorld.getEnemies()) {
+			if (location.distBetween(new Location(enemy.x, enemy.y)) <= radius) {
+				closeEnemies.add((Enemy) enemy);
 			}
 		}
 		return closeEnemies;
@@ -299,7 +315,7 @@ public class Player extends Entity {
 	 * Finds a list of telling if there are adjacent blocks(or game bounds) above,
 	 * below, on the left, on the right.
 	 * 
-	 * @param entities
+	 *
 	 * @return a list of booleans
 	 */
 	public boolean[] hasAdjBlocks()
@@ -348,6 +364,9 @@ public class Player extends Entity {
 		return adjBlocks;
 	}
 
+	/**
+	 * checks if the player is in a corner
+	 */
 	public void isInCorner() {
 		boolean[] adjBlocks = hasAdjBlocks();
 		for (int i = 0; i < adjBlocks.length; i++) {
@@ -362,6 +381,11 @@ public class Player extends Entity {
 			}
 		}
 	}
+
+	/**
+	 * returns a gold value
+	 * @return returns the value of gold
+	 */
 	public int getGold()
 	{
 		return gold;

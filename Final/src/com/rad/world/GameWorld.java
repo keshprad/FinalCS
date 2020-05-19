@@ -30,17 +30,37 @@ public class GameWorld {
 	// Holds all Entities in the map. A LinkedList was used over an ArrayList for
 	// constant time removal of objects, and the lack of need for accessing a single
 	// specific Entity
+	/**
+	 *  is a linked list of entities
+	 */
 	private LinkedList<Entity> entities = new LinkedList<Entity>();
+	/**
+	 * is a linked list of 	of players
+	 */
 	private LinkedList<Player> players = new LinkedList<Player>();
+	/**
+	 * is a linked list of enemies
+	 */
 	private LinkedList<Enemy> enemies = new LinkedList<Enemy>();
+	/**
+	 * is a linked list of items
+	 */
 	private LinkedList<Item> items = new LinkedList<Item>();
+	/**
+	 * is a linked list of blocks
+	 */
 	private LinkedList<Block> blocks = new LinkedList<Block>();
+	/**
+	 * is a linked list of dead entities
+	 */
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
-
-
+	/**
+	 * is a linked list of all Players
+	 */
 	private LinkedList<Player> allPlayers= new LinkedList<>();
-
-
+	/**
+	 * is the game user is playing in
+	 */
 	private Game game;
 
 	
@@ -85,6 +105,11 @@ public class GameWorld {
 		}
 		deadEntities.clear();
 	}
+
+	/**
+	 * returns the list of all players
+	 * @return
+	 */
 	public LinkedList<Player> getAllPlayers() {
 		return allPlayers;
 	}

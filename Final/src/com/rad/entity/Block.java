@@ -28,11 +28,17 @@ public class Block extends Entity {
 	}
 
 	@Override
+	/**
+	 * changes the color of the block
+	 */
 	public void init() {
 		color = Color.GREEN;
 	}
 
 	@Override
+	/**
+	 * inherits the entitiy tick
+	 */
 	public void tick() {
 		super.tick();
 	}
