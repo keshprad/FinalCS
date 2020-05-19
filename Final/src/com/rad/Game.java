@@ -13,13 +13,13 @@ import java.util.LinkedList;
 
 import com.rad.entity.Entity;
 import com.rad.entity.Player;
+import com.rad.gui.GameOver;
 import com.rad.gui.Hud;
+import com.rad.gui.Menu;
 import com.rad.gui.Window;
 import com.rad.input.KeyInput;
 import com.rad.input.MouseInput;
-import com.rad.world.GameOver;
 import com.rad.world.GameWorld;
-import com.rad.world.Menu;
 
 /**
  * This class handles the gui in running the window

@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 
 import com.rad.Const;
 import com.rad.Game;
-import com.rad.world.Menu;
 
 /**
  * GUI to create the window

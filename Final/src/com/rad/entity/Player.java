@@ -35,7 +35,7 @@ public class Player extends Entity {
 
 
 
-	private int gold=0;//fix later
+	private int gold = 0;//fix later
 
 	/**
 	 * Constructor for Player
@@ -81,12 +81,12 @@ public class Player extends Entity {
 		score++;
 		if (this.isAI) {
 			if (cornerTimeout > 0) {
-				// Run CornerHandle Algorithm
+				//Run CornerHandle Algorithm
 				cornerTimeout--;
 			}
 			
 			escapeEnemies();
-
+			
 			x += velX;
 			y += velY;
 		} else {
@@ -110,15 +110,11 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		super.render(g);
 	}
-
+	
 	@Override
 	public void handleCollision(Entity e) {
 		if (e instanceof Block) {
-			if (this.isAI) {
-				velX *= -1;
-				velY *= -1;
-			}
-			else {
+			if (!isAI) {
 				velX = 0;
 				velY = 0;
 			}
@@ -357,11 +353,11 @@ public class Player extends Entity {
 		for (int i = 0; i < adjBlocks.length; i++) {
 			if (i == adjBlocks.length - 1) {
 				if (adjBlocks[i] && adjBlocks[0]) {
-					this.cornerTimeout = 30;
+					this.cornerTimeout = 8;
 					return;
 				}
 			} else if (adjBlocks[i] && adjBlocks[i + 1]) {
-				this.cornerTimeout = 30;
+				this.cornerTimeout = 8;
 				return;
 			}
 		}

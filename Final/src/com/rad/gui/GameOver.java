@@ -1,21 +1,19 @@
-package com.rad.world;
+package com.rad.gui;
 
 import com.rad.Game;
+import com.rad.world.GameWorld;
 
 import java.awt.*;
 
-public class GameOver
-{
-    private GameWorld gameWorld;
-     private Game game;
+public class GameOver {
+	private GameWorld gameWorld;
+    private Game game;
 
 
-    public GameOver( Game g1)
-    {
-        game=g1;
-        gameWorld=g1.getGameWorld();
+    public GameOver(Game g) {
+        game = g;
+        gameWorld = g.getGameWorld();
     }
-
 
     public void tick() {
 

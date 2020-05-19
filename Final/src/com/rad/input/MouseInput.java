@@ -2,7 +2,7 @@ package com.rad.input;
 
 import com.rad.Const;
 import com.rad.Game;
-import com.rad.world.Menu;
+import com.rad.gui.Menu;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,6 +11,7 @@ public class MouseInput implements MouseListener {
 	
 	private boolean MenuStartButtonClicked = false;
 	private boolean MenuExitButtonClicked = false;
+	private boolean GameOverExitButtonClicked = false;
 	private Game game;
 	
 	public MouseInput(Game g) {

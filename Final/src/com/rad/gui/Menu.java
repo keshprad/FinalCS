@@ -1,4 +1,4 @@
-package com.rad.world;
+package com.rad.gui;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
