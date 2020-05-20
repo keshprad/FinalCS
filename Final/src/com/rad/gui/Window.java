@@ -43,9 +43,11 @@ public class Window {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null); // Opens in the center of the screen
 		frame.add(game);
-		
+
+
 		frame.setVisible(true);
 	}
+
 
 	/**
 	 * closes this window
@@ -54,5 +56,5 @@ public class Window {
 		frame.setVisible(false);
 		frame.dispose();
 	}
-	
+
 }

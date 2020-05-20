@@ -129,22 +129,35 @@ public class Enemy extends Entity {
         possibleMoveLocationsHashMap.put(startingLoc, 0.0);//puts the player into the map
         while (!priorityQueue.isEmpty()) {
             Location highestPriorityPossibleLocation = priorityQueue.poll();// first iteration of the loop removes first node, rest helps determine
-            Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);
+            Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
             if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) break;
             //checks every possible move position in the tile in the gameworld with this enemy
             checkPossibleMoveLocations(highestPriorityPossibleLocation, playerLocation,possibleMoveLocationsHashMap,priorityQueue);
         }
     }
-    
+
+    /**
+     * checks the next possible move state
+     * @param highestPriorityPossibleLocation it is the location with the next highest priority location
+     * @param playerLocation is the location of the player
+     * @param map is the hash mape of all possible move lcoations
+     * @param pq priority que of locations
+     */
     public void checkPossibleMoveLocations(Location highestPriorityPossibleLocation, Location playerLocation,  HashMap<Location, Double> map, PriorityQueue<Location> pq)
     {
         for (Location possiblePostion : possibleMoveLocations(gameWorld, highestPriorityPossibleLocation, this))
         {
-            if (possiblePostion != null) {
-                Location movePoint = highestPriorityPossibleLocation.getMovePoint();// if the location
-                if (movePoint == null) {
+
+            if (possiblePostion != null)
+            {
+
+                Location movePoint; // if the location
+                if (highestPriorityPossibleLocation.getMovePoint() == null)
+                {
                     movePoint = possiblePostion;
                 }
+                else movePoint = highestPriorityPossibleLocation.getMovePoint();
+
 
                 double dist = highestPriorityPossibleLocation.getDist() + highestPriorityPossibleLocation.distBetween(possiblePostion);
                 double priority = possiblePostion.distBetween(playerLocation) + dist; //hueristic to determine the priority of the A* algorithim which is
@@ -164,6 +177,14 @@ public class Enemy extends Entity {
             }
         }
     }
+
+    /**
+     * tests whether the goal state is found or not
+     * @param rectangle is the rectangle of the hypothetical position the enemy is in
+     * @param player is the player you are trying to capture
+     * @param location is the location you are moving to
+     * @return if you found the goal state
+     */
     public boolean goalStateFound(Rectangle rectangle, Player player, Location location)
         {
             if (rectangle.intersects(player.getBounds())&&(location.getMovePoint() != null)) //if the enemy caught the player
@@ -191,17 +212,17 @@ public class Enemy extends Entity {
         }
 
         Location[] possibleLocations = new Location[4];
-        if (this.id == Const.ID.GNAT) {
+//        if (this.id == Const.ID.GNAT) {
+//            possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.getMovePoint());
+//            possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.getMovePoint());
+//            possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.getMovePoint());
+//            possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.getMovePoint());
+//        } else {
             possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.getMovePoint());
             possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.getMovePoint());
             possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.getMovePoint());
             possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.getMovePoint());
-        } else {
-            possibleLocations[0] = new Location(xl + this.speed, yl, 0, enemyLocation.getMovePoint());
-            possibleLocations[1] = new Location(xl - this.speed, yl, 0, enemyLocation.getMovePoint());
-            possibleLocations[2] = new Location(xl, yl + this.speed, 0, enemyLocation.getMovePoint());
-            possibleLocations[3] = new Location(xl, yl - this.speed, 0, enemyLocation.getMovePoint());
-        }
+        //}
 
         for (int i = 0; i < possibleLocations.length; i++) {
             if (!enemyLocation.inGrid(possibleLocations[i])) {
