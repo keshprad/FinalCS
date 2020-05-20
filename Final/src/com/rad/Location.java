@@ -131,7 +131,7 @@ public class Location implements Comparable {
     public boolean inGrid(Location loc) {
         return inGrid(loc.getX(), loc.getY());
     }
-
+    
     /**
      * changes a location to a rectangle
      * @param loc a given location
@@ -140,7 +140,7 @@ public class Location implements Comparable {
     public Rectangle toRect(Location loc) {
         return new Rectangle(loc.getX(), loc.getY(), Const.TILE_SIZE, Const.TILE_SIZE);
     }
-
+    
     /**
      * comparator class used for AI
      * @param o object ot compare priority locations with

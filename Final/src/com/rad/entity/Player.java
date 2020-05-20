@@ -134,7 +134,6 @@ public class Player extends Entity {
 				velX = 0;
 				velY = 0;
 			}
-//			System.out.println("Shouldn't be passing...");
 		}
 		if (e instanceof Player && e != this) {
 			if (this.isAI) {
@@ -154,7 +153,6 @@ public class Player extends Entity {
 		if (e instanceof Item) {
 			Item i = (Item) e;
 			setEffect(i);
-//			System.out.println("You got the effect " + i.getEffect());
 			System.out.println("YOUR CURRENT SCORE: " + score);
 		}
 

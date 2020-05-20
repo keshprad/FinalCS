@@ -2,8 +2,6 @@ package com.rad.entity;
 
 import java.awt.*;
 import java.util.*;
-import java.awt.Color;
-import java.awt.Graphics;
 
 import com.rad.Const;
 import com.rad.Location;
@@ -130,7 +128,6 @@ public class Enemy extends Entity {
         pq.add(startingLoc);// adds the position you are in
         Location playerLocation = new Location(player.x, player.y, 0);
         map.put(startingLoc, 0.0);//puts the player into the map
-        int numIterations = 0;
         while (!pq.isEmpty()) {
             Location pt = pq.poll();// first iteration of the loop removes first node, rest helps determine
             Rectangle rectangle = new Rectangle(pt.getX(), pt.getY(), TILE_SIZE, TILE_SIZE);
@@ -141,12 +138,6 @@ public class Enemy extends Entity {
                 }
                 break;
             }
-            if (numIterations > 1000) {
-                Location[] locations = possibleMoveLocations(gameWorld, pt, this);
-                move(locations[(int) ((Math.random()) * locations.length)]);
-                break;
-            }
-            numIterations += 1;
             //checks every possible move position in the tile in the gameworld with this enemy
             for (Location possiblePostion : possibleMoveLocations(gameWorld, pt, this)) {
                 if (possiblePostion != null) {
@@ -207,16 +198,25 @@ public class Enemy extends Entity {
             if (!enemyLocation.inGrid(possibleLocations[i])) {
                 possibleLocations[i] = null;
             }
-        }
-
-        for (Block b : gameWorld.getBlocks()) {
-            for (int i = 0; i < possibleLocations.length; i++) {
-                if (possibleLocations[i] != null && b.getBounds().intersects(enemyLocation.toRect(possibleLocations[i]))) {
+            for (Block b : gameWorld.getBlocks()) {
+            	if (possibleLocations[i] != null && b.getBounds().intersects(enemyLocation.toRect(possibleLocations[i]))) {
                     possibleLocations[i] = null;
                 }
             }
         }
+
         return possibleLocations;
     }
-
+    
+//    @Override
+//    public void handleCollision(Entity e) {
+//		if (e instanceof Block) {
+//			velX *= -1;
+//			velY *= -1;
+//		}
+//		if (e instanceof Player) {
+//			e.isDead = true;
+//		}
+//
+//	}
 }

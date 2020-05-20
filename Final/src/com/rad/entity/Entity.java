@@ -151,7 +151,7 @@ public abstract class Entity {
      * @return a new rectangle
      */
     public Rectangle getBounds() {
-        return new Rectangle(x + velX, y + velY, Const.TILE_SIZE, Const.TILE_SIZE);
+        return new Rectangle(x + velX, y + velY, height, width);
     }
 
     /**
