@@ -40,11 +40,12 @@ public class Player extends Entity {
 	 * is a time out used to see if the player AI is in a corner
 	 */
 	private int cornerTimeout = 0;
+	
 	/**
-	 * another system used to keep track of items
+	 * This integer represents a timer for which the effect lasts for
 	 */
-	private int gold=0;//fix later
-
+	private int effectTimer = 0;
+	
 	/**
 	 * Constructor for Player
 	 * 
@@ -56,7 +57,7 @@ public class Player extends Entity {
 	public Player(GameWorld gameWorld, int id, int x, int y, boolean isAI) {
 		super(gameWorld, id, x, y);
 		this.isAI = isAI;
-		this.speed = 8;
+		this.speed = Const.PLAYER.SPEED;
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class Player extends Entity {
 	 */
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(x + velX + 4, y + velY + 4, Const.TILE_SIZE - 8, Const.TILE_SIZE - 8);
+		return new Rectangle(x + velX + (Const.PLAYER.SPEED/2), y + velY + (Const.PLAYER.SPEED/2), Const.TILE_SIZE - Const.PLAYER.SPEED, Const.TILE_SIZE - Const.PLAYER.SPEED);
 	}
 
 	/**
@@ -90,25 +91,38 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void tick() {
-		score++;
+		score++; //players awarded 1 point for every tick alive
+		
+		if (effectTimer == 0) {
+			this.effect = null;
+		}
+		if (this.getEffect() != null && this.effectTimer > 0) {
+			effectTimer--;
+			switch (this.getEffect()) {
+			case SPEED_UP:
+				speed = 2 * Const.PLAYER.SPEED;
+				break;
+			case EAT_OTHER:
+				//handle later
+				break;
+			}
+		}
+		
 		if (this.isAI) {
 			if (cornerTimeout > 0) {
 				//Run CornerHandle Algorithm
 				cornerTimeout--;
 			}
-			
 			escapeEnemies();
-			
 			x += velX;
 			y += velY;
-		} else {
+		} 
+		else {
 			x += velX;
 			y += velY;
 			useKeyInput();
-
 		}
 		super.tick();
-
 		x = clamp(x, 0, Const.WORLD_WIDTH - width);
 		y = clamp(y, 0, Const.WORLD_HEIGHT - height);
 	}
@@ -159,7 +173,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * the keyinputs for a player/user
+	 * the KeyInputs for a player/user
 	 */
 	public void useKeyInput() {
 		if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) {
@@ -192,14 +206,18 @@ public class Player extends Entity {
 		this.effect = item.getEffect();
 		switch (this.effect) {
 		case POINT_PLUS:
-			gold += 1;
+			score += Const.EFFECTS.POINT_PLUS;
 			this.effect = null;
 			break;
 		case POINT_PLUS_BIG:
-			gold += 10;
+			score += Const.EFFECTS.POINT_PLUS_BIG;
 			this.effect = null;
 			break;
-		default:
+		case SPEED_UP:
+			effectTimer = item.getEffect().getDuration() * 60;
+			break;
+		case EAT_OTHER:
+			effectTimer = item.getEffect().getDuration() * 60;
 			break;
 		}
 	}
@@ -378,15 +396,6 @@ public class Player extends Entity {
 				return;
 			}
 		}
-	}
-
-	/**
-	 * returns a gold value
-	 * @return returns the value of gold
-	 */
-	public int getGold()
-	{
-		return gold;
 	}
 
 	/**

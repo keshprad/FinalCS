@@ -81,9 +81,20 @@ public class Const {
         public static final String SPRITESHEET = "res/Sprites/spritesheet.png";
         
         
-        public static final String MENU_BACKGROUND = "res/Menu/menu_background.png";
-        public static final String MENU_START_BTN_TXT = "res/Menu/menu_start_button.png";
-        public static final String MENU_EXIT_BTN_TXT = "res/Menu/menu_exit_button.png";
+        public static final String MENU_BACKGROUND = "res/GUI/Menu/menu_background.png";
+        public static final String MENU_START_BTN_TXT = "res/GUI/Menu/menu_start_button.png";
+        public static final String MENU_EXIT_BTN_TXT = "res/GUI/Menu/menu_exit_button.png";
         
+        public static final String GOVER_BACKGROUND = "res/GUI/GameOver/gover_background.png";
+        public static final String GOVER_RETURN_BTN_TXT = "res/GUI/GameOver/gover_return.png";        
+    }
+    
+    public static class EFFECTS {
+    	public static final int POINT_PLUS = 600;
+    	public static final int POINT_PLUS_BIG = 2500;
+    }
+    
+    public static class PLAYER {
+    	public static final int SPEED = 8;
     }
 }

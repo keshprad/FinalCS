@@ -28,7 +28,6 @@ public class Item extends Entity {
 	 */
 	public Item(GameWorld gameWorld, int id, int x, int y) {
 		super(gameWorld, id, x, y);
-		effect = Effect.POINT_PLUS;
 	}
 
 	/**
@@ -38,12 +37,16 @@ public class Item extends Entity {
 	public void init() {
 		switch (id) {
 		case Const.ID.CHIP:
-			color = Color.YELLOW;
 			effect = Effect.POINT_PLUS;
 			break;
-		default:
-			color = Color.YELLOW;
-			effect = Effect.POINT_PLUS;
+		case Const.ID.COOKIE:
+			effect = Effect.POINT_PLUS_BIG;
+			break;
+		case Const.ID.FLASH:
+			effect = Effect.SPEED_UP;
+			break;
+		case Const.ID.CAKE:
+			effect = Effect.EAT_OTHER;
 			break;
 		}
 	}
@@ -72,10 +75,10 @@ public class Item extends Entity {
 	 */
 	@Override
 	public void handleCollision(Entity e) {
-
 		if (e instanceof Player) {
 			isDead = true;
 		}
+		
 	}
 
 	/**

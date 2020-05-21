@@ -165,8 +165,11 @@ public class Game extends Canvas implements Runnable {
 			gameWorld.render(g);
 			hud.render(g);
 		}
-		else {
+		else if (gameState == GameState.MENU) {
 			menu.render(g);
+		}
+		else if (gameState == GameState.GAMEOVER) {
+			gameOver.render(g);
 		}
 		
 		bufferStrategy.show();

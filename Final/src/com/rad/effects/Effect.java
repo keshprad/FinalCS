@@ -6,8 +6,18 @@ package com.rad.effects;
  * @version 1.0
  */
 public enum Effect {
-	POINT_PLUS,
-    POINT_PLUS_BIG,
-    EAT_OTHER,
-    SPEED_UP
+	POINT_PLUS(0),
+    POINT_PLUS_BIG(0),
+    SPEED_UP(10),
+    EAT_OTHER(10);
+	
+	private int duration;
+	
+	Effect(int duration) {
+		this.duration = duration;
+	}
+	
+	public int getDuration() {
+		return this.duration; 
+	}
 }

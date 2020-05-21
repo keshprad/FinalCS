@@ -133,8 +133,7 @@ public class Enemy extends Entity {
             Location highestPriorityPossibleLocation = priorityQueue.poll();// first iteration of the loop removes first node, rest helps determine
             Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
             
-            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) { 
-            	System.out.println("Code reaches here!");
+            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) {
             	break;
         	}
             

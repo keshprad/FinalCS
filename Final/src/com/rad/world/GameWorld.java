@@ -92,6 +92,7 @@ public class GameWorld {
 	 */
 	public void tick() {
 		//FIX
+		checkGameOver();
 		for (Entity e : entities) {
 			e.tick();
 			if (e.isDead()) {
@@ -222,6 +223,18 @@ public class GameWorld {
 		}
 	}
 
+	/**
+	 * checks whether the game is over. If so, it sets the game's GameState to GameOver
+	 */
+	private void checkGameOver() {
+		for (Player p : allPlayers) {
+			if (!p.isAI() && p.isDead()) {
+				game.setGameState(Game.GameState.GAMEOVER);
+				return;
+			}
+		}
+
+	}
 	
 	/**
 	 * Returns the key input
