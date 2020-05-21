@@ -299,7 +299,7 @@ public class Player extends Entity {
 	 */
 	public LinkedList<Enemy> findProximityEnemies(Location location, LinkedList<Entity> entities) {
 		LinkedList<Enemy> closeEnemies = new LinkedList<Enemy>();
-		float radius = (float) (Const.WORLD_WIDTH / 2);
+		float radius = (float) (2*Const.WORLD_WIDTH / 3);
 
 		for (Enemy enemy : gameWorld.getEnemies()) {
 			if (location.distBetween(new Location(enemy.x, enemy.y)) <= radius) {

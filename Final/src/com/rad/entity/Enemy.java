@@ -165,16 +165,16 @@ public class Enemy extends Entity {
         }
     }
     public boolean goalStateFound(Rectangle rectangle, Player player, Location location)
+    {
+        if (rectangle.intersects(player.getBounds())&&(location.getMovePoint() != null)) //if the enemy caught the player
         {
-            if (rectangle.intersects(player.getBounds())&&(location.getMovePoint() != null)) //if the enemy caught the player
-            {
 
-                    move(location.getMovePoint());
-                return true;
-                //break;
-            }
-            else return false;
+                move(location.getMovePoint());
+            return true;
+            //break;
         }
+        else return false;
+    }
     /**
      * gets possible locations for enemy
      *
