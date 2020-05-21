@@ -122,15 +122,22 @@ public class Enemy extends Entity {
         //(o1, o2) -> Double.compare(o1.priority, o2.priority) basically tells the PriorityQ to compare through the compare method
         //the higher up the node is on the priorityQ the more favorable the location is for the enemy
         //
+        
         HashMap<Location, Double> possibleMoveLocationsHashMap = new HashMap<>();
         Location startingLoc = this.getLocation();
         priorityQueue.add(startingLoc);// adds the position you are in
         Location playerLocation = player.getLocation();
         possibleMoveLocationsHashMap.put(startingLoc, 0.0);//puts the player into the map
+        
         while (!priorityQueue.isEmpty()) {
             Location highestPriorityPossibleLocation = priorityQueue.poll();// first iteration of the loop removes first node, rest helps determine
             Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
-            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) break;
+            
+            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) { 
+            	System.out.println("Code reaches here!");
+            	break;
+        	}
+            
             //checks every possible move position in the tile in the gameworld with this enemy
             checkPossibleMoveLocations(highestPriorityPossibleLocation, playerLocation,possibleMoveLocationsHashMap,priorityQueue);
         }
@@ -189,12 +196,10 @@ public class Enemy extends Entity {
     {
         if (rectangle.intersects(player.getBounds())&&(location.getMovePoint() != null)) //if the enemy caught the player
         {
-
-                move(location.getMovePoint());
+            move(location.getMovePoint());
             return true;
-            //break;
         }
-        else return false;
+        return false;
     }
     /**
      * gets possible locations for enemy
