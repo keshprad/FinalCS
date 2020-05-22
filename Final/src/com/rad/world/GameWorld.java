@@ -63,11 +63,7 @@ public class GameWorld {
 	 */
 	private Game game;
 
-	
-	/**
-	 * the spritesheet to use for all sprites in the game
-	 */
-	private BufferedImage spritesheet;
+	private Player curPlayer = null;
 	
 	/**
 	 * the number of players in a game
@@ -84,7 +80,6 @@ public class GameWorld {
 		//int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
 		//loadMap(Const.PATHS.MAPS[mapNumber]);
 		loadMap(Const.PATHS.MAPS[0]);
-		loadSpritesheet(Const.PATHS.SPRITESHEET);
 	}
 
 	/**
@@ -170,17 +165,6 @@ public class GameWorld {
 			items.remove((Item)e);
 		}
 	}
-
-	/**
-	 * Loads the sprite sheet
-	 */
-	private void loadSpritesheet(String path) {
-		try {
-			spritesheet = ImageIO.read(new File(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Loads a map from the given path (path meaning the numbers printed in folder res)
@@ -206,7 +190,12 @@ public class GameWorld {
 			} else if (curr / 10 == 1) {
 				addEntity(new Enemy(this, curr, countX, countY));
 			} else if (curr / 10 == 2) {
-				addEntity(new Player(this, curr, countX, countY, numPlayers <= 0));
+				if (numPlayers > 0) {
+					curPlayer = new Player(this, curr, countX, countY, false);
+					addEntity(curPlayer);
+				} else {
+					addEntity(new Player(this, curr, countX, countY, true));
+				}
 				numPlayers--;
 
 			} else if (curr / 10 == 3) {
@@ -287,11 +276,16 @@ public class GameWorld {
 		return items;
 	}
 	
+	public Player getCurPlayer() {
+		return curPlayer;
+	}
+	
 	/**
-	 * returns the sprite sheet
-	 * @return the sprite sheet
+	 * returns the gameworld sprite sheet
+	 * @return gameworld sprite sheet
 	 */
 	public BufferedImage getSpritesheet() {
-		return spritesheet;
+		return game.getSpritesheet();
 	}
+
 }

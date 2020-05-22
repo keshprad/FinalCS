@@ -204,21 +204,23 @@ public class Player extends Entity {
 	 */
 	public void setEffect(Item item) {
 		this.effect = item.getEffect();
-		switch (this.effect) {
-		case POINT_PLUS:
-			score += Const.EFFECTS.POINT_PLUS;
-			this.effect = null;
-			break;
-		case POINT_PLUS_BIG:
-			score += Const.EFFECTS.POINT_PLUS_BIG;
-			this.effect = null;
-			break;
-		case SPEED_UP:
-			effectTimer = item.getEffect().getDuration() * 60;
-			break;
-		case EAT_OTHER:
-			effectTimer = item.getEffect().getDuration() * 60;
-			break;
+		if (this.effect != null) {
+			switch (this.effect) {
+				case POINT_PLUS:
+					score += Const.EFFECTS.POINT_PLUS;
+					this.effect = null;
+					break;
+				case POINT_PLUS_BIG:
+					score += Const.EFFECTS.POINT_PLUS_BIG;
+					this.effect = null;
+					break;
+				case SPEED_UP:
+					effectTimer = item.getEffect().getDuration() * 60;
+					break;
+				case EAT_OTHER:
+					effectTimer = item.getEffect().getDuration() * 60;
+					break;
+			}
 		}
 	}
 

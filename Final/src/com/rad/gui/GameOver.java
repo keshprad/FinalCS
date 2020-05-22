@@ -1,5 +1,6 @@
 package com.rad.gui;
 
+import com.rad.Const;
 import com.rad.Game;
 import com.rad.world.GameWorld;
 
@@ -54,6 +55,9 @@ public class GameOver {
      * @param g is the graphics of the game
      */
     public void render(Graphics g) {
-        //draw the gimp file and buttons
+        g.setFont(game.getEndScoreFont());
+    	g.setColor(Color.WHITE);
+    	g.drawString("HI", Const.WORLD_WIDTH / 2, Const.WORLD_HEIGHT / 2);
+    	game.getEndRankFont();
     }
 }

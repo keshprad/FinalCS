@@ -24,8 +24,8 @@ public class Const {
     
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
-    
-    
+
+    public static final float PLAYING_SCORE_FONT_SIZE = 48f;
     
     public static final class MENU {
 	    //Menu Start
@@ -35,7 +35,11 @@ public class Const {
 	    public static final Rectangle EXIT_BTN = new Rectangle(300, 590, 180, 100);
     }
     
-    
+    public static final class GAMEOVER {
+        public static final float END_SCORE_FONT_SIZE = 128f;
+        public static final float END_RANK_FONT_SIZE = 128f;
+
+    }
     
     public static final class ID {
         public static final int EMPTY = 0;
@@ -77,6 +81,7 @@ public class Const {
         
         public static final String RADLEY_ITALIC = "res/Fonts/Radley-Italic.ttf";
         public static final String RADLEY_REGULAR = "res/Fonts/Radley-Regular.ttf";
+        public static final String PIXEL_FONT = "res/Fonts/FFFFORWA.TTF";
         
         public static final String SPRITESHEET = "res/Sprites/spritesheet.png";
         

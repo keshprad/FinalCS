@@ -1,7 +1,9 @@
 package com.rad.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
+import com.rad.Const;
 import com.rad.Game;
 import com.rad.world.GameWorld;
 
@@ -19,6 +21,8 @@ public class Hud {
 	 * is the world where all entities exist in
 	 */
 	private GameWorld gameWorld;
+	
+	private int playerScore;
 
 	/**
 	 * is the constructor for the hud display
@@ -33,7 +37,7 @@ public class Hud {
 	 * tick method for hud
 	 */
 	public void tick() {
-		
+		playerScore = gameWorld.getCurPlayer().getScore();
 	}
 
 	/**
@@ -41,8 +45,9 @@ public class Hud {
 	 * @param g graphs for hud
 	 */
 	public void render(Graphics g) {
-//		g.setColor(Color.DARK_GRAY);
-//		g.fillRect(20, 20, 600, 60);
+		g.setFont(game.getPlayingScoreFont());
+    	g.setColor(Color.WHITE);
+    	g.drawString(playerScore + "", 0 + 16, Const.WORLD_HEIGHT - 16);
 	}
 	
 }

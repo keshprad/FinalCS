@@ -5,14 +5,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
-import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
 
-import com.rad.entity.Entity;
-import com.rad.entity.Player;
+import javax.imageio.ImageIO;
+
 import com.rad.gui.GameOver;
 import com.rad.gui.Hud;
 import com.rad.gui.Menu;
@@ -65,6 +65,16 @@ public class Game extends Canvas implements Runnable {
 	 * is the window for the game
 	 */
 	private Window window;
+	
+	
+	
+	/**
+	 * the assets to be used for the game
+	 */
+	private BufferedImage spritesheet;
+	private Font fontPlayingScore;
+	private Font fontEndScore;
+	private Font fontEndRank;
 
 	/**
 	 * is the game state for the games
@@ -188,6 +198,8 @@ public class Game extends Canvas implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;
+		
+		loadAssets();
 	}
 
     /**
@@ -199,24 +211,31 @@ public class Game extends Canvas implements Runnable {
 		isRunning = false;
 		System.exit(0);
 	}
-
+	
+	
 	/**
-	 * is the font to be loaded in
-	 * @param filePath is the file path to load the font
-	 * @param size is the size of the font
-	 * @return the font
+	 * Loads all assets required for the game.
 	 */
-	public Font loadFont(String filePath, int size) {
-		Font f = null;
+	private void loadAssets() {
 		try {
-			InputStream in = new FileInputStream(filePath);
-			f = Font.createFont(Font.TRUETYPE_FONT, in);
+			spritesheet = ImageIO.read(new File(Const.PATHS.SPRITESHEET));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+//			FileInputStream in = new FileInputStream(Const.PATHS.PIXEL_FONT);
+//			InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(Const.PATHS.PIXEL_FONT);
+			fontPlayingScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.PLAYING_SCORE_FONT_SIZE);
+			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.GAMEOVER.END_SCORE_FONT_SIZE);
+			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.GAMEOVER.END_RANK_FONT_SIZE);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)));
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return f.deriveFont(size);
 	}
 
 	/**
@@ -257,6 +276,39 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+	
+	
+	/**
+	 * returns the sprite sheet
+	 * @return the sprite sheet
+	 */
+	public BufferedImage getSpritesheet() {
+		return spritesheet;
+	}
+	
+	/**
+	 * returns the font
+	 * @return the sprite sheet
+	 */
+	public Font getPlayingScoreFont() {
+		return fontPlayingScore;
+	}
+	
+	/**
+	 * returns the font
+	 * @return the sprite sheet
+	 */
+	public Font getEndRankFont() {
+		return fontEndRank;
+	}
+	
+	/**
+	 * returns the font
+	 * @return the sprite sheet
+	 */
+	public Font getEndScoreFont() {
+		return fontEndScore;
 	}
 	
     /**
