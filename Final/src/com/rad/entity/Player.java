@@ -75,14 +75,14 @@ public class Player extends Entity {
 	@Override
 	public void init() {
 		switch (id) {
-		case Const.ID.BRAD:
-			color = Color.WHITE;
-			break;
-		case Const.ID.FULK:
-			color = Color.LIGHT_GRAY;
-			break;
-		default:
-			break;
+			case Const.ID.BRAD:
+				color = Color.WHITE;
+				break;
+			case Const.ID.FULK:
+				color = Color.LIGHT_GRAY;
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -205,20 +205,20 @@ public class Player extends Entity {
 	public void setEffect(Item item) {
 		this.effect = item.getEffect();
 		switch (this.effect) {
-		case POINT_PLUS:
-			score += Const.EFFECTS.POINT_PLUS;
-			this.effect = null;
-			break;
-		case POINT_PLUS_BIG:
-			score += Const.EFFECTS.POINT_PLUS_BIG;
-			this.effect = null;
-			break;
-		case SPEED_UP:
-			effectTimer = item.getEffect().getDuration() * 60;
-			break;
-		case EAT_OTHER:
-			effectTimer = item.getEffect().getDuration() * 60;
-			break;
+			case POINT_PLUS:
+				score += Const.EFFECTS.POINT_PLUS;
+				this.effect = null;
+				break;
+			case POINT_PLUS_BIG:
+				score += Const.EFFECTS.POINT_PLUS_BIG;
+				this.effect = null;
+				break;
+			case SPEED_UP:
+				effectTimer = item.getEffect().getDuration() * 60;
+				break;
+			case EAT_OTHER:
+				effectTimer = item.getEffect().getDuration() * 60;
+				break;
 		}
 	}
 
@@ -237,23 +237,63 @@ public class Player extends Entity {
 			return;
 		}
 
+		
 		// Find if blocks are above, below, on the right, or on the left of this player
 		if (this.cornerTimeout == 0) {
 			this.adjBlocks = hasAdjBlocks();
 		}
-		isInCorner();
+		isInCorner(); //Checks if player is currently in a corner and sets cornerTimeout accordingly
 		
 		
-		// The index in possibleMoves notes the direction
-		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
-		// Finds possible moves. To simplify I only consider up, right, down, and left
-		float[] possibleMoves = new float[4];
-		possibleMoves[0] = findAvgDist(new Location(x, y - speed), closestEnemies); // North
-		possibleMoves[1] = findAvgDist(new Location(x + speed, y), closestEnemies); // East
-		possibleMoves[2] = findAvgDist(new Location(x, y + speed), closestEnemies); // South
-		possibleMoves[3] = findAvgDist(new Location(x - speed, y), closestEnemies); // West
+		// Finds the direction of the best possible move
+		// Index: 0 -> North; 1 -> East; 2 -> South; 3 -> West
+		int index = bestDirection(closestEnemies);
 
-		// Finds the best move from the list of possibleMoves.
+		
+		//The index of the best move determines the direction of the move as noted.
+		//This switch just sets the velocity in the correct direction according to the value of index
+		switch(index) {
+			case 0:
+				// North
+				velY = -1 * speed;
+				velX = 0;
+				break;
+			case 1:
+				// East
+				velY = 0;
+				velX = speed;
+				break;
+			case 2:
+				// South
+				velY = speed;
+				velX = 0;
+				break;
+			case 3:
+				// West
+				velY = 0;
+				velX = -1 * speed;
+				break;	
+		}
+	}
+	
+	/**
+	 * First finds a list of all possible move locations
+	 * Next, determines its validity and which direction is best
+	 * @param closestEnemies a list of all enemies within a radius.
+	 * @return an index that represents the best direction for player to move
+	 */
+	public int bestDirection(LinkedList<Enemy> closestEnemies) {
+		// The index in possibleMoves notes the direction
+		// Index: 0 -> North; 1 -> East; 2 -> South; 3 -> West
+		// Finds possible moves. To simplify I only consider up, right, down, and left
+		float[] possibleMoves = {
+			findAvgDist(new Location(x, y - speed), closestEnemies), 
+			findAvgDist(new Location(x + speed, y), closestEnemies), 
+			findAvgDist(new Location(x, y + speed), closestEnemies), 
+			findAvgDist(new Location(x - speed, y), closestEnemies)
+		};
+
+		// Finds the best move in terms of an index from the list of possibleMoves.
 		int index = -1;
 		float bestMove = 0;
 		for (int i = 0; i < possibleMoves.length; i++) {
@@ -269,27 +309,9 @@ public class Player extends Entity {
 				}
 			}
 		}
-
-		// The index of the best move determines the direction of the move as noted.
-		if (index == 0) {
-			// North
-			velY = -1 * speed;
-			velX = 0;
-		} else if (index == 1) {
-			// East
-			velY = 0;
-			velX = speed;
-		} else if (index == 2) {
-			// South
-			velY = speed;
-			velX = 0;
-		} else if (index == 3) {
-			// West
-			velY = 0;
-			velX = -1 * speed;
-		}
+		return index;
 	}
-
+	
 	/**
 	 * Helps the moveAI method by finding the average distance between a point and 2
 	 * closest Enemies
