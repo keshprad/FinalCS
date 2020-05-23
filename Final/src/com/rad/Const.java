@@ -29,8 +29,6 @@ public class Const {
     
     // Number of actual players
     public static final int NUM_PLAYERS = 1;
-    
-    public static final int NUM_TYPES_OF_ENEMIES = 6;
 
     public static final class HUD {
         public static final float SCORE_FONT_SIZE = 48f;
@@ -71,6 +69,8 @@ public class Const {
         public static final int GUPPY = 13;
         public static final int BOT = 14;
         public static final int MECH = 15;
+        public static final int[] GMOBS = {GHOUL, GOLEM, GNAT, GUPPY};
+        public static final int[] BOSSES = {BOT, MECH};
 
         /* Players 20-29*/
         public static final int BRAD = 20;
@@ -113,9 +113,11 @@ public class Const {
     public static class EFFECTS {
     	public static final int POINT_PLUS = 150;
     	public static final int POINT_PLUS_BIG = 300;
+    	public static final int SPEED_UP = 2;
     }
     
     public static class PLAYER {
     	public static final int SPEED = 16;
+    	public static final int BOOSTED_SPEED = SPEED * EFFECTS.SPEED_UP;
     }
 }

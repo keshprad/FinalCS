@@ -138,7 +138,6 @@ public class Player extends Entity {
 		}
 		if (e instanceof Enemy) {
 			isDead = true;
-			
 			gameWorld.createEnemy(this.x, this.y);
 		}
 		if (e instanceof Item) {
@@ -199,11 +198,13 @@ public class Player extends Entity {
 					score += Const.EFFECTS.POINT_PLUS_BIG;
 					break;
 				case SPEED_UP:
-					speed = 2 * Const.PLAYER.SPEED;
-					this.id = Const.ID.BRAD;
+					clearPowers();
+					if (this.x % Const.PLAYER.BOOSTED_SPEED == 0 && this.y % Const.PLAYER.BOOSTED_SPEED == 0) {
+						speed = Const.PLAYER.BOOSTED_SPEED;
+					}
 					break;
 				case EAT_OTHER:
-					speed = Const.PLAYER.SPEED;
+					clearPowers();
 					setEatOthers(true);
 					break;
 				default:
@@ -212,6 +213,11 @@ public class Player extends Entity {
 		}
 	}
 
+	private void clearPowers() {
+		setEatOthers(false);
+		this.speed = Const.PLAYER.SPEED;
+	}
+	
 	/**
 	 * Determines the best of 4 moves(up, right, down, left) that puts the player
 	 * farthest away from enemies that are close to it. If there are no close

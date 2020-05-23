@@ -203,11 +203,11 @@ public class GameWorld {
 				addEntity(new Item(this, curr, countX, countY));
 			}
 
-			if (countX >= Const.WORLD_WIDTH_IN_TILES - 1) {
+			if (countX >= Const.WORLD_WIDTH - Const.TILE_SIZE) {
 				countX = 0;
-				countY++;
+				countY += Const.TILE_SIZE;
 			} else {
-				countX++;
+				countX += Const.TILE_SIZE;
 			}
 
 		}
@@ -232,9 +232,15 @@ public class GameWorld {
 	
 	
 	public void createEnemy(int x, int y) {
-		Random rand = new Random();
-		int id = Const.ID.GHOUL + rand.nextInt(Const.NUM_TYPES_OF_ENEMIES);
-		
+		int id;
+		if (Math.random() < 0.05) {
+			int index = (int)(Math.random() * Const.ID.BOSSES.length);
+			id = Const.ID.BOSSES[index];
+		}
+		else {
+			int index = (int)(Math.random() * Const.ID.GMOBS.length);
+			id = Const.ID.GMOBS[index];
+		}
 		addEntity(new Enemy(this, id, x, y));
 	}
 

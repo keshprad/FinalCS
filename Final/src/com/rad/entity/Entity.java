@@ -71,8 +71,8 @@ public abstract class Entity {
     public Entity(GameWorld gameWorld, int id, int x, int y) {
         this.gameWorld = gameWorld;
     	this.id = id;
-        this.x = x * Const.TILE_SIZE;
-        this.y = y * Const.TILE_SIZE;
+        this.x = x;
+        this.y = y;
         this.isDead = false;
         init();
     }

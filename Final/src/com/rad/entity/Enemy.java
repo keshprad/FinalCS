@@ -41,16 +41,16 @@ public class Enemy extends Entity {
     public void init() {
         switch (id) {
             case Const.ID.GHOUL:
-                speed = 8;
+                speed = 4;
                 break;
             case Const.ID.GOLEM:
                 speed = 4;
                 break;
             case Const.ID.GNAT:
-                speed = 32;
+                speed = 8;
                 break;
             case Const.ID.GUPPY:
-                speed = 16;
+                speed = 8;
                 break;
             case Const.ID.BOT:
                 speed = 16;
