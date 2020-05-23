@@ -1,16 +1,22 @@
 package com.rad.effects;
 
+import com.rad.Const;
+
 /**
- * is an enums for classes
- * @author rad
+ * Represents an effect that an entity can get when contacting an item
+ * 
+ * @author RAD
  * @version 1.0
  */
 public enum Effect {
 	POINT_PLUS(10),
     POINT_PLUS_BIG(10),
-    SPEED_UP(5 * 60),
-    EAT_OTHER(5 * 60);
+    SPEED_UP((int)(5 * Const.FRAMES_PER_SECOND)),
+    EAT_OTHER((int)(5 * Const.FRAMES_PER_SECOND));
 	
+	/**
+	 * represents the duration in ticks that the effect is applied for
+	 */
 	private int duration;
 	
 	/**
@@ -21,6 +27,10 @@ public enum Effect {
 		this.duration = duration;
 	}
 	
+	/**
+	 * returns the current duration of the effect
+	 * @return the current duration of the effect
+	 */
 	public int getDuration() {
 		return this.duration; 
 	}

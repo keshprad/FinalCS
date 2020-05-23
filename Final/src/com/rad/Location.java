@@ -11,28 +11,31 @@ import java.util.Objects;
  */
 public class Location implements Comparable {
     /**
-     * is the movepoint for the possible location, a calculated point in enemy
+     * is the "move point," a point where the enemy can move to, for the possible location,
+     * a calculated point used in enemy for the A* program
      */
     private Location movePoint = null;
     /**
-     * is the distance from a point to another
+     * is the distance from a location to another location.
+     * Used in A* program in finding distances of hypothetical move points for the enemy AI
      */
     private double dist;
     /**
      * is a priority used to calculate the priority of locations in AI
+     * it is a calculated hueristic derived from distances of the enemy AI
      */
     private double priority;
     /**
-     * is the x coordinate
+     * is the x coordinate of the location
      */
     private int x;
     /**
-     * is the y coordinate
+     * is the y coordinate of the location
      */
     private int y;
 
     /**
-     * is the x,y constructor
+     * is the (x, y) coordinate constructor for the location
      * @param x x coordinate
      * @param y y coordinate
      */
@@ -42,7 +45,7 @@ public class Location implements Comparable {
     }
 
     /**
-     * is teh x,y,dist constructor
+     * is teh (x, y), and dist constructor for the location
      * @param x X coordinate
      * @param y Y coordinate
      * @param dist distance from a point
@@ -55,7 +58,7 @@ public class Location implements Comparable {
     }
 
     /**
-     *  is the constuctor for X, Y , Dist, moivepoint
+     *  is the constuctor for X coordinate , Y coordinate, Dist, movepoint for the location
      * @param x X coordinate
      * @param y Y coordinate
      * @param dist distance from a point
@@ -70,7 +73,7 @@ public class Location implements Comparable {
     }
 
     /**
-     * is the constructor for x,y,dist, movepoint 'n priority
+     * is the constructor for x coordinate, y coordinate, dist, movepoint and priority for the location
      * @param x X point/coordinate
      * @param y Y coordinate
      * @param dist distance from a point
@@ -89,7 +92,7 @@ public class Location implements Comparable {
     /**
      * distance between 2 locations
      * @param l another location
-     * @return the distance
+     * @return the distance between two locations
      */
     public double distBetween(Location l) {
     	double dx = this.getX() - l.getX();
@@ -98,7 +101,7 @@ public class Location implements Comparable {
     }
 
     /**
-     *  the X coordinate
+     *  returns the X coordinate of the location
      * @return the x coordinate
      */
     public int getX() {
@@ -106,22 +109,13 @@ public class Location implements Comparable {
     }
 
     /**
-     *  the Y coordinate
+     *  returns the Y coordinate of the location
      * @return  the Y coordinate
      */
     public int getY() {
         return y;
     }
 
-    /**
-     * checks if a value is in the grid/world
-     * @param xl the x coordinate
-     * @param yl the y coordinate
-     * @return whether a value is in the grid or not
-     */
-    public boolean inGrid(double xl, double yl) {
-        return 0 <= xl && xl < Const.WORLD_WIDTH && 0 <= yl && yl < Const.WORLD_HEIGHT;
-    }
 
     /**
      * whether a location is in the grid or not
@@ -129,22 +123,22 @@ public class Location implements Comparable {
      * @return checks whether its in the grid or not
      */
     public boolean inGrid(Location loc) {
-        return inGrid(loc.getX(), loc.getY());
+        return 0 <=loc.x && loc.x < Const.WORLD_WIDTH && 0 <= loc.y && loc.y < Const.WORLD_HEIGHT;
     }
     
     /**
-     * changes a location to a rectangle
+     * changes a location to a rectangle (square) with height and width as the tile size
      * @param loc a given location
-     * @return a new location
+     * @return a new rectangle in the location
      */
     public Rectangle toRect(Location loc) {
         return new Rectangle(loc.getX(), loc.getY(), Const.TILE_SIZE, Const.TILE_SIZE);
     }
     
     /**
-     * comparator class used for AI
+     * comparator class used for AI used to compare priorities
      * @param o object ot compare priority locations with
-     * @return the double values btwn 2 objects of type location
+     * @return the double values between 2 objects of type location
      */
     @Override
     public int compareTo(Object o) {
@@ -153,7 +147,7 @@ public class Location implements Comparable {
     }
 
     /**
-     * overriden equals method
+     * an overriden equals method
      * @param o object to be compared to
      * @return compares location in classes
      */
@@ -175,7 +169,8 @@ public class Location implements Comparable {
     }
 
     /**
-     * getter for priority
+     * a getter for priority
+     * returns the priority(determined by a hueristic)
      * @return the priority
      */
 	public double getPriority() {
@@ -184,7 +179,8 @@ public class Location implements Comparable {
 
     /**
      * getter for move point
-     * @return the move point
+     * returns movepoint(a hypothetical location point to move to)
+     * @return the move point location
      */
 	public Location getMovePoint() {
 		return movePoint;
@@ -192,6 +188,7 @@ public class Location implements Comparable {
 
     /**
      * setter for movepoint
+     * sets the hypothetical location to move to
      * @param movePoint the move point location
      */
 	public void setMovePoint(Location movePoint) {
@@ -199,8 +196,9 @@ public class Location implements Comparable {
 	}
 
     /**
-     * getter for location
-     * @return the location dist in a double
+     * getter for distance
+     * returns the distance used for location
+     * @return the (euclidian) location dist in a double
      */
 	public double getDist() {
 		return dist;

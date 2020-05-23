@@ -19,12 +19,14 @@ import com.rad.input.MouseInput;
  */
 public class StartMenu {
 	/**
-	 * is the version of the game we are in
+	 * The current instance of game
 	 */
     private Game game;
 
 	/**
-	 * is the constructor of the menu
+	 * Constructs a Start Menu
+	 * Sets the field game
+	 * 
 	 * @param g the game that is being played
 	 */
     public StartMenu(Game g) {
@@ -32,7 +34,7 @@ public class StartMenu {
 	}
 
 	/**
-	 * is the tick method to of the menu
+	 * Updates the game state with a specific amount of frames per second
 	 */
 	public void tick(){
     	if (game.getMouseInput().isStartMenuStartButtonClicked()) {
@@ -44,7 +46,8 @@ public class StartMenu {
     }
 
 	/**
-	 * renders the menu
+	 * Renders the buttons, text, and background of the start menu
+	 * 
 	 * @param g is the graphics card
 	 */
 	public void render(Graphics g)
