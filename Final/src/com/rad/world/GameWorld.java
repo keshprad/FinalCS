@@ -277,7 +277,7 @@ public class GameWorld {
 		newEntityQueue.clear();
 		numPlayers = Const.NUM_PLAYERS;
 		
-		loadMap(Const.PATHS.MAPS[0]);
+		loadMap(Const.PATHS.MAPS[1]);
 	}
 	
 	/**
