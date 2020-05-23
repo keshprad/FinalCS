@@ -17,7 +17,7 @@ import com.rad.input.MouseInput;
  * @version 1.0
  * is the menu state of the
  */
-public class Menu {
+public class StartMenu {
 	/**
 	 * is the version of the game we are in
 	 */
@@ -27,7 +27,7 @@ public class Menu {
 	 * is the constructor of the menu
 	 * @param g the game that is being played
 	 */
-    public Menu(Game g) {
+    public StartMenu(Game g) {
 		this.game = g;
 	}
 
@@ -35,10 +35,10 @@ public class Menu {
 	 * is the tick method to of the menu
 	 */
 	public void tick(){
-    	if (game.getMouseInput().isMenuStartButtonClicked()) {
-    		game.setGameState(Game.GameState.PLAYING);
+    	if (game.getMouseInput().isStartMenuStartButtonClicked()) {
+    		game.restart();
     	}
-    	if (game.getMouseInput().isMenuExitButtonClicked()) {
+    	if (game.getMouseInput().isStartMenuExitButtonClicked()) {
     		game.stop();
     	}
     }
@@ -54,17 +54,17 @@ public class Menu {
     	BufferedImage imgStart = null;
     	BufferedImage imgExit = null;
 		try {
-			imgBG = ImageIO.read(new File(Const.PATHS.MENU_BACKGROUND));
-			imgStart = ImageIO.read(new File(Const.PATHS.MENU_START_BTN_TXT));
-			imgExit = ImageIO.read(new File (Const.PATHS.MENU_EXIT_BTN_TXT));
+			imgBG = ImageIO.read(new File(Const.PATHS.START_MENU_BACKGROUND));
+			imgStart = ImageIO.read(new File(Const.PATHS.START_MENU_START_BTN));
+			imgExit = ImageIO.read(new File (Const.PATHS.START_MENU_EXIT_BTN));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	g.drawImage(imgBG, 0, 0, Const.FRAME_WIDTH, Const.FRAME_HEIGHT, 0, 0, imgBG.getWidth(), imgBG.getHeight(), null);
-    	g.drawImage(imgStart, Const.MENU.START_BTN.x, Const.MENU.START_BTN.y, Const.MENU.START_BTN.x + imgStart.getWidth(), Const.MENU.START_BTN.y + imgStart.getHeight(), 0, 0, imgStart.getWidth(), imgStart.getHeight(), null);
-    	g.drawImage(imgExit, Const.MENU.EXIT_BTN.x, Const.MENU.EXIT_BTN.y, Const.MENU.EXIT_BTN.x + imgExit.getWidth(), Const.MENU.EXIT_BTN.y + imgExit.getHeight(), 0, 0, imgExit.getWidth(), imgExit.getHeight(), null);
+    	g.drawImage(imgStart, Const.START_MENU.START_BTN.x, Const.START_MENU.START_BTN.y, Const.START_MENU.START_BTN.x + imgStart.getWidth(), Const.START_MENU.START_BTN.y + imgStart.getHeight(), 0, 0, imgStart.getWidth(), imgStart.getHeight(), null);
+    	g.drawImage(imgExit, Const.START_MENU.EXIT_BTN.x, Const.START_MENU.EXIT_BTN.y, Const.START_MENU.EXIT_BTN.x + imgExit.getWidth(), Const.START_MENU.EXIT_BTN.y + imgExit.getHeight(), 0, 0, imgExit.getWidth(), imgExit.getHeight(), null);
     	
     }
 }

@@ -93,20 +93,7 @@ public class Player extends Entity {
 	public void tick() {
 		score++; //players awarded 1 point for every tick alive
 		
-		if (effectTimer == 0) {
-			this.effect = null;
-		}
-		if (this.getEffect() != null && this.effectTimer > 0) {
-			effectTimer--;
-			switch (this.getEffect()) {
-			case SPEED_UP:
-				speed = 2 * Const.PLAYER.SPEED;
-				break;
-			case EAT_OTHER:
-				//handle later
-				break;
-			}
-		}
+		handleEffect();
 		
 		if (this.isAI) {
 			if (cornerTimeout > 0) {
@@ -149,16 +136,6 @@ public class Player extends Entity {
 				velY = 0;
 			}
 		}
-		if (e instanceof Player && e != this) {
-			if (this.isAI) {
-				velX *= -1;
-				velY *= -1;
-			}
-			else {
-				velX = 0;
-				velY = 0;
-			}
-		}
 		if (e instanceof Enemy) {
 			isDead = true;
 			// IF NOT AI GAMEOVER
@@ -167,7 +144,6 @@ public class Player extends Entity {
 		if (e instanceof Item) {
 			Item i = (Item) e;
 			setEffect(i);
-			System.out.println("YOUR CURRENT SCORE: " + score);
 		}
 
 	}
@@ -175,7 +151,7 @@ public class Player extends Entity {
 	/**
 	 * the KeyInputs for a player/user
 	 */
-	public void useKeyInput() {
+	private void useKeyInput() {
 		if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) {
 			velX = 0;
 		} else if (gameWorld.getKeyInput().isLeft()) {
@@ -196,24 +172,40 @@ public class Player extends Entity {
 			velX = 0;
 		}
 	}
+	
+	private void handleEffect() {
+		if (effectTimer == 0) {
+			this.effect = null;
+		}
+		if (this.getEffect() != null && this.effectTimer > 0) {
+			effectTimer--;
+			switch (this.getEffect()) {
+				case SPEED_UP:
+					speed = 2 * Const.PLAYER.SPEED;
+					break;
+				case EAT_OTHER:
+					//handle later
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
 	/**
 	 * Sets the effect to that of the given item.
 	 * 
 	 * @param item the item to provide the effect
 	 */
-	public void setEffect(Item item) {
+	private void setEffect(Item item) {
 		this.effect = item.getEffect();
-<<<<<<< HEAD
 		if (this.effect != null) {
 			switch (this.effect) {
 				case POINT_PLUS:
 					score += Const.EFFECTS.POINT_PLUS;
-					this.effect = null;
 					break;
 				case POINT_PLUS_BIG:
 					score += Const.EFFECTS.POINT_PLUS_BIG;
-					this.effect = null;
 					break;
 				case SPEED_UP:
 					effectTimer = item.getEffect().getDuration() * 60;
@@ -222,23 +214,6 @@ public class Player extends Entity {
 					effectTimer = item.getEffect().getDuration() * 60;
 					break;
 			}
-=======
-		switch (this.effect) {
-			case POINT_PLUS:
-				score += Const.EFFECTS.POINT_PLUS;
-				this.effect = null;
-				break;
-			case POINT_PLUS_BIG:
-				score += Const.EFFECTS.POINT_PLUS_BIG;
-				this.effect = null;
-				break;
-			case SPEED_UP:
-				effectTimer = item.getEffect().getDuration() * 60;
-				break;
-			case EAT_OTHER:
-				effectTimer = item.getEffect().getDuration() * 60;
-				break;
->>>>>>> 7b58d22eaa31104a2c58ee5807d07fa39001eb83
 		}
 	}
 
@@ -248,7 +223,7 @@ public class Player extends Entity {
 	 * enemies, the player will not move. This method is meant to be used for
 	 * players controlled by a computer.
 	 */
-	public void escapeEnemies() {
+	private void escapeEnemies() {
 		// If no enemies in proximity, this function should exit and do nothing
 		LinkedList<Enemy> closestEnemies = findProximityEnemies(new Location(x, y), gameWorld.getEntities());
 		if (closestEnemies.size() == 0) {
@@ -302,7 +277,7 @@ public class Player extends Entity {
 	 * @param closestEnemies a list of all enemies within a radius.
 	 * @return an index that represents the best direction for player to move
 	 */
-	public int bestDirection(LinkedList<Enemy> closestEnemies) {
+	private int bestDirection(LinkedList<Enemy> closestEnemies) {
 		// The index in possibleMoves notes the direction
 		// Index: 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		// Finds possible moves. To simplify I only consider up, right, down, and left
@@ -341,7 +316,7 @@ public class Player extends Entity {
 	 * @return average of 2 distances between a point (i,j) and its 2 closest
 	 *         enemies
 	 */
-	public float findAvgDist(Location location, LinkedList<Enemy> closestEnemies) {
+	private float findAvgDist(Location location, LinkedList<Enemy> closestEnemies) {
 		float totalD = 0;
 		for (Enemy e : closestEnemies) {
 			totalD += (float) (location.distBetween(new Location(e.x, e.y)));
@@ -357,7 +332,7 @@ public class Player extends Entity {
 	 * @param entities a list of entities
 	 * @return the closest entity of the given type
 	 */
-	public LinkedList<Enemy> findProximityEnemies(Location location, LinkedList<Entity> entities) {
+	private LinkedList<Enemy> findProximityEnemies(Location location, LinkedList<Entity> entities) {
 		LinkedList<Enemy> closeEnemies = new LinkedList<Enemy>();
 		float radius = (float) (2*Const.WORLD_WIDTH / 3);
 
@@ -376,7 +351,7 @@ public class Player extends Entity {
 	 *
 	 * @return a list of booleans
 	 */
-	public boolean[] hasAdjBlocks()
+	private boolean[] hasAdjBlocks()
 	{
 		// Creating a list of blocks and checks bounds if the blocks are adjacent
 		// 0 -> North; 1 -> East; 2 -> South; 3 -> West
@@ -425,7 +400,7 @@ public class Player extends Entity {
 	/**
 	 * checks if the player is in a corner
 	 */
-	public void isInCorner() {
+	private void isInCorner() {
 		boolean[] adjBlocks = hasAdjBlocks();
 		for (int i = 0; i < adjBlocks.length; i++) {
 			if (i == adjBlocks.length - 1) {

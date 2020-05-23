@@ -13,9 +13,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.rad.gui.GameOver;
+import com.rad.gui.EndMenu;
 import com.rad.gui.Hud;
-import com.rad.gui.Menu;
+import com.rad.gui.StartMenu;
 import com.rad.gui.Window;
 import com.rad.input.KeyInput;
 import com.rad.input.MouseInput;
@@ -56,17 +56,15 @@ public class Game extends Canvas implements Runnable {
 	/**
 	 * is the menu for the game
 	 */
-	private Menu menu;
+	private StartMenu startMenu;
 	/**
-	 * is the game ovr state
+	 * is the game over state
 	 */
-	private GameOver gameOver;
+	private EndMenu endMenu;
 	/**
 	 * is the window for the game
 	 */
 	private Window window;
-	
-	
 	
 	/**
 	 * the assets to be used for the game
@@ -80,13 +78,13 @@ public class Game extends Canvas implements Runnable {
 	 * is the game state for the games
 	 */
 	public static enum GameState {
-		MENU, PLAYING, SPECTATING, GAMEOVER;
+		START, PLAYING, SPECTATING, END;
 	}
 
 	/**
 	 * is the starting game state/ testing game state
 	 */
-	private GameState gameState = GameState.MENU;
+	private GameState gameState = GameState.START;
 	
 	/**
      * loads up the window, and allows is to be able to  run
@@ -94,12 +92,9 @@ public class Game extends Canvas implements Runnable {
 	public Game() {
 		window = new Window(this);
 		window.init();
-		
-		this.gameWorld = new GameWorld(this);
-		
-		hud = new Hud(this);
-		menu = new Menu(this);
-		gameOver= new GameOver(this);
+	
+		startMenu = new StartMenu(this);
+		endMenu= new EndMenu(this);
 		
 		mouse = new MouseInput(this);
 		this.addMouseListener(mouse);
@@ -144,12 +139,12 @@ public class Game extends Canvas implements Runnable {
 			gameWorld.tick();
 			hud.tick();
 		}
-		else if (gameState== GameState.MENU) {
-			menu.tick();
+		else if (gameState== GameState.START) {
+			startMenu.tick();
 		}
-		else if(gameState==GameState.GAMEOVER)
+		else if(gameState==GameState.END)
 		{
-			gameOver.tick();
+			endMenu.tick();
 		}
 
 
@@ -175,11 +170,11 @@ public class Game extends Canvas implements Runnable {
 			gameWorld.render(g);
 			hud.render(g);
 		}
-		else if (gameState == GameState.MENU) {
-			menu.render(g);
+		else if (gameState == GameState.START) {
+			startMenu.render(g);
 		}
-		else if (gameState == GameState.GAMEOVER) {
-			gameOver.render(g);
+		else if (gameState == GameState.END) {
+			endMenu.render(g);
 		}
 		
 		bufferStrategy.show();
@@ -212,6 +207,12 @@ public class Game extends Canvas implements Runnable {
 		System.exit(0);
 	}
 	
+	public void restart() {
+		gameState = GameState.PLAYING;
+		this.gameWorld = new GameWorld(this);
+		hud = new Hud(this);
+	}
+	
 	
 	/**
 	 * Loads all assets required for the game.
@@ -226,9 +227,9 @@ public class Game extends Canvas implements Runnable {
 		try {
 //			FileInputStream in = new FileInputStream(Const.PATHS.PIXEL_FONT);
 //			InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(Const.PATHS.PIXEL_FONT);
-			fontPlayingScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.PLAYING_SCORE_FONT_SIZE);
-			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.GAMEOVER.END_SCORE_FONT_SIZE);
-			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.GAMEOVER.END_RANK_FONT_SIZE);
+			fontPlayingScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.HUD.SCORE_FONT_SIZE);
+			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.SCORE_FONT_SIZE);
+			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.RANK_FONT_SIZE);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)));
 		} catch (FontFormatException e) {

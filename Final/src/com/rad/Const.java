@@ -25,9 +25,11 @@ public class Const {
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
 
-    public static final float PLAYING_SCORE_FONT_SIZE = 48f;
+    public static final class HUD {
+        public static final float SCORE_FONT_SIZE = 48f;
+    }
     
-    public static final class MENU {
+    public static final class START_MENU {
 	    //Menu Start
     	public static final Rectangle START_BTN = new Rectangle(270, 470, 240, 100);
 	    
@@ -35,10 +37,12 @@ public class Const {
 	    public static final Rectangle EXIT_BTN = new Rectangle(300, 590, 180, 100);
     }
     
-    public static final class GAMEOVER {
-        public static final float END_SCORE_FONT_SIZE = 128f;
-        public static final float END_RANK_FONT_SIZE = 128f;
+    public static final class END_MENU {
+        public static final float SCORE_FONT_SIZE = 128f;
+        public static final float RANK_FONT_SIZE = 128f;
 
+      //Menu Start
+    	public static final Rectangle RETURN_BTN = new Rectangle(400, 630, 340, 95);
     }
     
     public static final class ID {
@@ -86,12 +90,12 @@ public class Const {
         public static final String SPRITESHEET = "res/Sprites/spritesheet.png";
         
         
-        public static final String MENU_BACKGROUND = "res/GUI/Menu/menu_background.png";
-        public static final String MENU_START_BTN_TXT = "res/GUI/Menu/menu_start_button.png";
-        public static final String MENU_EXIT_BTN_TXT = "res/GUI/Menu/menu_exit_button.png";
+        public static final String START_MENU_BACKGROUND = "res/GUI/StartMenu/start_menu_background.png";
+        public static final String START_MENU_START_BTN = "res/GUI/StartMenu/start_menu_start_button.png";
+        public static final String START_MENU_EXIT_BTN = "res/GUI/StartMenu/start_menu_exit_button.png";
         
-        public static final String GOVER_BACKGROUND = "res/GUI/GameOver/gover_background.png";
-        public static final String GOVER_RETURN_BTN_TXT = "res/GUI/GameOver/gover_return.png";        
+        public static final String END_MENU_BACKGROUND = "res/GUI/EndMenu/end_menu_background.png";
+        public static final String END_MENU_RETURN_BTN = "res/GUI/EndMenu/end_menu_return.png";        
     }
     
     public static class EFFECTS {
