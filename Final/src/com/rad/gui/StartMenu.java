@@ -36,7 +36,7 @@ public class StartMenu {
 	 */
 	public void tick(){
     	if (game.getMouseInput().isStartMenuStartButtonClicked()) {
-    		game.restart();
+    		game.startPlaying();
     	}
     	if (game.getMouseInput().isStartMenuExitButtonClicked()) {
     		game.stop();

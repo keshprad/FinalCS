@@ -1,15 +1,13 @@
 package com.rad.world;
 
 import java.awt.Graphics;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
-
-import javax.imageio.ImageIO;
 
 import com.rad.Const;
 import com.rad.Game;
@@ -54,10 +52,15 @@ public class GameWorld {
 	 * is a linked list of dead entities
 	 */
 	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+	
 	/**
 	 * is a linked list of all Players
 	 */
 	private LinkedList<Player> allPlayers= new LinkedList<>();
+	
+	
+	private Queue<Entity> addEntityQueue = new LinkedList<Entity>();
+	
 	/**
 	 * is the game user is playing in
 	 */
@@ -68,26 +71,26 @@ public class GameWorld {
 	/**
 	 * the number of players in a game
 	 */
-	private int numPlayers = 1; // Changeable later
+	private int numPlayers = Const.NUM_PLAYERS; // Changeable later
 	
 	/**
 	 * calls loadMap which reads a user generated map to create a map in the window
 	 */
 	public GameWorld(Game g) {
 		
-		this.game = g;
-		
-		//int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
-		//loadMap(Const.PATHS.MAPS[mapNumber]);
-		loadMap(Const.PATHS.MAPS[0]);
+		this.game = g;		
 	}
 
 	/**
 	 * iterates through the map, reloading it every second
 	 */
 	public void tick() {
-		//FIX
 		checkGameOver();
+		for (Entity e : addEntityQueue) {
+			entities.add(e);
+		}
+		addEntityQueue.clear();
+		
 		for (Entity e : entities) {
 			e.tick();
 			if (e.isDead()) {
@@ -114,8 +117,7 @@ public class GameWorld {
 	 * @param g input required to draw
 	 */
 	public void render(Graphics g) {
-		// Drawing the background
-    	g.drawImage(getSpritesheet(), 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, null);
+    	g.drawImage(game.getFloor(), 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, null);
 
 		for (Entity e : entities) {
 			e.render(g);
@@ -128,7 +130,8 @@ public class GameWorld {
 	 * @param e
 	 */
 	public void addEntity(Entity e) {
-		entities.add(e);
+		addEntityQueue.add(e);
+		
 		if (e instanceof Player) {
 			players.add((Player)e);
 			allPlayers.add((Player) e);
@@ -221,6 +224,31 @@ public class GameWorld {
 			}
 		}
 
+	}
+	
+	
+	public void createEnemy(int x, int y) {
+		Random rand = new Random();
+		int id = Const.ID.GHOUL + rand.nextInt(Const.NUM_TYPES_OF_ENEMIES);
+		
+		addEntity(new Enemy(this, id, x, y));
+	}
+
+	/**
+	 * Initializes the GameWorld.
+	 */
+	public void initialize() {
+		entities.clear();
+		players.clear();
+		blocks.clear();
+		enemies.clear();
+		items.clear();
+		allPlayers.clear();
+		deadEntities.clear();
+		addEntityQueue.clear();
+		numPlayers = Const.NUM_PLAYERS;
+		
+		loadMap(Const.PATHS.MAPS[0]);
 	}
 	
 	/**

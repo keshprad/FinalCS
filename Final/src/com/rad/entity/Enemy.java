@@ -41,22 +41,22 @@ public class Enemy extends Entity {
     public void init() {
         switch (id) {
             case Const.ID.GHOUL:
-                speed = 6;
+                speed = 8;
                 break;
             case Const.ID.GOLEM:
                 speed = 4;
                 break;
             case Const.ID.GNAT:
-                speed = 8;
+                speed = 32;
                 break;
             case Const.ID.GUPPY:
-                speed = 4;
+                speed = 16;
                 break;
             case Const.ID.BOT:
-                speed = 4;
+                speed = 16;
                 break;
             case Const.ID.MECH:
-                speed = 4;
+                speed = 16;
                 break;
             default:
                 break;
@@ -241,16 +241,4 @@ public class Enemy extends Entity {
 
         return possibleLocations;
     }
-    
-//    @Override
-//    public void handleCollision(Entity e) {
-//		if (e instanceof Block) {
-//			velX *= -1;
-//			velY *= -1;
-//		}
-//		if (e instanceof Player) {
-//			e.isDead = true;
-//		}
-//
-//	}
 }

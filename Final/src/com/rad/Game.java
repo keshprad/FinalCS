@@ -22,7 +22,7 @@ import com.rad.input.MouseInput;
 import com.rad.world.GameWorld;
 
 /**
- * This class handles the gui in running the window
+ * This class handles the GUI in running the window
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Game extends Canvas implements Runnable {
@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private KeyInput keys;
 	/**
-	 * hud for the player
+	 * HUD for the player
 	 */
 	private Hud hud;
 	/**
@@ -70,6 +70,7 @@ public class Game extends Canvas implements Runnable {
 	 * the assets to be used for the game
 	 */
 	private BufferedImage spritesheet;
+	private BufferedImage floor;
 	private Font fontPlayingScore;
 	private Font fontEndScore;
 	private Font fontEndRank;
@@ -93,14 +94,6 @@ public class Game extends Canvas implements Runnable {
 		window = new Window(this);
 		window.init();
 	
-		startMenu = new StartMenu(this);
-		endMenu= new EndMenu(this);
-		
-		mouse = new MouseInput(this);
-		this.addMouseListener(mouse);
-		keys = new KeyInput(this);
-		this.addKeyListener(keys);
-		
 		start();
 	}
 
@@ -130,7 +123,7 @@ public class Game extends Canvas implements Runnable {
 	/**
 	 * Updates the game. Called 60 times per second.
 	 */
-	private void tick() {
+	private void tick() {		
 		if (gameState == GameState.PLAYING) {
 			gameWorld.tick();
 			hud.tick();
@@ -190,11 +183,27 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		loadAssets();
+		
+		init();
+
 		thread = new Thread(this);
 		thread.start();
-		isRunning = true;
+		isRunning = true;		
+	}
+	
+	private void init() {
+		gameWorld = new GameWorld(this);
+		hud = new Hud(this);
 		
-		loadAssets();
+		startMenu = new StartMenu(this);
+		endMenu= new EndMenu(this);
+		
+		mouse = new MouseInput(this);
+		this.addMouseListener(mouse);
+		keys = new KeyInput(this);
+		this.addKeyListener(keys);
+		
 	}
 
     /**
@@ -207,10 +216,9 @@ public class Game extends Canvas implements Runnable {
 		System.exit(0);
 	}
 	
-	public void restart() {
+	public void startPlaying() {
 		gameState = GameState.PLAYING;
-		this.gameWorld = new GameWorld(this);
-		hud = new Hud(this);
+		this.gameWorld.initialize();
 	}
 	
 	
@@ -220,6 +228,7 @@ public class Game extends Canvas implements Runnable {
 	private void loadAssets() {
 		try {
 			spritesheet = ImageIO.read(new File(Const.PATHS.SPRITESHEET));
+			floor = ImageIO.read(new File(Const.PATHS.FLOOR));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -229,9 +238,7 @@ public class Game extends Canvas implements Runnable {
 //			InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(Const.PATHS.PIXEL_FONT);
 			fontPlayingScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.HUD.SCORE_FONT_SIZE);
 			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.SCORE_FONT_SIZE);
-			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.RANK_FONT_SIZE);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)));
+			fontEndRank = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.RANK_FONT_SIZE);
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -286,6 +293,14 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public BufferedImage getSpritesheet() {
 		return spritesheet;
+	}
+	
+	/**
+	 * returns the sprite sheet
+	 * @return the sprite sheet
+	 */
+	public BufferedImage getFloor() {
+		return floor;
 	}
 	
 	/**

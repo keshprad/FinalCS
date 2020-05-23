@@ -1,6 +1,5 @@
 package com.rad.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.LinkedList;
@@ -32,7 +31,7 @@ public class Player extends Entity {
 	private boolean isAI;
 
 	/**
-	 * is an array of adjecent blocks
+	 * is an array of adjacent blocks
 	 */
 	private boolean[] adjBlocks = { false, false, false, false };
 
@@ -46,6 +45,8 @@ public class Player extends Entity {
 	 */
 	private int effectTimer = 0;
 	
+	private boolean hasEatOthers = false;
+		
 	/**
 	 * Constructor for Player
 	 * 
@@ -61,25 +62,14 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * returns a rectangle
-	 * @return a new rectangle
-	 */
-	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(x + velX + (Const.PLAYER.SPEED/2), y + velY + (Const.PLAYER.SPEED/2), Const.TILE_SIZE - Const.PLAYER.SPEED, Const.TILE_SIZE - Const.PLAYER.SPEED);
-	}
-
-	/**
 	 * type of player
 	 */
 	@Override
 	public void init() {
 		switch (id) {
 			case Const.ID.BRAD:
-				color = Color.WHITE;
 				break;
 			case Const.ID.FULK:
-				color = Color.LIGHT_GRAY;
 				break;
 			default:
 				break;
@@ -92,7 +82,7 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		score++; //players awarded 1 point for every tick alive
-		
+			
 		handleEffect();
 		
 		if (this.isAI) {
@@ -109,6 +99,7 @@ public class Player extends Entity {
 			y += velY;
 			useKeyInput();
 		}
+		
 		super.tick();
 		x = clamp(x, 0, Const.WORLD_WIDTH - width);
 		y = clamp(y, 0, Const.WORLD_HEIGHT - height);
@@ -129,21 +120,31 @@ public class Player extends Entity {
 	 * @param e is the entity you collide with
 	 */
 	@Override
-	public void handleCollision(Entity e) {
+	public void handleCollision(Entity e) {		
 		if (e instanceof Block) {
 			if (!isAI) {
 				velX = 0;
 				velY = 0;
 			}
 		}
+		if (e instanceof Player) {
+			if (((Player) e).hasEatOthers()) {
+				isDead = true;
+			}
+			
+			if (this.hasEatOthers()) {
+				score += Const.EFFECTS.POINT_PLUS_BIG;
+			}
+		}
 		if (e instanceof Enemy) {
 			isDead = true;
-			// IF NOT AI GAMEOVER
-			System.out.println("THAT HURTS!");
+			
+			gameWorld.createEnemy(this.x, this.y);
 		}
 		if (e instanceof Item) {
 			Item i = (Item) e;
-			setEffect(i);
+			this.effect = i.getEffect();
+			effectTimer = i.getEffect().getDuration();
 		}
 
 	}
@@ -174,33 +175,23 @@ public class Player extends Entity {
 	}
 	
 	private void handleEffect() {
-		if (effectTimer == 0) {
-			this.effect = null;
-		}
-		if (this.getEffect() != null && this.effectTimer > 0) {
-			effectTimer--;
-			switch (this.getEffect()) {
+		if (effectTimer == 0 && this.effect != null) {
+			switch (this.effect) {
 				case SPEED_UP:
-					speed = 2 * Const.PLAYER.SPEED;
+					speed = Const.PLAYER.SPEED;
 					break;
 				case EAT_OTHER:
-					//handle later
+					setEatOthers(false);
 					break;
 				default:
 					break;
 			}
+			this.effect = null;
 		}
-	}
-
-	/**
-	 * Sets the effect to that of the given item.
-	 * 
-	 * @param item the item to provide the effect
-	 */
-	private void setEffect(Item item) {
-		this.effect = item.getEffect();
-		if (this.effect != null) {
-			switch (this.effect) {
+		
+		if (this.getEffect() != null && this.effectTimer > 0) {
+			effectTimer--;
+			switch (this.getEffect()) {
 				case POINT_PLUS:
 					score += Const.EFFECTS.POINT_PLUS;
 					break;
@@ -208,10 +199,14 @@ public class Player extends Entity {
 					score += Const.EFFECTS.POINT_PLUS_BIG;
 					break;
 				case SPEED_UP:
-					effectTimer = item.getEffect().getDuration() * 60;
+					speed = 2 * Const.PLAYER.SPEED;
+					this.id = Const.ID.BRAD;
 					break;
 				case EAT_OTHER:
-					effectTimer = item.getEffect().getDuration() * 60;
+					speed = Const.PLAYER.SPEED;
+					setEatOthers(true);
+					break;
+				default:
 					break;
 			}
 		}
@@ -413,6 +408,19 @@ public class Player extends Entity {
 				return;
 			}
 		}
+	}
+	
+	public void setEatOthers(boolean hasCake) {
+		this.hasEatOthers = hasCake;
+		if (hasCake) {
+			this.id = Const.ID.FULK;
+		} else {
+			this.id = Const.ID.BRAD;
+		}
+	}
+	
+	public boolean hasEatOthers() {
+		return hasEatOthers;
 	}
 
 	/**

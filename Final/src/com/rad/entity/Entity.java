@@ -60,10 +60,6 @@ public abstract class Entity {
      * checks if the entity is dead
      */
     protected boolean isDead;
-    /**
-     * Color of the enemy
-     */
-    protected Color color;
     
     /**
      * constructs a certain enemy and identity
@@ -91,7 +87,7 @@ public abstract class Entity {
      */
     public void tick() {
     	for (Entity e : gameWorld.getEntities()) {
-			if (this.getBounds().intersects(e.getBounds())) {
+			if (e != this && this.getBounds().intersects(e.getBounds())) {
 				handleCollision(e);
 			}
 		}
@@ -113,7 +109,7 @@ public abstract class Entity {
      * handles the collisions for to an entity
      */
     public void handleCollision(Entity e) {
-    	//doNothing
+
     }
 
     /**
@@ -146,6 +142,7 @@ public abstract class Entity {
     public boolean isDead() {
         return isDead;
     }
+
     /**
      * gets the bounds of the rectangle
      * @return a new rectangle

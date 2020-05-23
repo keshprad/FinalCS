@@ -1,9 +1,8 @@
 package com.rad.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
-import com.rad.Const;
 import com.rad.world.GameWorld;
 
 /**
@@ -32,12 +31,12 @@ public class Block extends Entity {
 	 * changes the color of the block
 	 */
 	public void init() {
-		color = Color.GREEN;
+		
 	}
 
 	@Override
 	/**
-	 * inherits the entitiy tick
+	 * inherits the entity tick
 	 */
 	public void tick() {
 		super.tick();

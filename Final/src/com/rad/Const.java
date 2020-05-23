@@ -1,6 +1,8 @@
 package com.rad;
 
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Vector;
 
 public class Const {
     // TODO: Change title and frame size
@@ -11,7 +13,7 @@ public class Const {
     public static final int WORLD_WIDTH_IN_TILES = 12;
     public static final int WORLD_HEIGHT_IN_TILES = 12;
 
-    public static final double FRAMES_PER_SECOND = 30.0;
+    public static final double FRAMES_PER_SECOND = 15.0;
 
     public static final int MARGIN_X = 0;
     public static final int MARGIN_Y = 0;
@@ -24,9 +26,17 @@ public class Const {
     
     public static final int WORLD_WIDTH = TILE_SIZE * WORLD_WIDTH_IN_TILES;
     public static final int WORLD_HEIGHT = TILE_SIZE * WORLD_HEIGHT_IN_TILES;
+    
+    // Number of actual players
+    public static final int NUM_PLAYERS = 1;
+    
+    public static final int NUM_TYPES_OF_ENEMIES = 6;
 
     public static final class HUD {
         public static final float SCORE_FONT_SIZE = 48f;
+        
+        public static final Point EFFECT_LOC = new Point(752, 752);
+        public static final Point SCORE_LOC = new Point(16, 752);
     }
     
     public static final class START_MENU {
@@ -39,10 +49,12 @@ public class Const {
     
     public static final class END_MENU {
         public static final float SCORE_FONT_SIZE = 128f;
-        public static final float RANK_FONT_SIZE = 128f;
+        public static final float RANK_FONT_SIZE = 80f;
 
       //Menu Start
     	public static final Rectangle RETURN_BTN = new Rectangle(400, 630, 340, 95);
+    	public static final int SCORE_Y = 408;
+    	public static final Point RANK_LOC = new Point(486, 556);
     }
     
     public static final class ID {
@@ -88,7 +100,7 @@ public class Const {
         public static final String PIXEL_FONT = "res/Fonts/FFFFORWA.TTF";
         
         public static final String SPRITESHEET = "res/Sprites/spritesheet.png";
-        
+        public static final String FLOOR = "res/Sprites/floor.png";
         
         public static final String START_MENU_BACKGROUND = "res/GUI/StartMenu/start_menu_background.png";
         public static final String START_MENU_START_BTN = "res/GUI/StartMenu/start_menu_start_button.png";
@@ -99,11 +111,11 @@ public class Const {
     }
     
     public static class EFFECTS {
-    	public static final int POINT_PLUS = 600;
-    	public static final int POINT_PLUS_BIG = 2500;
+    	public static final int POINT_PLUS = 150;
+    	public static final int POINT_PLUS_BIG = 300;
     }
     
     public static class PLAYER {
-    	public static final int SPEED = 8;
+    	public static final int SPEED = 16;
     }
 }
