@@ -279,7 +279,6 @@ public class GameWorld {
 		
 		int mapNumber = (int)(Math.random() * Const.PATHS.MAPS.length);
 		loadMap(Const.PATHS.MAPS[mapNumber]);
-		//loadMap(Const.PATHS.MAPS[1]);
 	}
 	
 	/**
