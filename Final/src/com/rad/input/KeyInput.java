@@ -33,11 +33,11 @@ public class KeyInput implements KeyListener {
     private Game game;
 
     /**
-     * is the constructor of key input, takes the key input for the game, where the game is initialized.
-     * @param g the game users are playing in
+     * The constructor.
+     * @param game the instance of game the key input handler was created
      */
-    public KeyInput(Game g) {
-        this.game = g;
+    public KeyInput(Game game) {
+        this.game = game;
     }
 
     /**
@@ -65,6 +65,8 @@ public class KeyInput implements KeyListener {
             up = true;
         } else if (key == KeyEvent.VK_S) {
             down = true;
+        } else if (key == KeyEvent.VK_ESCAPE) {
+            game.stop();
         }
 
     }

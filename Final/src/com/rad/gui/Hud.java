@@ -10,30 +10,41 @@ import com.rad.effects.Effect;
 import com.rad.world.GameWorld;
 
 /**
- * is the HUD
+ * Represents the HUD (headless user display). Displays the user's score and current effect on the screen.
  * @author RAD
  * @version 1.0
  */
 public class Hud {
+	
 	/**
-	 * the game users are playing in
+	 * The current instance of game.
 	 */
 	private Game game;
+	
 	/**
-	 * is the world where all entities exist in
+	 * The game world.
 	 */
 	private GameWorld gameWorld;
 	
+	/**
+	 * The user controlled player's score.
+	 */
 	private int playerScore = 0;
 	
+	/**
+	 * If the user controlled player has a speed up or eat others power up.
+	 */
 	private boolean hasSpeedUp = false;
 	private boolean hasEatOthers = false;
 	
+	/**
+	 * Used to calculate the dimensions of a string when drawn with the specified font.
+	 */
 	private FontMetrics metrics;
 	
 	/**
-	 * is the constructor for the HUD display
-	 * @param g the game it is in
+	 * The constructor.
+	 * @param g the instance of game the HUD was created in
 	 */
 	public Hud(Game g) {
 		this.game = g;
@@ -41,7 +52,8 @@ public class Hud {
 	}
 
 	/**
-	 * tick method for HUD
+	 * Updates the HUD's state. Called Const.FRAMES_PER_SECOND frames per second.
+	 * Retrieves the user controlled player's score and power up to display the information.
 	 */
 	public void tick() {
 
@@ -58,8 +70,9 @@ public class Hud {
 	}
 
 	/**
-	 * render method for HUD
-	 * @param g graphs for HUD
+	 * Draws the HUD to the screen. Called as often as possible.
+	 * Displays the user controlled player's score and a message that indicates the player's current effect.
+	 * @param g the graphics the HUD is drawn on
 	 */
 	public void render(Graphics g) {
 		g.setFont(game.getPlayingScoreFont());

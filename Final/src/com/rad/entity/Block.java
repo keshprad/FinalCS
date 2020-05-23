@@ -6,21 +6,18 @@ import java.awt.Rectangle;
 import com.rad.world.GameWorld;
 
 /**
- * 
- * This class defines a Block. This includes walls, bushes, etc.
- * 
- * id = 1 -> Wall
- * id = 2 -> Bush
+ * Represents a static block. Blocks the movement of entities.
  *
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Block extends Entity {
 
 	/**
-	 * Constructor for Block
-	 * @param id Tells us the type of block
-	 * @param x initial x-position of the block
-	 * @param y initial y-position of the block
+	 * The constructor.
+	 * 
+	 * @param id The ID of the block. 1 -> Wall, 2 -> Bush
+	 * @param x  The x coordinate of the block.
+	 * @param y  The y coordinate of the block.
 	 */
 	public Block(GameWorld gameWorld, int id, int x, int y) {
 		super(gameWorld, id, x, y);
@@ -28,15 +25,16 @@ public class Block extends Entity {
 
 	@Override
 	/**
-	 * changes the color of the block
+	 * Initializes the block. Empty for now.
 	 */
 	public void init() {
-		
+
 	}
 
 	@Override
 	/**
-	 * inherits the entity tick
+	 * Updates the block's state. Called Const.FRAMES_PER_SECOND frames per second.
+	 * Empty for now.
 	 */
 	public void tick() {
 		super.tick();
@@ -44,10 +42,12 @@ public class Block extends Entity {
 
 	@Override
 	/**
-	 * renders a graphic to represent a Block. Either a wall, bush...
+	 * Draws the block to the screen. Called as often as possible. Empty for now.
+	 * 
+	 * @param g the graphics the images are drawn on.
 	 */
 	public void render(Graphics g) {
 		super.render(g);
 	}
-	
+
 }
