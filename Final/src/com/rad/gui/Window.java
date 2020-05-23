@@ -11,20 +11,21 @@ import com.rad.Game;
 /**
  * GUI to create the window
  *@author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
+ * @version 1.0
  */
 public class Window {
 	/**
-	 * instance of game
+	 * is an instance of game used to implement the GUI
 	 */
 	private Game game;
 	/**
-	 * is the Jframe frame of our game
+	 * is the frame which holds the game itself
 	 */
 	private JFrame frame;
 
 	/**
-	 * passes a version of game into the window
-	 * @param game runs the game
+	 * passes a version of game into the window and creates a jframe frame with a title
+	 * @param game initializes the game to the private variable game
 	 */
 	public Window(Game game) {
 		this.game = game;
@@ -32,7 +33,7 @@ public class Window {
 	}
 
 	/**
-	 * creates the  window
+	 * creates the  window with determined size, doesn't allow it to move or resize, and adds the game.
 	 */
 	public void init() {
 		frame.setPreferredSize(new Dimension(Const.FRAME_WIDTH, Const.FRAME_HEIGHT));

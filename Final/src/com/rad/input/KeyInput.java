@@ -8,23 +8,23 @@ import com.rad.Game;
 /**
  * @author RAD
  * @version 1.0
- * is the key listner for our code, used in players
+ * is the key listener for our code, used in players
  */
 public class KeyInput implements KeyListener {
     /**
-     * is the up movement
+     * is the up movement used in player
      */
     private boolean up = false;
     /**
-     * down movement
+     * down movement used in player
      */
     private boolean down = false;
     /**
-     * left movement
+     * left movement used in player
      */
     private boolean left = false;
     /**
-     * right movement
+     * right movement used in player
      */
     private boolean right = false;
     /**
@@ -33,7 +33,7 @@ public class KeyInput implements KeyListener {
     private Game game;
 
     /**
-     * is the key input of the location
+     * is the constructor of key input, takes the key input for the game, where the game is initialized.
      * @param g the game users are playing in
      */
     public KeyInput(Game g) {
@@ -42,7 +42,7 @@ public class KeyInput implements KeyListener {
 
     /**
      * the key to be typed
-     * @param e
+     * @param e the button (key event ) pressed
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -50,8 +50,8 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     *  the key to be released
-     * @param e
+     *  the key to be released, checks to move keyboard buttons WASD to move up, left, down, right respectively
+     * @param e the button (key event ) pressed
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -70,8 +70,8 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     * is the key to be released
-     * @param e the key pressed
+     * is the key to be released,checks to not move keyboard buttons WASD to not move up, left, down, right respectively
+     * @param e the key released
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -89,7 +89,7 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     * if movement is up
+     * returns if movement is up
      * @return if movement is up
      */
     public boolean isUp() {
@@ -97,7 +97,7 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     * if movement is down
+     *  returns if movement is down
      * @return if movement is down
      */
     public boolean isDown() {
@@ -105,7 +105,7 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     * if movement is left
+     * returns if movement is left
      * @return  if movement is left
      */
     public boolean isLeft() {
@@ -113,7 +113,7 @@ public class KeyInput implements KeyListener {
     }
 
     /**
-     *  if movement is right
+     *  returns if movement is right
      * @return  if movement is left
      */
     public boolean isRight() {
