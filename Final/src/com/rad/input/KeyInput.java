@@ -34,10 +34,10 @@ public class KeyInput implements KeyListener {
 
     /**
      * is the key input of the location
-     * @param g the game users are playing in
+     * @param game the game users are playing in
      */
-    public KeyInput(Game g) {
-        this.game = g;
+    public KeyInput(Game game) {
+        this.game = game;
     }
 
     /**
@@ -65,6 +65,8 @@ public class KeyInput implements KeyListener {
             up = true;
         } else if (key == KeyEvent.VK_S) {
             down = true;
+        } else if (key == KeyEvent.VK_ESCAPE) {
+        	game.stop();
         }
 
     }

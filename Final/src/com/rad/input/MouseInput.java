@@ -8,41 +8,47 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * is the mouse input of the code
+ * The mouse input handler. Used to handle mouse clicks on menus.
  * @author RAD
  * @version 1.0
  */
 public class MouseInput implements MouseListener {
+	
 	/**
-	 * boolean is true if start button has been clicked.
+	 * If the start menu's start button is clicked.
 	 */
 	private boolean startMenuStartButtonClicked = false;
 
 	/**
-	 * boolean is true if exit button has been clicked.
+	 * If the start menu's exit button is clicked.
 	 */
 	private boolean startMenuExitButtonClicked = false;
 
+	/**
+	 * If the end menu's return button is clicked.
+	 */
 	private boolean endMenuReturnButtonClicked = false;
 	
 	/**
-	 * This represents the game
+	 * The instance of the main game the mouse input handler was created.
 	 */
 	private Game game;
 
 	/**
-	 * is the mouse input of the game
-	 * @param g
+	 * The constructor.
+	 * @param game the instance of the game the mouse input handler was created
 	 */
-	public MouseInput(Game g) {
-		this.game = g;
+	public MouseInput(Game game) {
+		this.game = game;
 	}
 
-	/**
-	 * is if the mouse button pressed
-	 * @param e is the mouse event pressed
-	 */
+
 	@Override
+	/**
+	 * Called whenever the user clicks with the mouse. Sets the appropriate booleans to true
+	 * if the appropriate regions were clicked on.
+	 * @param e the mouse event
+	 */
 	public void mousePressed(MouseEvent e) {        
         if (game.getGameState() == Game.GameState.START) {
 	        startMenuStartButtonClicked = Const.START_MENU.START_BTN.contains(e.getX(), e.getY());
@@ -56,21 +62,11 @@ public class MouseInput implements MouseListener {
         }
     }
 
-	/**
-	 * auto generated code for the mouse event if its clicked
-	 * @param e button pressed and location
-	 */
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
-	 * is the mouse button released
-	 * @param e is the mouse button released
+	 * Called whenever the user releases a click with the mouse. Sets all booleans to false.
+	 * @param e the mouse event
 	 */
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		startMenuStartButtonClicked = false;
@@ -79,47 +75,57 @@ public class MouseInput implements MouseListener {
 	}
 
 	/**
-	 * is the mouse button entered
-	 * @param e mouse event
-	 */
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * mouse exited movement
-	 * @param e mouse event
-	 */
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * checks if the menu start button is clicked
-	 * @return  if the menu start button is clicked
+	 * Returns if the start menu start button is clicked
+	 * @return if the start menu start button is clicked
 	 */
 	public boolean isStartMenuStartButtonClicked() {
 		return startMenuStartButtonClicked;
 	}
 
 	/**
-	 * checks if the menu exit button is clicked
-	 * @return if the menu exit button is clicked
+	 * Returns if the start menu exit button is clicked
+	 * @return if the start menu exit button is clicked
 	 */
 	public boolean isStartMenuExitButtonClicked() {
 		return startMenuExitButtonClicked;
 	}
 	
 	/**
-	 * checks if the menu start button is clicked
-	 * @return  if the menu start button is clicked
+	 * Returns if the end menu return button is clicked
+	 * @return if the end menu return button is clicked
 	 */
 	public boolean isEndMenuReturnButtonClicked() {
 		return endMenuReturnButtonClicked;
+	}
+
+
+	@Override
+	/**
+	 * 
+	 * @param e the mouse event
+	 */
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+
+	@Override
+	/**
+	 * 
+	 * @param e the mouse event
+	 */
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+
+	@Override
+	/**
+	 * Not used.
+	 * @param e the mouse event
+	 */
+	public void mouseExited(MouseEvent e) {
+		
 	}
 
 }

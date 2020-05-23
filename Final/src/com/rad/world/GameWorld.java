@@ -20,61 +20,72 @@ import com.rad.input.KeyInput;
 import com.rad.input.MouseInput;
 
 /**
- * This class holds the map where the map loads up, and where the window resets every secons
+ * Represents the world of the game during game play. Holds the entire list of entities in the game world.
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class GameWorld {
 
-	// Holds all Entities in the map. A LinkedList was used over an ArrayList for
-	// constant time removal of objects, and the lack of need for accessing a single
-	// specific Entity
-	/**
-	 *  is a linked list of entities
-	 */
-	private LinkedList<Entity> entities = new LinkedList<Entity>();
-	/**
-	 * is a linked list of 	of players
-	 */
-	private LinkedList<Player> players = new LinkedList<Player>();
-	/**
-	 * is a linked list of enemies
-	 */
-	private LinkedList<Enemy> enemies = new LinkedList<Enemy>();
-	/**
-	 * is a linked list of items
-	 */
-	private LinkedList<Item> items = new LinkedList<Item>();
-	/**
-	 * is a linked list of blocks
-	 */
-	private LinkedList<Block> blocks = new LinkedList<Block>();
-	/**
-	 * is a linked list of dead entities
-	 */
-	private LinkedList<Entity> deadEntities = new LinkedList<Entity>();
+	// A LinkedList was used over an ArrayList for constant time removal of objects, 
+	// and the lack of need for accessing a single Entity
 	
 	/**
-	 * is a linked list of all Players
+	 *  The list of all entities in the world.
+	 */
+	private LinkedList<Entity> entities = new LinkedList<Entity>();
+	
+	/**
+	 * The list of all players in the world.
+	 */
+	private LinkedList<Player> players = new LinkedList<Player>();
+	
+	/**
+	 * The list of all enemies in the world.
+	 */
+	private LinkedList<Enemy> enemies = new LinkedList<Enemy>();
+	
+	/**
+	 * The list of all items in the world.
+	 */
+	private LinkedList<Item> items = new LinkedList<Item>();
+	
+	/**
+	 * The list of all blocks in the world.
+	 */
+	private LinkedList<Block> blocks = new LinkedList<Block>();
+	
+	/**
+	 * The list of all players that ever existed in the world, so includes dead players as well.
 	 */
 	private LinkedList<Player> allPlayers= new LinkedList<>();
 	
-	
-	private Queue<Entity> addEntityQueue = new LinkedList<Entity>();
+	/**
+	 * A temporary holder of entities marked to be removed from the world. Necessary to avoid concurrent modifications.
+	 */
+	private Queue<Entity> deadEntitiesQueue = new LinkedList<Entity>();
 	
 	/**
-	 * is the game user is playing in
+	 * A temporary holder of entities marked to be newly added to the world. Necessary to avoid concurrent modifications.
+	 */
+	private Queue<Entity> newEntityQueue = new LinkedList<Entity>();
+	
+	/**
+	 * Holds the instance of the main game.
 	 */
 	private Game game;
 
+	/**
+	 * The current user controlled player.
+	 */
 	private Player curPlayer;
 	
 	/**
-	 * the number of players in a game
+	 * The number of spots remaining of players to be a user controlled player.
 	 */
-	private int numPlayers = Const.NUM_PLAYERS; // Changeable later
+	private int numPlayers = Const.NUM_PLAYERS;
 	
 	/**
-	 * calls loadMap which reads a user generated map to create a map in the window
+	 * The constructor.
+	 * @param g the main game the game world was created from.
 	 */
 	public GameWorld(Game g) {
 		
@@ -82,30 +93,33 @@ public class GameWorld {
 	}
 
 	/**
-	 * iterates through the map, reloading it every second
+	 * Updates the game world state. Called Const.FRAMES_PER_SECOND frames per second.
+	 * Adds all entities in queue to be added to the world, calls the tick() method for each entity in the world,
+	 * removes all entities in queue to be removed from the world.
 	 */
 	public void tick() {
 		checkGameOver();
-		for (Entity e : addEntityQueue) {
+		for (Entity e : newEntityQueue) {
 			entities.add(e);
 		}
-		addEntityQueue.clear();
+		newEntityQueue.clear();
 		
 		for (Entity e : entities) {
 			e.tick();
 			if (e.isDead()) {
-				deadEntities.add(e);
+				deadEntitiesQueue.add(e);
 			}
 		}
-		for (Entity e : deadEntities) {
+		
+		for (Entity e : deadEntitiesQueue) {
 			removeEntity(e);
 		}
-		deadEntities.clear();
+		deadEntitiesQueue.clear();
 	}
 
 	/**
-	 * returns the list of all players
-	 * @return
+	 * Returns the list of all players that existed in the world, including currently dead players.
+	 * @return the list of all players that existed in the world, including currently dead players.
 	 */
 	public LinkedList<Player> getAllPlayers() {
 		return allPlayers;
@@ -113,8 +127,9 @@ public class GameWorld {
 
 	
 	/**
-	 * Draws the classes in the window
-	 * @param g input required to draw
+	 * Draws the game world to the screen. Called as often as possible.
+	 * Draws the background and the entities to the screen.
+	 * @param g the graphics the images are drawn on.
 	 */
 	public void render(Graphics g) {
     	g.drawImage(game.getFloor(), 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, 0, 0, Const.WORLD_WIDTH, Const.WORLD_HEIGHT, null);
@@ -125,12 +140,11 @@ public class GameWorld {
 	}
 
 	/**
-	 * given the map, it places the entity in that location
-	 * this is done in the start of the program
-	 * @param e
+	 * Adds the given entity to the game world.
+	 * @param e the entity to be added
 	 */
 	public void addEntity(Entity e) {
-		addEntityQueue.add(e);
+		newEntityQueue.add(e);
 		
 		if (e instanceof Player) {
 			players.add((Player)e);
@@ -148,8 +162,8 @@ public class GameWorld {
 	}
 
 	/**
-	 * where to remove the entity
-	 * @param e removes this entity in the mape
+	 * Removes the given entity from the game world.
+	 * @param e the entity to be removed
 	 */
 	private void removeEntity(Entity e) {
 		entities.remove(e);
@@ -168,7 +182,8 @@ public class GameWorld {
 	}
 	
 	/**
-	 * Loads a map from the given path (path meaning the numbers printed in folder res)
+	 * Loads a map from the given path. The map is a text file containing 
+	 * ints that represent the ID of an entity to be added in that position.
 	 */
 	private void loadMap(String path) {
 		Scanner scan = null;
@@ -214,7 +229,7 @@ public class GameWorld {
 	}
 
 	/**
-	 * checks whether the game is over. If so, it sets the game's GameState to GameOver
+	 * Sets the game state to GameState.END if there is only one player left or the user controlled player is dead.
 	 */
 	private void checkGameOver() {
 		if (players.size() == 1) {
@@ -230,7 +245,11 @@ public class GameWorld {
 
 	}
 	
-	
+	/**
+	 * Creates a new enemy to be spawned in the given x and y position.
+	 * @param x the x coordinate the enemy will be spawned
+	 * @param y the y coordinate the enemy will be spawned
+	 */
 	public void createEnemy(int x, int y) {
 		int id;
 		if (Math.random() < 0.05) {
@@ -245,7 +264,7 @@ public class GameWorld {
 	}
 
 	/**
-	 * Initializes the GameWorld.
+	 * Initializes the game world. Clears all lists of entities and loads a new map.
 	 */
 	public void initialize() {
 		entities.clear();
@@ -254,71 +273,80 @@ public class GameWorld {
 		enemies.clear();
 		items.clear();
 		allPlayers.clear();
-		deadEntities.clear();
-		addEntityQueue.clear();
+		deadEntitiesQueue.clear();
+		newEntityQueue.clear();
 		numPlayers = Const.NUM_PLAYERS;
 		
 		loadMap(Const.PATHS.MAPS[0]);
 	}
 	
 	/**
-	 * Returns the key input
-	 * @return the key input
+	 * Returns the key input handler
+	 * @return the key input handler
 	 */
 	public KeyInput getKeyInput() {
 		return this.game.getKeyInput();
 	}
 
+	/**
+	 * Returns the mouse input handler
+	 * @return the mouse input handler
+	 */
 	public MouseInput getMouseInput() {
 		return this.game.getMouseInput();
 	}
+	
 	/**
-	 * returns the entity map
-	 * @return the entire map of entities
+	 * Returns the list of entities in the game world
+	 * @return the list of entities in the game world
 	 */
 	public LinkedList<Entity> getEntities() {
 		return entities;
 	}
 	
 	/**
-	 * returns the player
-	 * @return list of players in map
+	 * Returns the list of players in the game world
+	 * @return the list of players in the game world
 	 */
 	public LinkedList<Player> getPlayers() {
 		return players;
 	}
 	
 	/**
-	 * returns the enemies
-	 * @return list of enemies in map
+	 * Returns the list of enemies in the game world
+	 * @return the list of enemies in the game world
 	 */
 	public LinkedList<Enemy> getEnemies() {
 		return enemies;
 	}
 	
 	/**
-	 * returns the blocks
-	 * @return list of blocks in map
+	 * Returns the list of blocks in the game world
+	 * @return the list of blocks in the game world
 	 */
 	public LinkedList<Block> getBlocks() {
 		return blocks;
 	}
 	
 	/**
-	 * returns the items
-	 * @return list of items in map
+	 * Returns the list of items in the game world
+	 * @return the list of items in the game world
 	 */
 	public LinkedList<Item> getItems() {
 		return items;
 	}
 	
+	/**
+	 * Returns the user controlled player
+	 * @return the user controlled player
+	 */
 	public Player getCurPlayer() {
 		return curPlayer;
 	}
 	
 	/**
-	 * returns the gameworld sprite sheet
-	 * @return gameworld sprite sheet
+	 * Returns the sprite sheet that contains the sprites for all entities.
+	 * @return the sprite sheet
 	 */
 	public BufferedImage getSpritesheet() {
 		return game.getSpritesheet();

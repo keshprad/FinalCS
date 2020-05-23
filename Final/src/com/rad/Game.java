@@ -26,48 +26,54 @@ import com.rad.world.GameWorld;
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Game extends Canvas implements Runnable {
-    
+
 	/**
-     *  the threads that this runs when the class is run
+     *  The thread the game loop runs on.
      */
 	private Thread thread;
     
 	/**
-     * checks if it is running
+     * Represents if the game is running; the game loop is looped through as long as this is true.
      */
 	private boolean isRunning = false;
 
 	/**
-     * the class that contains the game world
+     * Represents the world that game play occurs.
      */
 	private GameWorld gameWorld;
+	
 	/**
-	 * is the mouse input to be put in
+	 * Handles all user mouse interaction.
 	 */
 	private MouseInput mouse;
+	
 	/**
-	 * is the key input to be put in
+	 * Handles all user keyboard interaction.
 	 */
 	private KeyInput keys;
+	
 	/**
-	 * HUD for the player
+	 * The HUD (Headless User Display) displayed during game play.
 	 */
 	private Hud hud;
+	
 	/**
-	 * is the menu for the game
+	 * The start menu.
 	 */
 	private StartMenu startMenu;
+	
 	/**
-	 * is the game over state
+	 * The game over menu.
 	 */
 	private EndMenu endMenu;
+	
 	/**
-	 * is the window for the game
+	 * The window our game is drawn on, uses a JFrame.
 	 */
 	private Window window;
 	
 	/**
-	 * the assets to be used for the game
+	 * The assets for the game: images and fonts.
 	 */
 	private BufferedImage spritesheet;
 	private BufferedImage floor;
@@ -76,19 +82,19 @@ public class Game extends Canvas implements Runnable {
 	private Font fontEndRank;
 
 	/**
-	 * is the game state for the games
+	 * The states the game can be in.
 	 */
 	public static enum GameState {
 		START, PLAYING, SPECTATING, END;
 	}
 
 	/**
-	 * is the starting game state/ testing game state
+	 * The state the game is in.
 	 */
 	private GameState gameState = GameState.START;
 	
 	/**
-     * loads up the window, and allows is to be able to  run
+	 * The constructor for Game. Creates a new window and starts the thread and game loop.
      */
 	public Game() {
 		window = new Window(this);
@@ -97,10 +103,13 @@ public class Game extends Canvas implements Runnable {
 		start();
 	}
 
-	// Game Loop
+	
 	/**
-     * runs the java method, and renders it every some times per second
+     * Represents the game loop for the game; loops continuously while the game is being played.
+     * The tick() method, which updates the game state, is called Const.FRAMES_PER_SECOND frames per second, while the
+     * render() method, which draws the screen, is called as often as possible.
      */
+	@Override
 	public void run() {
 		this.requestFocus();
 		final double framesPerNanosecond = Const.FRAMES_PER_SECOND / 1000000000;
@@ -121,7 +130,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * Updates the game. Called 60 times per second.
+	 * Updates the game state. Called Const.FRAMES_PER_SECOND frames per second.
 	 */
 	private void tick() {		
 		if (gameState == GameState.PLAYING) {
@@ -144,7 +153,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * Renders the game. Called as often as possible.
+	 * Draws the game to the screen. Called as often as possible.
 	 */
 	private void render() {
 		BufferStrategy bufferStrategy = this.getBufferStrategy();
@@ -174,11 +183,11 @@ public class Game extends Canvas implements Runnable {
 		g.dispose();
 	}
 
-    /**
-     *     Starts the game loop, along with the thread
-      */
-
-	private synchronized void start() {
+	/**
+	 * Starts the game. First loads all assets, then initializes fields, and finally starts 
+	 * the new thread to run the game on.
+	 */
+	public synchronized void start() {
 		if (isRunning) {
 			return;
 		}
@@ -192,6 +201,18 @@ public class Game extends Canvas implements Runnable {
 		isRunning = true;		
 	}
 	
+	/**
+     * Stops the game.
+     */
+	public synchronized void stop() {
+		window.closeWindow();
+		isRunning = false;
+		System.exit(0);
+	}
+	
+	/**
+	 * Initializes the fields. Done once when the game is launched. Adds the user input handlers to the frame.
+	 */
 	private void init() {
 		gameWorld = new GameWorld(this);
 		hud = new Hud(this);
@@ -202,28 +223,19 @@ public class Game extends Canvas implements Runnable {
 		mouse = new MouseInput(this);
 		this.addMouseListener(mouse);
 		keys = new KeyInput(this);
-		this.addKeyListener(keys);
-		
+		this.addKeyListener(keys);	
 	}
 
     /**
-     * Stops the game loop, along with the thread
-      */
-
-	public synchronized void stop() {
-		window.closeWindow();
-		isRunning = false;
-		System.exit(0);
-	}
-	
+     * Starts the actual game play. Called when the start button is clicked in the start menu.
+     */
 	public void startPlaying() {
 		gameState = GameState.PLAYING;
 		this.gameWorld.initialize();
 	}
 	
-	
 	/**
-	 * Loads all assets required for the game.
+	 * Loads all the assets required for the game.
 	 */
 	private void loadAssets() {
 		try {
@@ -234,8 +246,6 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		try {
-//			FileInputStream in = new FileInputStream(Const.PATHS.PIXEL_FONT);
-//			InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(Const.PATHS.PIXEL_FONT);
 			fontPlayingScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.HUD.SCORE_FONT_SIZE);
 			fontEndScore = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.SCORE_FONT_SIZE);
 			fontEndRank = Font.createFont(Font.TRUETYPE_FONT, new File(Const.PATHS.PIXEL_FONT)).deriveFont(Const.END_MENU.RANK_FONT_SIZE);
@@ -247,7 +257,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * getter for gameworld
+	 * Returns the game world.
 	 * @return the game world
 	 */
 	public GameWorld getGameWorld() {
@@ -255,7 +265,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * is the getter for mouse input
+	 * Returns the mouse user input handler.
 	 * @return the mouse input
 	 */
 	public MouseInput getMouseInput() {
@@ -263,15 +273,15 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * is the mouse input
-	 * @return is the keys for the input
+	 * Returns the keyboard user input handler.
+	 * @return the key input
 	 */
 	public KeyInput getKeyInput() {
 		return this.keys;
 	}
 
 	/**
-	 * the getter for the game state
+	 * Returns the state of the game.
 	 * @return the game state
 	 */
 	public GameState getGameState() {
@@ -279,7 +289,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * setter for the game state
+	 * Sets the state of the game.
 	 * @param gameState returns the value for the game state
 	 */
 	public void setGameState(GameState gameState) {
@@ -288,7 +298,7 @@ public class Game extends Canvas implements Runnable {
 	
 	
 	/**
-	 * returns the sprite sheet
+	 * Returns the sprite sheet
 	 * @return the sprite sheet
 	 */
 	public BufferedImage getSpritesheet() {
@@ -296,40 +306,40 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	/**
-	 * returns the sprite sheet
-	 * @return the sprite sheet
+	 * Returns the floor image
+	 * @return the floor image
 	 */
 	public BufferedImage getFloor() {
 		return floor;
 	}
 	
 	/**
-	 * returns the font
-	 * @return the sprite sheet
+	 * Returns the font for the score to be used on the HUD.
+	 * @return the font for the score to be used on the HUD.
 	 */
 	public Font getPlayingScoreFont() {
 		return fontPlayingScore;
 	}
 	
 	/**
-	 * returns the font
-	 * @return the sprite sheet
+	 * Returns the font for the rank to be used on the end menu.
+	 * @return the font for the rank to be used on the end menu.
 	 */
 	public Font getEndRankFont() {
 		return fontEndRank;
 	}
 	
 	/**
-	 * returns the font
-	 * @return the sprite sheet
+	 * Returns the font for the score to be used on the end menu.
+	 * @return the font for the score to be used on the end menu.
 	 */
 	public Font getEndScoreFont() {
 		return fontEndScore;
 	}
 	
     /**
-     * runs a version of the game
-     * @param args arguments
+     * Launches the game.
+     * @param args not used
      */
 	public static void main(String[] args) {
 		new Game();

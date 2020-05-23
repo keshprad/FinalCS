@@ -1,72 +1,75 @@
 package com.rad.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
 
 import com.rad.Const;
 import com.rad.Location;
 import com.rad.world.GameWorld;
 
 /**
- * Is the base class for objects created in the map
+ * The base class of all entities to be added to the game world. Inherited by Block, Enemy, Item, Player.
  *
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public abstract class Entity {
 	
 	/**
-	 * The game world the entity is in
+	 * The game world the entity is in.
 	 */
 	protected GameWorld gameWorld;
 	
     /**
-     * ID that is specific to each identity
+     * The ID indicating the type of entity it is.
      */
     protected int id;
+    
     /**
-     * the X coordinate of the object
+     * The X coordinate of the entity in pixels.
      */
     protected int x;
+    
     /**
-     * the Y coordinate of the object
+     * The Y coordinate of the entity in pixels.
      */
     protected int y;
+    
     /**
-     * the speed of the entity
+     * The speed of the entity in pixels per tick.
      */
     protected int speed = 0;
+    
     /**
-     * velocity of the entity
+     * The velocity of the entity in the x direction in pixels per tick.
      */
     protected int velX = 0;
+    
     /**
-     * velocity of y value in entitiy
+     * The velocity of the entity in the y direction in pixels per tick.
      */
     protected int velY = 0;
+    
     /**
-     * width of the entity
+     * The width of the entity
      */
     protected int width = Const.TILE_SIZE;
+    
     /**
-     * height of the entity
+     * The height of the entity
      */
     protected int height = Const.TILE_SIZE;
+    
     /**
-     * checks if the entity is dead
+     * Represents if the entity is marked for removal from the game world.
      */
     protected boolean isDead;
     
     /**
-     * constructs a certain enemy and identity
+     * The constructor. Calls the init() method.
      *
-     * @param id the id that identifies the entity
-     * @param x  the x coordinate
-     * @param y  the y coordinate
+     * @param id the id that identifies what type of entity the entity is
+     * @param x  the x coordinate of the entity in pixels
+     * @param y  the y coordinate of the entity in pixels
      */
     public Entity(GameWorld gameWorld, int id, int x, int y) {
         this.gameWorld = gameWorld;
@@ -78,13 +81,14 @@ public abstract class Entity {
     }
 
     /**
-     * the method that identifies the type of entity
+     * Used to initialize any fields for the entity specific to each certain subclass of entity.
      */
     public abstract void init();
 
     /**
-     * determines what updates
-     */
+	 * Updates the entity's state. Called Const.FRAMES_PER_SECOND frames per second.
+	 * Calls handleCollision(Entity e) if this entity is colliding with another entity.
+	 */
     public void tick() {
     	for (Entity e : gameWorld.getEntities()) {
 			if (e != this && this.getBounds().intersects(e.getBounds())) {
@@ -94,27 +98,27 @@ public abstract class Entity {
     	
     }
 
-
     /**
-     * renders the object
-     *
-     * @param g tool used to draw object in the window
-     */
+	 * Draws the game world to the screen. Called as often as possible.
+	 * Draws the entity to the screen. The entity's sprite is determined by its ID;
+	 * its position on the game world sprite sheet is calculated by the ID.
+	 * @param g the graphics the images are drawn on.
+	 */
     public void render(Graphics g) {
     	g.drawImage(gameWorld.getSpritesheet(), x, y, x + width, y + width, id % 10 * Const.TILE_SIZE, id / 10 * Const.TILE_SIZE, id % 10 * Const.TILE_SIZE + Const.TILE_SIZE, id / 10 * Const.TILE_SIZE + Const.TILE_SIZE, null);
     }
     
     /**
-     * @param e is the entity you collide with
-     * handles the collisions for to an entity
+     * Handles a collision with another entity. To be overridden by subclasses.
+     * @param e the entity this entity collided with
      */
     public void handleCollision(Entity e) {
 
     }
 
     /**
-     * gets the location of this entity
-     * @return
+     * Returns the location of the entity.
+     * @return the location of the entity.
      */
     public Location getLocation()
     {
@@ -122,11 +126,12 @@ public abstract class Entity {
     }
 
     /**
-     * clamps the min and max values to preset values, used in player bounds
-     * @param i value to be clamped
-     * @param min min possible value
-     * @param max max possible value
-     * @return clamped value
+     * Clamps the given int between the given min and max. If i is less than min, min is returned;
+     * if i is greater than max, max is returned.
+     * @param i the integer to be clamped
+     * @param min the minimum the integer is not to be less than
+     * @param max the maximum the integer is not to be greater than
+     * @return
      */
     protected int clamp(int i, int min, int max) {
         if (i < min) return min;
@@ -134,9 +139,8 @@ public abstract class Entity {
         return i;
     }
 
-
     /**
-     * checks if the entity is dead
+     * Returns if the entity is dead
      * @return if the entity is dead
      */
     public boolean isDead() {
@@ -144,15 +148,17 @@ public abstract class Entity {
     }
 
     /**
-     * gets the bounds of the rectangle
-     * @return a new rectangle
+     * Returns the bounds of the entity used for collision detection. The entity's velocity is 
+     * added to the x and y to prevent the entities from being stuck.
+     * @return the bounds of the entity
      */
     public Rectangle getBounds() {
         return new Rectangle(x + velX, y + velY, height, width);
     }
 
+    @Override
     /**
-     * returns a simple name of the entity
+     * Returns the entity's name.
      * @return the entity's name
      */
     public String toString() {
