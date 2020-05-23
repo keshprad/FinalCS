@@ -244,10 +244,7 @@ public class Const {
         public static final String[] MAPS = {
         		"res/Maps/map0",
         		"res/Maps/map1",
-        		"res/Maps/map2",
-        		"res/Maps/map3",
-        		"res/Maps/map4",
-        		"res/Maps/map5"		
+        		"res/Maps/map2",	
         };
         
         /**

@@ -429,11 +429,11 @@ public class Player extends Entity {
 		for (int i = 0; i < adjBlocks.length; i++) {
 			if (i == adjBlocks.length - 1) {
 				if (adjBlocks[i] && adjBlocks[0]) {
-					this.cornerTimeout = 8;
+					this.cornerTimeout = Const.TILE_SIZE / this.speed;
 					return;
 				}
 			} else if (adjBlocks[i] && adjBlocks[i + 1]) {
-				this.cornerTimeout = 8;
+				this.cornerTimeout = Const.TILE_SIZE / this.speed;
 				return;
 			}
 		}
