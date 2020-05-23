@@ -29,16 +29,23 @@ public class EndMenu {
      * is the game we are currently in
      */
     private Game game;
-    
-    private String score = "";
+	/**
+	 * the string that holds the score of a player
+	 */
+	private String score = "";
+	/**
+	 * a string that holds the rank of the player after their death
+	 */
     private String rank = "";
-    
+	/**
+	 *  a ruler that calculations the dimensions of a font that is specified
+	 */
 	private FontMetrics metrics;
 
 
     /**
-     * is the constructor of the game over state
-     * @param g the game user is playing
+     * is the constructor of the game over state( called formally as the end menu)
+     * @param g the game the user is playing
      */
     public EndMenu(Game g) {
         game = g;
@@ -48,7 +55,8 @@ public class EndMenu {
 
     /**
      * is the tick method for the game over state
-     */
+     * this is where all the methods are run in the end menu state of the game
+	 */
     public void tick() {
         score = gameWorld.getCurPlayer().getScore() + "";
         rank = calcRank();
@@ -59,7 +67,8 @@ public class EndMenu {
     }
 
     /**
-     * renders the graphics game
+     * renders the graphics game, draws the images of the endscore font, end rank font, the background, and the return
+	 * menu button
      * @param g is the graphics of the game
      */
     public void render(Graphics g) {
@@ -84,8 +93,13 @@ public class EndMenu {
       	g.setColor(Color.YELLOW);
       	g.drawString(rank, Const.END_MENU.RANK_LOC.x, Const.END_MENU.RANK_LOC.y);
     }
-    
-    private String calcRank() {
+
+	/**
+	 * calculates the rank of the player, uses the remaining player that were alive as a deciding factor on
+	 * what the rank of the player is. It appropriately determines the rank (1st, 2nd, 3rd...)
+	 * @return a string of the rank the player is in (1st, 2nd, 3rd...)
+	 */
+	private String calcRank() {
     	if (gameWorld.getPlayers().get(0).equals(gameWorld.getCurPlayer()) && gameWorld.getPlayers().size() == 1) {
     		return "1st!";
     	}

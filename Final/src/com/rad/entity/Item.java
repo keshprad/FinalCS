@@ -10,6 +10,7 @@ import com.rad.world.GameWorld;
  * items that the player can consume
  * 
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
+ * @version 1.0
  */
 public class Item extends Entity {
 
@@ -30,7 +31,8 @@ public class Item extends Entity {
 	}
 
 	/**
-	 * the type of item
+	 * determines the type of item
+	 * each item has an id with its own effects
 	 */
 	@Override
 	public void init() {
@@ -51,7 +53,7 @@ public class Item extends Entity {
 	}
 
 	/**
-	 * What runs during call of item
+	 * What runs during call of item, calls the entity's tick
 	 */
 	@Override
 	public void tick() {
@@ -59,7 +61,7 @@ public class Item extends Entity {
 	}
 
 	/**
-	 * what is drawn with an item
+	 * what is drawn with an item, the item's graphics is determined by its id
 	 * 
 	 * @param g tool used to draw object in the window
 	 */
