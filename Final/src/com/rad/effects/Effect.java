@@ -11,8 +11,8 @@ import com.rad.Const;
 public enum Effect {
 	POINT_PLUS(10),
     POINT_PLUS_BIG(10),
-    SPEED_UP((int)(5 * Const.FRAMES_PER_SECOND)),
-    EAT_OTHER((int)(5 * Const.FRAMES_PER_SECOND));
+    SPEED_UP((int)(10 * Const.FRAMES_PER_SECOND)),
+    EAT_OTHER((int)(10 * Const.FRAMES_PER_SECOND));
 	
 	/**
 	 * represents the duration in ticks that the effect is applied for
