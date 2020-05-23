@@ -130,42 +130,138 @@ public class Enemy extends Entity {
         possibleMoveLocationsHashMap.put(startingLoc, 0.0);//puts the player into the map
         
         while (!priorityQueue.isEmpty()) {
-            Location highestPriorityPossibleLocation = priorityQueue.poll();// first iteration of the loop removes first node, rest helps determine
-            Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
+            Location currLocation = priorityQueue.poll();// first iteration of the loop removes first node, rest helps determine
+            Rectangle rectangle = new Rectangle(currLocation.getX(), currLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
             
-            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) {
+            if (goalStateFound(rectangle,player,currLocation)) {
             	break;
         	}
             
             //checks every possible move position in the tile in the gameworld with this enemy
-            checkPossibleMoveLocations(highestPriorityPossibleLocation, playerLocation,possibleMoveLocationsHashMap,priorityQueue);
+            checkPossibleMoveLocations(currLocation, playerLocation,possibleMoveLocationsHashMap,priorityQueue);
         }
     }
+    public void chasePlayersBFS(Player player)
+    {
+        LinkedList<Location> possibleMoveLocations=new LinkedList<Location>();
+        HashSet<Location> seenLocations = new HashSet<Location>();
+        possibleMoveLocations.push(this.getLocation());
+        while(!possibleMoveLocations.isEmpty())
+        {
+            Location currentLocation=possibleMoveLocations.pop();
+            if(this.goalStateFound(this.getBounds(),player,currentLocation))
+            {
+                for (Location l:possibleMoveLocations)
+                {
 
+                    if (!this.getLocation().equals(player.getLocation()))
+                    {
+                        move(l);
+                    }
+
+                }
+                break;
+            }
+            if(!seenLocations.contains(currentLocation))
+            {
+                seenLocations.add(currentLocation);
+            }
+            for(Location location:possibleMoveLocations(gameWorld, currentLocation,this ))
+            {
+                if (!seenLocations.contains(location))
+                    possibleMoveLocations.add(location);
+            }
+        }
+    }
+    public void chasePlayersDFS(Player player)
+    {
+
+        Stack<Location> possibleMoveLocations=new Stack<Location>();
+        HashSet<Location> seenLocations = new HashSet<Location>();
+        possibleMoveLocations.push(this.getLocation());
+        while(!possibleMoveLocations.isEmpty())
+        {
+            Location currentLocation=possibleMoveLocations.pop();
+            if(this.goalStateFound(this.getBounds(),player,currentLocation))
+            {
+
+               Stack<Location> moveTo=new Stack<Location>();
+               for(Location location1:possibleMoveLocations)//reverses the stack
+               {
+                   if(location1.equals(this.getLocation()))
+                   {
+                       for(Location l:moveTo)
+                       {
+                           move(l);
+                       }
+                       return;
+                   }
+                   moveTo.push(location1);
+               }
+               break;
+            }
+            if(!seenLocations.contains(currentLocation))
+            {
+                seenLocations.add(currentLocation);
+            }
+            for(Location location:possibleMoveLocations(gameWorld, currentLocation,this ))
+            {
+                if (!seenLocations.contains(location))
+                    possibleMoveLocations.push(location);
+            }
+        }
+//        //Space it out more
+//        //Add comments describing the whole process
+//        //Implementing speed(the field)
+
+//        Stack<Location> priorityQueue = new Stack<Location>();
+//        // creates a priority queue of possible nodes that the enemy can go to
+//        //(o1, o2) -> Double.compare(o1.priority, o2.priority) basically tells the PriorityQ to compare through the compare method
+//        //the higher up the node is on the priorityQ the more favorable the location is for the enemy
+//        //
+
+//        HashMap<Location, Double> possibleMoveLocationsHashMap = new HashMap<>();
+//        Location startingLoc = this.getLocation();
+//        priorityQueue.add(startingLoc);// adds the position you are in
+//        Location playerLocation = player.getLocation();
+//        possibleMoveLocationsHashMap.put(startingLoc, 0.0);//puts the player into the map
+
+//        while (!priorityQueue.isEmpty()) {
+//            Location highestPriorityPossibleLocation = priorityQueue.pop();// first iteration of the loop removes first node, rest helps determine
+//            Rectangle rectangle = new Rectangle(highestPriorityPossibleLocation.getX(), highestPriorityPossibleLocation.getY(), TILE_SIZE, TILE_SIZE);//possible location movement option
+
+//            if (goalStateFound(rectangle,player,highestPriorityPossibleLocation)) {
+//                break;
+//            }
+
+//            //checks every possible move position in the tile in the gameworld with this enemy
+//            checkPossibleMoveLocations(highestPriorityPossibleLocation, playerLocation,possibleMoveLocationsHashMap,priorityQueue);
+//        }
+    }
     /**
      * checks the next possible move state
-     * @param highestPriorityPossibleLocation it is the location with the next highest priority location
+     * @param currLocation it is the location with the next highest priority location
      * @param playerLocation is the location of the player
      * @param map is the hash mape of all possible move lcoations
      * @param pq priority que of locations
      */
-    public void checkPossibleMoveLocations(Location highestPriorityPossibleLocation, Location playerLocation,  HashMap<Location, Double> map, PriorityQueue<Location> pq)
+    public void checkPossibleMoveLocations(Location currLocation, Location playerLocation,  HashMap<Location, Double> map, PriorityQueue<Location> pq)
     {
-        for (Location possiblePostion : possibleMoveLocations(gameWorld, highestPriorityPossibleLocation, this))
+        for (Location possiblePostion : possibleMoveLocations(gameWorld, currLocation, this))
         {
 
             if (possiblePostion != null)
             {
 
                 Location movePoint; // if the location
-                if (highestPriorityPossibleLocation.getMovePoint() == null)
+                if (currLocation.getMovePoint() == null)
                 {
                     movePoint = possiblePostion;
                 }
-                else movePoint = highestPriorityPossibleLocation.getMovePoint();
+                else movePoint = currLocation.getMovePoint();
 
 
-                double dist = highestPriorityPossibleLocation.getDist() + highestPriorityPossibleLocation.distBetween(possiblePostion);
+                double dist = currLocation.getDist() + currLocation.distBetween(possiblePostion);
                 double priority = possiblePostion.distBetween(playerLocation) + dist; //hueristic to determine the priority of the A* algorithim which is
                 //basically travel distance  so far + distance to Location
                 Location neighbor = new Location(possiblePostion.getX(), possiblePostion.getY(), dist, movePoint, priority); //highest priority should be the nieghbor to the enemy
