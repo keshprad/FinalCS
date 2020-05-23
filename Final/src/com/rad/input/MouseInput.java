@@ -2,7 +2,7 @@ package com.rad.input;
 
 import com.rad.Const;
 import com.rad.Game;
-import com.rad.gui.Menu;
+import com.rad.gui.StartMenu;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,14 +16,14 @@ public class MouseInput implements MouseListener {
 	/**
 	 * boolean is true if start button has been clicked.
 	 */
-	private boolean MenuStartButtonClicked = false;
+	private boolean startMenuStartButtonClicked = false;
 
 	/**
 	 * boolean is true if exit button has been clicked.
 	 */
-	private boolean MenuExitButtonClicked = false;
+	private boolean startMenuExitButtonClicked = false;
 
-	private boolean GameOverExitButtonClicked = false;
+	private boolean endMenuReturnButtonClicked = false;
 	
 	/**
 	 * This represents the game
@@ -44,16 +44,15 @@ public class MouseInput implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {        
-        if (game.getGameState() == Game.GameState.MENU) {
-	        MenuStartButtonClicked = Const.MENU.START_BTN.contains(e.getX(), e.getY());
-	        MenuExitButtonClicked = Const.MENU.EXIT_BTN.contains(e.getX(), e.getY());
+        if (game.getGameState() == Game.GameState.START) {
+	        startMenuStartButtonClicked = Const.START_MENU.START_BTN.contains(e.getX(), e.getY());
+	        startMenuExitButtonClicked = Const.START_MENU.EXIT_BTN.contains(e.getX(), e.getY());
         }
         else if (game.getGameState() == Game.GameState.PLAYING) {
         	//do nothing for now
         }
-        else if (game.getGameState() == Game.GameState.GAMEOVER) {
-        	//do nothing for now
-
+        else if (game.getGameState() == Game.GameState.END) {
+        	endMenuReturnButtonClicked = Const.END_MENU.RETURN_BTN.contains(e.getX(), e.getY());
         }
     }
 
@@ -74,8 +73,9 @@ public class MouseInput implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		MenuStartButtonClicked = false;
-		MenuExitButtonClicked = false;
+		startMenuStartButtonClicked = false;
+		startMenuExitButtonClicked = false;
+		endMenuReturnButtonClicked = false;
 	}
 
 	/**
@@ -102,16 +102,24 @@ public class MouseInput implements MouseListener {
 	 * checks if the menu start button is clicked
 	 * @return  if the menu start button is clicked
 	 */
-	public boolean isMenuStartButtonClicked() {
-		return MenuStartButtonClicked;
+	public boolean isStartMenuStartButtonClicked() {
+		return startMenuStartButtonClicked;
 	}
 
 	/**
 	 * checks if the menu exit button is clicked
 	 * @return if the menu exit button is clicked
 	 */
-	public boolean isMenuExitButtonClicked() {
-		return MenuExitButtonClicked;
+	public boolean isStartMenuExitButtonClicked() {
+		return startMenuExitButtonClicked;
+	}
+	
+	/**
+	 * checks if the menu start button is clicked
+	 * @return  if the menu start button is clicked
+	 */
+	public boolean isEndMenuReturnButtonClicked() {
+		return endMenuReturnButtonClicked;
 	}
 
 }

@@ -13,6 +13,10 @@ public enum Effect {
 	
 	private int duration;
 	
+	/**
+	 * The constructor for an effect.
+	 * @param duration the duration of the effect in seconds
+	 */
 	Effect(int duration) {
 		this.duration = duration;
 	}

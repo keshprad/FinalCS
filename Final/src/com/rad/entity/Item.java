@@ -1,6 +1,5 @@
 package com.rad.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import com.rad.Const;
@@ -17,7 +16,7 @@ public class Item extends Entity {
 	/**
 	 * the effects that each item can give
 	 */
-	private Effect effect = null;
+	private Effect effect;
 
 	/**
 	 * constructs an empty item
@@ -36,18 +35,18 @@ public class Item extends Entity {
 	@Override
 	public void init() {
 		switch (id) {
-		case Const.ID.CHIP:
-			effect = Effect.POINT_PLUS;
-			break;
-		case Const.ID.COOKIE:
-			effect = Effect.POINT_PLUS_BIG;
-			break;
-		case Const.ID.FLASH:
-			effect = Effect.SPEED_UP;
-			break;
-		case Const.ID.CAKE:
-			effect = Effect.EAT_OTHER;
-			break;
+			case Const.ID.CHIP:
+				effect = Effect.POINT_PLUS;
+				break;
+			case Const.ID.COOKIE:
+				effect = Effect.POINT_PLUS_BIG;
+				break;
+			case Const.ID.FLASH:
+				effect = Effect.SPEED_UP;
+				break;
+			case Const.ID.CAKE:
+				effect = Effect.EAT_OTHER;
+				break;
 		}
 	}
 
@@ -87,7 +86,7 @@ public class Item extends Entity {
 	 * @return the effect of an item
 	 */
 	public Effect getEffect() {
-		return this.effect;
+		return effect;
 	}
 
 }

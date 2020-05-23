@@ -63,7 +63,7 @@ public class GameWorld {
 	 */
 	private Game game;
 
-	private Player curPlayer = null;
+	private Player curPlayer;
 	
 	/**
 	 * the number of players in a game
@@ -94,9 +94,7 @@ public class GameWorld {
 				deadEntities.add(e);
 			}
 		}
-		for (Entity e : deadEntities)
-		{
-
+		for (Entity e : deadEntities) {
 			removeEntity(e);
 		}
 		deadEntities.clear();
@@ -150,7 +148,7 @@ public class GameWorld {
 	 * where to remove the entity
 	 * @param e removes this entity in the mape
 	 */
-	public void removeEntity(Entity e) {
+	private void removeEntity(Entity e) {
 		entities.remove(e);
 		if (e instanceof Player) {
 			players.remove((Player)e);
@@ -218,7 +216,7 @@ public class GameWorld {
 	private void checkGameOver() {
 		for (Player p : allPlayers) {
 			if (!p.isAI() && p.isDead()) {
-				game.setGameState(Game.GameState.GAMEOVER);
+				game.setGameState(Game.GameState.END);
 				return;
 			}
 		}
