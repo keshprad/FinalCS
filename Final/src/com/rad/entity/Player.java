@@ -10,45 +10,50 @@ import com.rad.effects.Effect;
 import com.rad.world.GameWorld;
 
 /**
- * the player class
+ * Represents both user controlled players and AI controlled players
  * 
  * @author Sources: rishi.pradeep, daniel.lee, akshanth.srivatsa
  */
 public class Player extends Entity {
+	
 	/**
-	 * the score of each player
+	 * The score of each player
 	 */
 	private int score;
 
 	/**
-	 * the effect that the player has
+	 * The effect that the player has
 	 */
 	private Effect effect = null;
 
 	/**
-	 * if it is an AI or not
+	 * Whether or not a player is an AI or not
 	 */
 	private boolean isAI;
 
 	/**
-	 * is an array of adjacent blocks
+	 * An array of blocks adjacent to this player
+	 * Only used for AI players
 	 */
 	private boolean[] adjBlocks = { false, false, false, false };
 
 	/**
-	 * is a time out used to see if the player AI is in a corner
+	 * A timer(measured in ticks) used to control the player AI when it is close to a corner
 	 */
 	private int cornerTimeout = 0;
 	
 	/**
-	 * This integer represents a timer for which the effect lasts for
+	 * A timer(measured in ticks) for the time an effect lasts for
 	 */
 	private int effectTimer = 0;
 	
+	/**
+	 * Whether or not a player has the effect to and can eat other players
+	 */
 	private boolean hasEatOthers = false;
 		
 	/**
-	 * Constructor for Player
+	 * Constructs a player object
 	 * 
 	 * @param id Tells us the type of player
 	 * @param x  initial x-position of the player
@@ -62,7 +67,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * type of player
+	 * Initializes the type of player
 	 */
 	@Override
 	public void init() {
@@ -77,7 +82,8 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * what runs during a call of player
+	 * Updates the game state with a constant amount of frames per second
+	 * This handles movement based on whether the player is an AI or not
 	 */
 	@Override
 	public void tick() {
@@ -106,8 +112,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * what renders during a call of render
-	 * 
+	 * Renders the player's graphic
 	 * @param g tool used to draw object in the window
 	 */
 	@Override
@@ -116,7 +121,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * handles a collision with an enemy
+	 * Handles collisions with other entities
 	 * @param e is the entity you collide with
 	 */
 	@Override
@@ -149,7 +154,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * the KeyInputs for a player/user
+	 * Takes in the Key input for a user-controlled player
 	 */
 	private void useKeyInput() {
 		if (!gameWorld.getKeyInput().isLeft() && !gameWorld.getKeyInput().isRight()) {
@@ -173,6 +178,9 @@ public class Player extends Entity {
 		}
 	}
 	
+	/**
+	 * Handles the effect and decreases the timer for the effect, if there is one
+	 */
 	private void handleEffect() {
 		if (effectTimer == 0 && this.effect != null) {
 			switch (this.effect) {
@@ -213,6 +221,9 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Clears anything that changed in the player because of an effect
+	 */
 	private void clearPowers() {
 		setEatOthers(false);
 		this.speed = Const.PLAYER.SPEED;
@@ -280,6 +291,7 @@ public class Player extends Entity {
 	}
 	
 	/**
+	 * Helps the escapeEnemy method by determining the best direction to move
 	 * First finds a list of all possible move locations
 	 * Next, determines its validity and which direction is best
 	 * @param dangerousEntities a list of all enemies within a radius.
@@ -316,11 +328,11 @@ public class Player extends Entity {
 	}
 	
 	/**
-	 * Helps the moveAI method by finding the average distance between a point and 2
+	 * Helps the escapeEnemy method by finding the average distance between a point and 2
 	 * closest Enemies
 	 * 
-	 * @param location       location
-	 * @param dangerousEntities  closest enemy to this player
+	 * @param location the possible move location for the player
+	 * @param dangerousEntities; closest fatal entities to this player
 	 * @return average of 2 distances between a point (i,j) and its 2 closest
 	 *         enemies
 	 */
@@ -334,8 +346,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * Looks through a list of entities and finds the 2 closest Entity of the given
-	 * type
+	 * Looks through a list of entities and finds all enemies and fatal players within a certain radius
 	 * 
 	 * @param entities a list of entities
 	 * @return the closest entity of the given type
@@ -358,9 +369,8 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * Finds a list of telling if there are adjacent blocks(or game bounds) above,
+	 * Creates a list telling whether there are adjacent blocks(or game bounds) above,
 	 * below, on the left, on the right.
-	 * 
 	 *
 	 * @return a list of booleans
 	 */
@@ -411,7 +421,8 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * checks if the player is in a corner
+	 * Checks if the player is in a corner
+	 * If in a corner, it creates a corner timeout
 	 */
 	private void isInCorner() {
 		boolean[] adjBlocks = hasAdjBlocks();
@@ -428,6 +439,10 @@ public class Player extends Entity {
 		}
 	}
 	
+	/**
+	 * Handles when the player has the effect eatOthers
+	 * @param hasEatOthers
+	 */
 	public void setEatOthers(boolean hasEatOthers) {
 		this.hasEatOthers = hasEatOthers;
 		if (hasEatOthers) {
@@ -451,11 +466,6 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * the score of the player
-	 * 
-	 * @return
-	 */
-	/**
 	 * Gets the score of the player
 	 * 
 	 * @return the player's score
@@ -474,9 +484,9 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * Returns if the player is an AI (computer-controlled)
+	 * Returns whether of not the player is an AI (computer-controlled)
 	 * 
-	 * @return if the player is an AI
+	 * @return whether or not the player is an AI
 	 */
 	public boolean isAI() {
 		return isAI;
