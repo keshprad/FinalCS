@@ -219,9 +219,16 @@ public class Player extends Entity {
 	 * players controlled by a computer.
 	 */
 	private void escapeEnemies() {
+		//Adding randomness to Player AI's move
+		if (Math.random() < 0.05) {
+			velX = 0;
+			velY = 0;
+			return;
+		}
+		
 		// If no enemies in proximity, this function should exit and do nothing
-		LinkedList<Enemy> closestEnemies = findProximityEnemies(new Location(x, y), gameWorld.getEntities());
-		if (closestEnemies.size() == 0) {
+		LinkedList<Entity> dangerousEntities = findProximityEnemies(new Location(x, y));
+		if (dangerousEntities.size() == 0) {
 			velX = 0;
 			velY = 0;
 			return;
@@ -237,7 +244,7 @@ public class Player extends Entity {
 		
 		// Finds the direction of the best possible move
 		// Index: 0 -> North; 1 -> East; 2 -> South; 3 -> West
-		int index = bestDirection(closestEnemies);
+		int index = bestDirection(dangerousEntities);
 
 		
 		//The index of the best move determines the direction of the move as noted.
@@ -269,18 +276,18 @@ public class Player extends Entity {
 	/**
 	 * First finds a list of all possible move locations
 	 * Next, determines its validity and which direction is best
-	 * @param closestEnemies a list of all enemies within a radius.
+	 * @param dangerousEntities a list of all enemies within a radius.
 	 * @return an index that represents the best direction for player to move
 	 */
-	private int bestDirection(LinkedList<Enemy> closestEnemies) {
+	private int bestDirection(LinkedList<Entity> dangerousEntities) {
 		// The index in possibleMoves notes the direction
 		// Index: 0 -> North; 1 -> East; 2 -> South; 3 -> West
 		// Finds possible moves. To simplify I only consider up, right, down, and left
 		float[] possibleMoves = {
-			findAvgDist(new Location(x, y - speed), closestEnemies), 
-			findAvgDist(new Location(x + speed, y), closestEnemies), 
-			findAvgDist(new Location(x, y + speed), closestEnemies), 
-			findAvgDist(new Location(x - speed, y), closestEnemies)
+			findAvgDist(new Location(x, y - speed), dangerousEntities), 
+			findAvgDist(new Location(x + speed, y), dangerousEntities), 
+			findAvgDist(new Location(x, y + speed), dangerousEntities), 
+			findAvgDist(new Location(x - speed, y), dangerousEntities)
 		};
 
 		// Finds the best move in terms of an index from the list of possibleMoves.
@@ -307,16 +314,16 @@ public class Player extends Entity {
 	 * closest Enemies
 	 * 
 	 * @param location       location
-	 * @param closestEnemies  closest enemy to this player
+	 * @param dangerousEntities  closest enemy to this player
 	 * @return average of 2 distances between a point (i,j) and its 2 closest
 	 *         enemies
 	 */
-	private float findAvgDist(Location location, LinkedList<Enemy> closestEnemies) {
+	private float findAvgDist(Location location, LinkedList<Entity> dangerousEntities) {
 		float totalD = 0;
-		for (Enemy e : closestEnemies) {
+		for (Entity e : dangerousEntities) {
 			totalD += (float) (location.distBetween(new Location(e.x, e.y)));
 		}
-		totalD = totalD / closestEnemies.size();
+		totalD = totalD / dangerousEntities.size();
 		return totalD;
 	}
 
@@ -327,16 +334,21 @@ public class Player extends Entity {
 	 * @param entities a list of entities
 	 * @return the closest entity of the given type
 	 */
-	private LinkedList<Enemy> findProximityEnemies(Location location, LinkedList<Entity> entities) {
-		LinkedList<Enemy> closeEnemies = new LinkedList<Enemy>();
+	private LinkedList<Entity> findProximityEnemies(Location location) {
+		LinkedList<Entity> dangerousEntities = new LinkedList<Entity>();
 		float radius = (float) (2*Const.WORLD_WIDTH / 3);
 
-		for (Enemy enemy : gameWorld.getEnemies()) {
-			if (location.distBetween(new Location(enemy.x, enemy.y)) <= radius) {
-				closeEnemies.add((Enemy) enemy);
+		for (Enemy e : gameWorld.getEnemies()) {
+			if (location.distBetween(new Location(e.x, e.y)) <= radius) {
+				dangerousEntities.add((Enemy) e);
 			}
 		}
-		return closeEnemies;
+		for (Player p : gameWorld.getPlayers()) {		
+			if (p.hasEatOthers() && p != this && location.distBetween(new Location(p.x, p.y)) <= radius) {
+				dangerousEntities.add(p);
+			}
+		}
+		return dangerousEntities;
 	}
 
 	/**
@@ -410,9 +422,9 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void setEatOthers(boolean hasCake) {
-		this.hasEatOthers = hasCake;
-		if (hasCake) {
+	public void setEatOthers(boolean hasEatOthers) {
+		this.hasEatOthers = hasEatOthers;
+		if (hasEatOthers) {
 			this.id = Const.ID.FULK;
 		} else {
 			this.id = Const.ID.BRAD;
@@ -420,7 +432,7 @@ public class Player extends Entity {
 	}
 	
 	public boolean hasEatOthers() {
-		return hasEatOthers;
+		return this.hasEatOthers;
 	}
 
 	/**

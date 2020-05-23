@@ -86,9 +86,10 @@ public class EndMenu {
     }
     
     private String calcRank() {
+    	if (gameWorld.getPlayers().get(0).equals(gameWorld.getCurPlayer()) && gameWorld.getPlayers().size() == 1) {
+    		return "1st!";
+    	}
     	switch (gameWorld.getPlayers().size() + 1) {
-    		case 1:
-    			return "1st!";
     		case 2:
     			return "2nd!";
     		case 3:

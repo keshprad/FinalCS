@@ -217,6 +217,10 @@ public class GameWorld {
 	 * checks whether the game is over. If so, it sets the game's GameState to GameOver
 	 */
 	private void checkGameOver() {
+		if (players.size() == 1) {
+			game.setGameState(Game.GameState.END);
+			return;
+		}
 		for (Player p : allPlayers) {
 			if (!p.isAI() && p.isDead()) {
 				game.setGameState(Game.GameState.END);
