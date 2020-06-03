@@ -254,6 +254,11 @@ public class Const {
         
         
         /**
+         * The Path(represented as a string) to the emphasis image
+         */
+        public static final String EMPH = "res/GUI/Playing/emph.png";
+
+        /**
          * The Path(represented as a string) to the spritesheet
          */
         public static final String SPRITESHEET = "res/GUI/Playing/spritesheet.png";

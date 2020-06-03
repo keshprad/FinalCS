@@ -76,6 +76,7 @@ public class Game extends Canvas implements Runnable {
 	 * The assets for the game: images and fonts.
 	 */
 	private BufferedImage spritesheet;
+	private BufferedImage emph;
 	private BufferedImage floor;
 	private Font fontPlayingScore;
 	private Font fontEndScore;
@@ -240,6 +241,7 @@ public class Game extends Canvas implements Runnable {
 	private void loadAssets() {
 		try {
 			spritesheet = ImageIO.read(new File(Const.PATHS.SPRITESHEET));
+			emph = ImageIO.read(new File(Const.PATHS.EMPH));
 			floor = ImageIO.read(new File(Const.PATHS.FLOOR));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -303,6 +305,14 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public BufferedImage getSpritesheet() {
 		return spritesheet;
+	}
+	
+	/**
+	 * Returns the emph image
+	 * @return the emph image
+	 */
+	public BufferedImage getEmph() {
+		return emph;
 	}
 	
 	/**

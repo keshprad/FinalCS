@@ -353,4 +353,12 @@ public class GameWorld {
 		return game.getSpritesheet();
 	}
 
+	/**
+	 * Returns the emphasis image for the player
+	 * @return the emphasis image
+	 */
+	public BufferedImage getEmph() {
+		return game.getEmph();
+	}
+	
 }

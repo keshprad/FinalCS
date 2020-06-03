@@ -51,6 +51,12 @@ public class Player extends Entity {
 	 * Whether or not a player has the effect to and can eat other players
 	 */
 	private boolean hasEatOthers = false;
+	
+	
+	/**
+	 * Used for animations
+	 */
+	private int animTimer = 0;
 		
 	/**
 	 * Constructs a player object
@@ -88,6 +94,8 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		score++; //players awarded 1 point for every tick alive
+		
+		animTimer++;
 			
 		handleEffect();
 		
@@ -118,6 +126,11 @@ public class Player extends Entity {
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
+		
+		// Draw the emphasis if is current player
+		if (!this.isAI() && (animTimer / 15) % 2 == 0) {
+			g.drawImage(gameWorld.getEmph(), x - Const.TILE_SIZE, y, x + 2 * Const.TILE_SIZE, y + 2 * Const.TILE_SIZE, 0, 0, 3 * Const.TILE_SIZE, 2 * Const.TILE_SIZE, null);
+		}
 	}
 
 	/**

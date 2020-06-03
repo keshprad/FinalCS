@@ -64,6 +64,9 @@ public class Hud {
 			if (gameWorld.getCurPlayer().getEffect() != null) {
 				hasSpeedUp = gameWorld.getCurPlayer().getEffect().equals(Effect.SPEED_UP);
 				hasEatOthers = gameWorld.getCurPlayer().getEffect().equals(Effect.EAT_OTHER);
+			} else {
+				hasSpeedUp = false;
+				hasEatOthers = false;
 			}
 		}
 		
